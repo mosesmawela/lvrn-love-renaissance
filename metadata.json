@@ -1,0 +1,7 @@
+{
+  "name": "LVRN - Love Renaissance",
+  "description": "A high-fidelity, interactive experience showcasing the Love Renaissance record label, its history, roster, and cultural impact.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}
