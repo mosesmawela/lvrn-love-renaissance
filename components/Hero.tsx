@@ -21,7 +21,10 @@ export const Hero: React.FC = () => {
   const scale = useTransform(scrollY, [0, 600], [1, 5]); // Scale up to become background
   const opacity = useTransform(scrollY, [0, 400, 800], [1, 0.4, 0]); // Fade out slowly
   const blur = useTransform(scrollY, [0, 400], [0, 20]);
-  const filter = useTransform(blur, (v) => `blur(${v}px) var(--logo-filter)`);
+
+  // Disable costly blur filter over scroll on mobile devices
+  const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+  const filter = useTransform(blur, (v) => isMobile ? 'var(--logo-filter)' : `blur(${v}px) var(--logo-filter)`);
 
   useEffect(() => {
     if (!textRef.current) return;

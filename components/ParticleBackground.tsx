@@ -24,7 +24,9 @@ export const ParticleBackground: React.FC<ParticleBackgroundProps> = ({ intensit
     };
 
     const createParticles = () => {
-      const particleCount = Math.floor(window.innerWidth * 0.05); // Density based on width
+      // Density based on width - render significantly fewer on mobile to save battery and boost framerate
+      const particleDensity = window.innerWidth < 768 ? 0.015 : 0.05;
+      const particleCount = Math.floor(window.innerWidth * particleDensity);
       particles = [];
       for (let i = 0; i < particleCount; i++) {
         particles.push({
