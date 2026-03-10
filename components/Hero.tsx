@@ -34,7 +34,7 @@ export const Hero: React.FC = () => {
     ];
 
     const cursor = document.createElement('span');
-    cursor.innerHTML = '●';
+    cursor.textContent = '●';
     cursor.className = 'ml-2 text-orange-500 inline-block';
     cursor.style.fontSize = '0.8em';
     cursor.style.verticalAlign = 'middle';
