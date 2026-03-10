@@ -85,8 +85,8 @@ export const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist, onBack, on
                 ]);
                 setTracks(artistTracks);
                 setVideos(artistVideos);
-            } catch (error) {
-                console.error("Error fetching media:", error);
+            } catch {
+                // Ignore errors
             } finally {
                 setLoading(false);
             }
