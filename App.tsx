@@ -1,4 +1,4 @@
-import React, { useRef, useState, useEffect, lazy, Suspense, memo } from 'react';
+import React, { useRef, useState, useEffect, lazy, Suspense, memo, useMemo } from 'react';
 const Hero = React.lazy(() => import('./components/Hero').then(m => ({ default: m.Hero })));
 const NewReleases = React.lazy(() => import('./components/NewReleases').then(m => ({ default: m.NewReleases })));
 const Trending = React.lazy(() => import('./components/Trending').then(m => ({ default: m.Trending })));
@@ -97,6 +97,7 @@ const AppContent: React.FC = () => {
   // Cart State
   const [cart, setCart] = useState<CartItem[]>([]);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const cartCount = useMemo(() => cart.reduce((acc, item) => acc + item.quantity, 0), [cart]);
 
   // Experience / Navigation Hook
   const { targetSection, clearNavigation, notifications, removeNotification, showNotification, toggleAudio } = useExperience();
@@ -421,7 +422,7 @@ const AppContent: React.FC = () => {
             isDarkMode={isDarkMode}
             onToggleTheme={toggleTheme}
             activeSection={activePage}
-            cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)}
+            cartCount={cartCount}
             onOpenCart={() => {
               if (activePage !== 'shop') handleNavigate('shop');
               setTimeout(() => setIsCartOpen(true), 100);
