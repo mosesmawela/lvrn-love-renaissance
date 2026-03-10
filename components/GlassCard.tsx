@@ -81,7 +81,7 @@ export const GlassCard: React.FC<GlassCardProps> = ({ children, className = "", 
       {/* Spotlight Overlay */}
       {hoverEffect && (
         <motion.div
-          className="absolute inset-0 z-0 transition-opacity duration-700 opacity-0 group-hover:opacity-100 pointer-events-none rounded-[inherit]"
+          className="hidden md:block absolute inset-0 z-0 transition-opacity duration-700 opacity-0 group-hover:opacity-100 pointer-events-none rounded-[inherit]"
           style={{
             background: spotlightBg,
             opacity: 'var(--spotlight-opacity, 1)'
@@ -92,7 +92,7 @@ export const GlassCard: React.FC<GlassCardProps> = ({ children, className = "", 
       {/* Border Glow */}
       {hoverEffect && (
           <motion.div
-            className="absolute inset-0 z-0 transition-opacity duration-700 opacity-0 group-hover:opacity-100 pointer-events-none rounded-[inherit]"
+            className="hidden md:block absolute inset-0 z-0 transition-opacity duration-700 opacity-0 group-hover:opacity-100 pointer-events-none rounded-[inherit]"
             style={{
                 background: borderBg,
                 padding: '1px',

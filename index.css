@@ -27,3 +27,33 @@ body {
   background: transparent;
   border: none;
 }
+
+/* Mobile Performance Optimizations */
+@media (max-width: 768px) {
+  /* Disable expensive film grain overlay */
+  .noise-overlay {
+    display: none !important;
+  }
+
+  /* Disable expensive backdrop filters on glass panels */
+  .glass-panel {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    background: rgba(10, 10, 10, 0.7) !important; /* fallback for readability without blur */
+  }
+
+  /* Hide large blur background elements to save fill rate */
+  .blur-\[150px\],
+  .blur-\[120px\],
+  .blur-\[100px\],
+  .blur-\[80px\],
+  .blur-\[60px\] {
+    display: none !important;
+  }
+
+  /* Disable mix-blend-mode which is very expensive on mobile GPUs */
+  .mix-blend-screen,
+  .mix-blend-overlay {
+    mix-blend-mode: normal !important;
+  }
+}
