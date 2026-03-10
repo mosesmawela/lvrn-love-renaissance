@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X, Send, Loader2, Minimize2, Trash2, ArrowRight, Zap, AlertTriangle, Sparkles, RotateCw } from 'lucide-react';
-import { GoogleGenAI, Type } from "@google/genai";
 import { FOUNDERS, ARTISTS, MILESTONES, PHILOSOPHY, STATS } from '../constants';
 import { useExperience } from './ExperienceProvider';
 
@@ -100,18 +99,9 @@ export const AiAssistant: React.FC = () => {
   // Genius: Determine suggested prompts based on heuristic or simple scroll
   const [activePrompts, setActivePrompts] = useState(PROMPT_CONTEXTS['default']);
 
-  const aiRef = useRef<GoogleGenAI | null>(null);
-
-  // Initialize AI once
-  useEffect(() => {
-    try {
-      if (process.env.API_KEY) {
-        aiRef.current = new GoogleGenAI({ apiKey: process.env.API_KEY });
-      }
-    } catch (e) {
-      console.error("AI Init Error", e);
-    }
-  }, []);
+  // We are now using a backend proxy, so the system is always considered "online"
+  // as long as the backend is up.
+  const isSystemOnline = true;
 
   // Genius: Update prompts when opening
   useEffect(() => {
@@ -149,21 +139,6 @@ export const AiAssistant: React.FC = () => {
     const textToSend = overrideText || input;
     if (!textToSend.trim() || isLoading) return;
 
-    // Safety check for API Key
-    if (!aiRef.current) {
-      setMessages(prev => [...prev, { role: 'user', content: { text: textToSend } }]);
-      setInput('');
-      setTimeout(() => {
-        setMessages(prev => [...prev, {
-          role: 'model',
-          content: { text: "CRITICAL ERROR: API Key missing. System offline." },
-          isError: true
-        }]);
-        showNotification("AI System Offline - Missing Credentials", "error");
-      }, 500);
-      return;
-    }
-
     setInput('');
     setMessages(prev => [...prev, { role: 'user', content: { text: textToSend } }]);
     setIsLoading(true);
@@ -176,16 +151,23 @@ export const AiAssistant: React.FC = () => {
 
       const contents = [...historyToSend, { role: 'user', parts: [{ text: textToSend }] }];
 
-      const response = await aiRef.current.models.generateContent({
-        model: 'gemini-2.5-flash',
-        contents: contents,
-        config: {
-          systemInstruction: SYSTEM_INSTRUCTION,
-          responseMimeType: 'application/json'
-        }
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          contents: contents,
+          systemInstruction: SYSTEM_INSTRUCTION
+        })
       });
 
-      const jsonResponse = JSON.parse(response.text || '{}');
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      const jsonResponse = JSON.parse(data.text || '{}');
 
       setMessages(prev => [...prev, {
         role: 'model',
@@ -223,7 +205,7 @@ export const AiAssistant: React.FC = () => {
             {/* System Header */}
             <div className="p-3 border-b border-white/10 flex justify-between items-center bg-white/5">
               <div className="flex items-center gap-2">
-                <div className={`w-2 h-2 rounded-full animate-pulse ${aiRef.current ? 'bg-green-500' : 'bg-red-500'}`} />
+                <div className={`w-2 h-2 rounded-full animate-pulse ${isSystemOnline ? 'bg-green-500' : 'bg-red-500'}`} />
                 <span className="text-xs font-mono text-gray-400 uppercase tracking-widest">LVRN OS v2.0</span>
               </div>
               <div className="flex gap-2">
@@ -299,13 +281,13 @@ export const AiAssistant: React.FC = () => {
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                  placeholder={aiRef.current ? "Enter command..." : "System Offline"}
-                  disabled={!aiRef.current}
+                  placeholder={isSystemOnline ? "Enter command..." : "System Offline"}
+                  disabled={!isSystemOnline}
                   className="w-full bg-white/5 border border-white/10 rounded-lg pl-4 pr-10 py-3 text-sm text-white focus:outline-none focus:border-orange-500/50 font-mono placeholder:text-gray-600 disabled:opacity-50 disabled:cursor-not-allowed"
                 />
                 <button
                   onClick={() => handleSend()}
-                  disabled={isLoading || !input.trim() || !aiRef.current}
+                  disabled={isLoading || !input.trim() || !isSystemOnline}
                   className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-gray-400 hover:text-white transition-colors disabled:opacity-30"
                 >
                   <Send size={16} />
@@ -320,13 +302,13 @@ export const AiAssistant: React.FC = () => {
         onClick={() => setIsOpen(!isOpen)}
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
-        className={`pointer-events-auto w-14 h-14 rounded-full backdrop-blur-md border flex items-center justify-center text-white shadow-lg group ${!aiRef.current ? 'bg-red-900/50 border-red-500/50' : 'bg-black/50 border-white/20'
+        className={`pointer-events-auto w-14 h-14 rounded-full backdrop-blur-md border flex items-center justify-center text-white shadow-lg group ${!isSystemOnline ? 'bg-red-900/50 border-red-500/50' : 'bg-black/50 border-white/20'
           }`}
         aria-label="Toggle AI Assistant"
       >
         <AnimatePresence mode="wait">
           {isOpen ? <X size={24} /> : (
-            !aiRef.current ? <AlertTriangle size={24} className="text-red-400" /> : <Zap size={24} className="group-hover:text-yellow-400 transition-colors" />
+            !isSystemOnline ? <AlertTriangle size={24} className="text-red-400" /> : <Zap size={24} className="group-hover:text-yellow-400 transition-colors" />
           )}
         </AnimatePresence>
       </motion.button>

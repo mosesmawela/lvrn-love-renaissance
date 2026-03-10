@@ -44,7 +44,7 @@ The AI Assistant requires an API key to function.
 
 1.  Once the site is created (or during setup), go to **Site configuration** > **Environment variables**.
 2.  Click **"Add a variable"**.
-3.  **Key**: `API_KEY`
+3.  **Key**: `GEMINI_API_KEY`
 4.  **Value**: Your actual Google Gemini API Key.
 5.  Trigger a new deploy if you added this after the initial build.
 
