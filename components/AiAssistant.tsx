@@ -108,8 +108,8 @@ export const AiAssistant: React.FC = () => {
       if (process.env.API_KEY) {
         aiRef.current = new GoogleGenAI({ apiKey: process.env.API_KEY });
       }
-    } catch (e) {
-      console.error("AI Init Error", e);
+    } catch {
+      // Silently ignore AI initialization failure
     }
   }, []);
 
@@ -195,8 +195,7 @@ export const AiAssistant: React.FC = () => {
         }
       }]);
 
-    } catch (error) {
-      console.error("AI System Failure:", error);
+    } catch {
       setMessages(prev => [...prev, {
         role: 'model',
         content: { text: "Connection unstable. Unable to process request." },
