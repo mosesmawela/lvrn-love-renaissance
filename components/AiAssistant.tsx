@@ -195,8 +195,7 @@ export const AiAssistant: React.FC = () => {
         }
       }]);
 
-    } catch (error) {
-      console.error("AI System Failure:", error);
+    } catch {
       setMessages(prev => [...prev, {
         role: 'model',
         content: { text: "Connection unstable. Unable to process request." },
