@@ -25,8 +25,7 @@ export const MusicVideos: React.FC = () => {
                 const results = await Promise.all(videoPromises);
                 const allVideos = results.flat();
                 setVideos(allVideos);
-            } catch (error) {
-                console.error("Error fetching videos:", error);
+            } catch {
             } finally {
                 setLoading(false);
             }
