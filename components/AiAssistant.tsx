@@ -108,8 +108,8 @@ export const AiAssistant: React.FC = () => {
       if (process.env.API_KEY) {
         aiRef.current = new GoogleGenAI({ apiKey: process.env.API_KEY });
       }
-    } catch (e) {
-      console.error("AI Init Error", e);
+    } catch {
+      // Intentionally left blank.
     }
   }, []);
 
