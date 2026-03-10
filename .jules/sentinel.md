@@ -1,0 +1,4 @@
+## 2025-03-10 - Fix DOM XSS via innerHTML in Hero component
+ **Vulnerability:** DOM XSS (Cross-Site Scripting) via insecure use of `innerHTML`. The `innerHTML` property was used to set a static string '●' for a text cursor. While safe with a static string, using `innerHTML` is an unsafe pattern that can lead to DOM XSS if the input ever changes to include user-controlled or external data.
+ **Learning:** Setting text content via `innerHTML` unnecessarily exposes the application to potential XSS vectors. The safest approach for inserting plain text into the DOM is always to use `textContent` (or `innerText`).
+ **Prevention:** Enforce the use of `textContent` for all text insertions. Use linting rules (such as ESLint's `react/no-danger` or rules that catch plain DOM `innerHTML` usage) to prevent `innerHTML` usage unless absolutely necessary and heavily sanitized.
