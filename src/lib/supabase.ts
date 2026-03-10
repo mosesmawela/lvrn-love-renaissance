@@ -5,7 +5,7 @@ const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY;
 
 // Robust check to prevent crash on invalid URL
-const isValidUrl = (url: string | undefined) => {
+export const isValidUrl = (url: string | undefined) => {
   if (!url) return false;
   try {
     new URL(url);
