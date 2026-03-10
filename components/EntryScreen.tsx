@@ -42,7 +42,7 @@ export const EntryScreen: React.FC = () => {
   if (hasEntered && !isExiting) return null;
 
   return (
-    <AnimatePresence onExitComplete={() => { }}>
+    <AnimatePresence>
       {!isExiting && (
         <motion.div
           className="fixed inset-0 z-[100] bg-[var(--bg-color)] flex flex-col items-center justify-center overflow-hidden"
