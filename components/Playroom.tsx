@@ -658,8 +658,7 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
                 analyserRef.current = ctx.createAnalyser();
                 analyserRef.current.fftSize = FFT_SIZE;
                 analyserRef.current.smoothingTimeConstant = AUDIO_SMOOTHING;
-            } catch (e) {
-                console.error("Failed to create AudioContext", e);
+            } catch {
                 setMicError(true);
                 setMicErrorMessage("Audio System Failure. Your browser may not support this feature.");
                 showNotification("System Audio Error", "error");
