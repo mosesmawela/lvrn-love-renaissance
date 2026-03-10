@@ -694,7 +694,6 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
             currentColorRef.current = { r: 255, g: 255, b: 255 }; // White for Mic
             showNotification("Microphone Input Active", "success");
         } catch (err: any) {
-            console.error("Mic Error", err);
             setMicError(true);
 
             // Specific Error Handling
