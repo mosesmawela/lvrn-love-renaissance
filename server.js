@@ -25,9 +25,13 @@ app.get(/(.*)/, (req, res) => {
     res.sendFile(path.join(distPath, 'index.html'));
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+if (process.env.NODE_ENV !== 'test') {
+    app.listen(PORT, '0.0.0.0', () => {
+        console.log(`Server is running on http://localhost:${PORT}`);
+    });
 
-// Keep process alive
-process.stdin.resume();
+    // Keep process alive
+    process.stdin.resume();
+}
+
+export { app };
