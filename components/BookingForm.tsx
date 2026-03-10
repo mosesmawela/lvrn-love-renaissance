@@ -108,7 +108,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({ onClose, preSelectedAr
                     phone: profile.phone || '',
                     website: profile.website || ''
                 }));
-            } catch (e) { console.error("Error loading profile", e); }
+            } catch { /* Error loading profile ignored in production */ }
         }
 
         // 2. Check for Drafts
@@ -123,7 +123,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({ onClose, preSelectedAr
                 } else {
                     showNotification("Previous draft available for a different artist.", "info");
                 }
-            } catch (e) { console.error("Error loading draft", e); }
+            } catch { /* Error loading draft ignored in production */ }
         }
     }, [preSelectedArtist]);
 
