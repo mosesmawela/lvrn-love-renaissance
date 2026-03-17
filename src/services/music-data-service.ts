@@ -197,7 +197,7 @@ const MOCK_VIDEOS: Record<string, UnifiedVideo[]> = {
 };
 
 class MusicDataService {
-    private cache = new Map<string, { data: any, timestamp: number }>();
+    private cache = new Map<string, { data: UnifiedAnalyticsData, timestamp: number }>();
     private CACHE_DURATION = 1000 * 60 * 60; // 1 hour
 
     async getUnifiedAnalytics(artistName: string): Promise<UnifiedAnalyticsData> {
