@@ -185,7 +185,12 @@ export const AiAssistant: React.FC = () => {
         }
       });
 
-      const jsonResponse = JSON.parse(response.text || '{}');
+      let jsonResponse: { text?: string; actions?: ActionButton[] } = {};
+      try {
+        jsonResponse = JSON.parse(response.text || '{}');
+      } catch {
+        jsonResponse = {};
+      }
 
       setMessages(prev => [...prev, {
         role: 'model',
