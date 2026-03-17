@@ -288,7 +288,7 @@ export const ReleasesPage: React.FC = () => {
                                 <div className="flex-1 overflow-y-auto custom-scrollbar bg-black/20">
                                     {activePlayer === 'spotify' ? (
                                         <iframe
-                                            src={`https://open.spotify.com/embed/album/${(selectedRelease as any).spotifyId}?utm_source=generator&theme=0`}
+                                            src={`https://open.spotify.com/embed/album/${selectedRelease.spotifyId}?utm_source=generator&theme=0`}
                                             width="100%"
                                             height="100%"
                                             frameBorder="0"
@@ -299,7 +299,7 @@ export const ReleasesPage: React.FC = () => {
                                         />
                                     ) : activePlayer === 'apple' ? (
                                         <iframe
-                                            src={`https://embed.music.apple.com/za/album/${(selectedRelease as any).appleId}`}
+                                            src={`https://embed.music.apple.com/za/album/${selectedRelease.appleId}`}
                                             width="100%"
                                             height="100%"
                                             frameBorder="0"
