@@ -10,6 +10,7 @@ export const EntryScreen: React.FC = () => {
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [isReady, setIsReady] = useState(false);
   const [isExiting, setIsExiting] = useState(false);
+  const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
 
   useEffect(() => {
     if (hasEntered) return;
@@ -51,20 +52,20 @@ export const EntryScreen: React.FC = () => {
           {/* Background Elements (Matching Hero) */}
           <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
             <motion.div
-              className="absolute top-[-20%] left-[-20%] w-[80vw] h-[80vw] rounded-full blur-[120px] mix-blend-screen opacity-20"
+              className={`absolute top-[-20%] left-[-20%] w-[80vw] h-[80vw] rounded-full opacity-20 ${!isMobile ? 'blur-[120px] mix-blend-screen' : ''}`}
               style={{ background: 'radial-gradient(circle, rgba(249,115,22,0.9) 0%, rgba(234,88,12,0) 70%)' }}
-              animate={{ rotate: 360 }}
+              animate={!isMobile ? { rotate: 360 } : {}}
               transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
             />
             <motion.div
-              className="absolute bottom-[-20%] right-[-20%] w-[90vw] h-[90vw] rounded-full blur-[120px] mix-blend-screen opacity-15"
+              className={`absolute bottom-[-20%] right-[-20%] w-[90vw] h-[90vw] rounded-full opacity-15 ${!isMobile ? 'blur-[120px] mix-blend-screen' : ''}`}
               style={{ background: 'radial-gradient(circle, rgba(251,146,60,0.9) 0%, rgba(249,115,22,0) 70%)' }}
-              animate={{ rotate: -360 }}
+              animate={!isMobile ? { rotate: -360 } : {}}
               transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
             />
           </div>
 
-          <ParticleBackground intensity={0.4} className="opacity-40" />
+          {!isMobile && <ParticleBackground intensity={0.4} className="opacity-40" />}
 
           <div className="relative z-10 flex flex-col items-center justify-center p-8 w-full max-w-4xl">
 

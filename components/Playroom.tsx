@@ -343,6 +343,7 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
     const [radius, setRadius] = useState(350);
     const [albumOrder, setAlbumOrder] = useState<number[]>(PLAYROOM_ALBUMS.map((_, i) => i));
     const [isShuffled, setIsShuffled] = useState(false);
+    const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
 
     // Refs
     const audioContextRef = useRef<AudioContext | null>(null);
@@ -919,9 +920,9 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
                                     initial={{ opacity: 0, y: 20 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: 0.5 }}
-                                    className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none z-0 mix-blend-overlay"
+                                    className={`absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center pointer-events-none z-0 ${!isMobile ? 'mix-blend-overlay' : ''}`}
                                 >
-                                    <h2 className="text-[12vw] font-black text-white/10 tracking-tighter uppercase select-none leading-none blur-sm">LVRN</h2>
+                                    <h2 className={`text-[12vw] font-black text-white/10 tracking-tighter uppercase select-none leading-none ${!isMobile ? 'blur-sm' : ''}`}>LVRN</h2>
                                 </motion.div>
 
                                 {/* Mic Button */}
