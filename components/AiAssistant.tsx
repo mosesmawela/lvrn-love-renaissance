@@ -185,13 +185,19 @@ export const AiAssistant: React.FC = () => {
         }
       });
 
-      const jsonResponse = JSON.parse(response.text || '{}');
+      let jsonResponse: Record<string, unknown> = {};
+      try {
+        jsonResponse = JSON.parse(response.text || '{}');
+      } catch {
+        // Optional catch binding for unused error object
+        console.error("Failed to parse AI response JSON");
+      }
 
       setMessages(prev => [...prev, {
         role: 'model',
         content: {
-          text: jsonResponse.text || "Data corrupted. Retrying.",
-          actions: jsonResponse.actions || []
+          text: (jsonResponse.text as string) || "Data corrupted. Retrying.",
+          actions: (jsonResponse.actions as ActionButton[]) || []
         }
       }]);
 
