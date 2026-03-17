@@ -3,8 +3,8 @@ import { NotificationType, NotificationItem } from './Notification';
 
 interface ExperienceContextType {
   // AI Context
-  aiContext: { type: string; data: any } | null;
-  setAiContext: (context: { type: string; data: any } | null) => void;
+  aiContext: { type: string; data: Record<string, unknown> } | null;
+  setAiContext: (context: { type: string; data: Record<string, unknown> } | null) => void;
   
   // Navigation System
   targetSection: string | null;
@@ -12,7 +12,7 @@ interface ExperienceContextType {
   clearNavigation: () => void;
 
   // Analytics
-  trackEvent: (eventName: string, properties?: any) => void;
+  trackEvent: (eventName: string, properties?: Record<string, unknown>) => void;
   
   // Audio
   isAudioEnabled: boolean;
@@ -31,14 +31,14 @@ interface ExperienceContextType {
 const ExperienceContext = createContext<ExperienceContextType | undefined>(undefined);
 
 export const ExperienceProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [aiContext, setAiContext] = useState<{ type: string; data: any } | null>(null);
+  const [aiContext, setAiContext] = useState<{ type: string; data: Record<string, unknown> } | null>(null);
   const [isAudioEnabled, setIsAudioEnabled] = useState(false);
   const [hasEntered, setHasEntered] = useState(false);
   const [targetSection, setTargetSection] = useState<string | null>(null);
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
 
   // Mock Analytics Tracker
-  const trackEvent = (eventName: string, properties?: any) => {
+  const trackEvent = (eventName: string, properties?: Record<string, unknown>) => {
     // In a real app, send to GA4/Mixpanel
     // console.log(`[ANALYTICS] ${eventName}`, properties);
   };
@@ -64,7 +64,7 @@ export const ExperienceProvider: React.FC<{ children: ReactNode }> = ({ children
   };
 
   const showNotification = useCallback((message: string, type: NotificationType = 'info', action?: { label: string, onClick: () => void }) => {
-    const id = Math.random().toString(36).substring(7);
+    const id = crypto.randomUUID();
     setNotifications(prev => [...prev, { id, message, type, action }]);
   }, []);
 
