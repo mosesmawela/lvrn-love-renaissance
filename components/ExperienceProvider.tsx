@@ -64,7 +64,7 @@ export const ExperienceProvider: React.FC<{ children: ReactNode }> = ({ children
   };
 
   const showNotification = useCallback((message: string, type: NotificationType = 'info', action?: { label: string, onClick: () => void }) => {
-    const id = Math.random().toString(36).substring(7);
+    const id = crypto.randomUUID();
     setNotifications(prev => [...prev, { id, message, type, action }]);
   }, []);
 
