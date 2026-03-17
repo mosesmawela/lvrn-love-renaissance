@@ -6,7 +6,7 @@ interface GlassCardProps {
   className?: string;
   hoverEffect?: boolean;
   onClick?: () => void;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export const GlassCard: React.FC<GlassCardProps> = ({ children, className = "", hoverEffect = true, onClick, ...props }) => {
