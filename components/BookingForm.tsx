@@ -168,7 +168,7 @@ export const BookingForm: React.FC<BookingFormProps> = ({ onClose, preSelectedAr
         const handleKeyDown = (e: KeyboardEvent) => {
             if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
                 if (currentStep === STEPS.length - 1) {
-                    handleSubmit(e as any);
+                    handleSubmit(e as unknown as React.FormEvent);
                 } else {
                     nextStep();
                 }
