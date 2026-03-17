@@ -185,6 +185,8 @@ export const TourGlobe: React.FC<TourGlobeProps> = ({ dates, selectedArtist, onS
       const y = (GLOBE_RADIUS * Math.cos(phi));
 
       const position = new THREE.Vector3(x, y, z);
+      const lookAtPos = position.clone().multiplyScalar(2);
+      const surfacePos = position.clone().multiplyScalar(1.01);
 
       // Create Marker Mesh
       // Color based on status
@@ -198,15 +200,15 @@ export const TourGlobe: React.FC<TourGlobeProps> = ({ dates, selectedArtist, onS
       const ringGeo = new THREE.RingGeometry(0.12, 0.16, 32);
       const ringMat = new THREE.MeshBasicMaterial({ color: color, side: THREE.DoubleSide, transparent: true, opacity: 0.8 });
       const ring = new THREE.Mesh(ringGeo, ringMat);
-      ring.lookAt(position.clone().multiplyScalar(2)); // Face outward
-      ring.position.copy(position.clone().multiplyScalar(1.01));
+      ring.lookAt(lookAtPos); // Face outward
+      ring.position.copy(surfacePos);
 
       // Inner Dot
       const dotGeo = new THREE.CircleGeometry(0.08, 16);
       const dotMat = new THREE.MeshBasicMaterial({ color: color });
       const dot = new THREE.Mesh(dotGeo, dotMat);
-      dot.lookAt(position.clone().multiplyScalar(2));
-      dot.position.copy(position.clone().multiplyScalar(1.01));
+      dot.lookAt(lookAtPos);
+      dot.position.copy(surfacePos);
 
       // Beam (for current/upcoming)
       if (date.status === 'current' || date.status === 'upcoming') {
@@ -215,7 +217,7 @@ export const TourGlobe: React.FC<TourGlobeProps> = ({ dates, selectedArtist, onS
         beamGeo.rotateX(Math.PI / 2);
         const beamMat = new THREE.MeshBasicMaterial({ color: color, transparent: true, opacity: 0.4 });
         const beam = new THREE.Mesh(beamGeo, beamMat);
-        beam.lookAt(position.clone().multiplyScalar(2));
+        beam.lookAt(lookAtPos);
         beam.position.copy(position);
         group.add(beam);
       }
