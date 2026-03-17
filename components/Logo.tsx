@@ -12,6 +12,8 @@ export const Logo: React.FC<LogoProps> = ({ className = "", style = {} }) => {
       src="https://ik.imagekit.io/mosesmawela/LOGO/logo.svg?updatedAt=1769936404900" 
       alt="LVRN Logo" 
       className={className}
+      fetchPriority="high"
+      loading="eager"
       style={{ filter: 'var(--logo-filter)', ...style }}
       initial={{ opacity: 0, scale: 0.8, rotate: -5 }}
       animate={{ opacity: 1, scale: 1, rotate: 0 }}

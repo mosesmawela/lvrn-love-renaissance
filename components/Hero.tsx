@@ -13,6 +13,7 @@ export const Hero: React.FC = () => {
   const linktreeUrl = SOCIAL_LINKS.find(l => l.name === 'Linktree')?.url || '#';
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLParagraphElement>(null);
+  const isMobile = typeof window !== 'undefined' ? window.innerWidth < 768 : false;
 
   const { scrollY } = useScroll();
 
@@ -20,7 +21,7 @@ export const Hero: React.FC = () => {
   const rotate = useTransform(scrollY, [0, 600], [0, 180]);
   const scale = useTransform(scrollY, [0, 600], [1, 5]); // Scale up to become background
   const opacity = useTransform(scrollY, [0, 400, 800], [1, 0.4, 0]); // Fade out slowly
-  const blur = useTransform(scrollY, [0, 400], [0, 20]);
+  const blur = useTransform(scrollY, [0, 400], [0, isMobile ? 0 : 20]);
   const filter = useTransform(blur, (v) => `blur(${v}px) var(--logo-filter)`);
 
   useEffect(() => {
@@ -99,24 +100,24 @@ export const Hero: React.FC = () => {
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
         {/* Blob 1 - Orange/Amber */}
         <motion.div
-          className="absolute top-[-20%] left-[-20%] w-[80vw] h-[80vw] rounded-full blur-[150px] mix-blend-screen opacity-25"
+          className={`absolute top-[-20%] left-[-20%] w-[80vw] h-[80vw] rounded-full opacity-25 ${!isMobile ? 'blur-[150px] mix-blend-screen' : ''}`}
           style={{ background: 'radial-gradient(circle, rgba(249,115,22,0.9) 0%, rgba(234,88,12,0) 70%)' }}
-          animate={{
+          animate={!isMobile ? {
             x: [0, 100, -50, 0],
             y: [0, -100, 50, 0],
             scale: [1, 1.2, 0.9, 1]
-          }}
+          } : {}}
           transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
         />
         {/* Blob 2 - Warm Tone */}
         <motion.div
-          className="absolute bottom-[-20%] right-[-20%] w-[90vw] h-[90vw] rounded-full blur-[150px] mix-blend-screen opacity-15"
+          className={`absolute bottom-[-20%] right-[-20%] w-[90vw] h-[90vw] rounded-full opacity-15 ${!isMobile ? 'blur-[150px] mix-blend-screen' : ''}`}
           style={{ background: 'radial-gradient(circle, rgba(251,146,60,0.9) 0%, rgba(249,115,22,0) 70%)' }}
-          animate={{
+          animate={!isMobile ? {
             x: [0, -100, 50, 0],
             y: [0, 100, -50, 0],
             scale: [1, 1.1, 0.95, 1]
-          }}
+          } : {}}
           transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
         />
         {/* Grid Pattern Overlay */}
