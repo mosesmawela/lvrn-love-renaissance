@@ -41,7 +41,7 @@ export const ArtistAnalytics: React.FC<ArtistAnalyticsProps> = ({ artistName }) 
 
     if (!data) return null;
 
-    const tabs: { label: Platform; icon: any; color: string }[] = [
+    const tabs: { label: Platform; icon: React.ElementType; color: string }[] = [
         { label: 'overview', icon: Globe, color: 'text-orange-400' },
         { label: 'spotify', icon: Music, color: 'text-green-400' },
         { label: 'apple', icon: Apple, color: 'text-pink-400' },
@@ -136,7 +136,7 @@ export const ArtistAnalytics: React.FC<ArtistAnalyticsProps> = ({ artistName }) 
                     exit={{ opacity: 0, x: -20 }}
                     transition={{ duration: 0.3 }}
                 >
-                    {activeTab === 'overview' ? renderOverview() : renderPlatformStats(activeTab as any)}
+                    {activeTab === 'overview' ? renderOverview() : renderPlatformStats(activeTab as Exclude<Platform, 'overview'>)}
                 </motion.div>
             </AnimatePresence>
 
