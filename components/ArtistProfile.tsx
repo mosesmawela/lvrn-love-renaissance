@@ -73,7 +73,7 @@ export const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist, onBack, on
     const [tracks, setTracks] = useState<UnifiedTrack[]>([]);
     const [videos, setVideos] = useState<UnifiedVideo[]>([]);
     const [loading, setLoading] = useState(true);
-    const [activeMedia, setActiveMedia] = useState<{ type: 'track' | 'video', data: any } | null>(null);
+    const [activeMedia, setActiveMedia] = useState<({ type: 'track', data: UnifiedTrack } | { type: 'video', data: UnifiedVideo }) | null>(null);
 
     useEffect(() => {
         const fetchMedia = async () => {
