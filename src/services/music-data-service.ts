@@ -235,9 +235,10 @@ class MusicDataService {
     async searchTracks(artistName: string, query: string = ''): Promise<UnifiedTrack[]> {
         const artistTracks = MOCK_DATA[artistName]?.topTracks || [];
         if (!query) return artistTracks;
+        const lowerQuery = query.toLowerCase();
         return artistTracks.filter(t =>
-            t.name.toLowerCase().includes(query.toLowerCase()) ||
-            t.album.toLowerCase().includes(query.toLowerCase())
+            t.name.toLowerCase().includes(lowerQuery) ||
+            t.album.toLowerCase().includes(lowerQuery)
         );
     }
 
