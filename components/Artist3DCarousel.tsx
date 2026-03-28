@@ -80,8 +80,8 @@ export const Artist3DCarousel: React.FC<Artist3DCarouselProps> = ({ artists, onS
             x: xOffset,
             rotateY,
             filter: `blur(${blur}px)`,
-            pointerEvents: isActive ? 'auto' : 'none'
-        } as any;
+            pointerEvents: isActive ? 'auto' as const : 'none' as const
+        };
     };
 
     if (artists.length === 0) return null;
