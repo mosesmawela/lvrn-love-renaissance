@@ -11,6 +11,7 @@ interface RosterProps {
 }
 
 const HISTORY_KEY = 'lvrn_artist_history';
+const artistMap = new Map(ARTISTS.map(a => [a.name, a]));
 
 // Helper to generate consistent gradients based on name
 const getGradient = (name: string) => {
@@ -52,7 +53,7 @@ export const Roster: React.FC<RosterProps> = ({ onViewProfile }) => {
             const stored = localStorage.getItem(HISTORY_KEY);
             if (stored) {
                 const names = JSON.parse(stored) as string[];
-                const artists = names.map(n => ARTISTS.find(a => a.name === n)).filter(Boolean) as Artist[];
+                const artists = names.map(n => artistMap.get(n)).filter(Boolean) as Artist[];
                 setRecentArtists(artists);
             }
         } catch (e) { console.error("History Load Error", e); }
@@ -101,7 +102,7 @@ export const Roster: React.FC<RosterProps> = ({ onViewProfile }) => {
         // Update History
         const newHistory = [artist.name, ...recentArtists.map(r => r.name).filter(n => n !== artist.name)].slice(0, 5);
         localStorage.setItem(HISTORY_KEY, JSON.stringify(newHistory));
-        setRecentArtists(newHistory.map(n => ARTISTS.find(a => a.name === n)).filter(Boolean) as Artist[]);
+        setRecentArtists(newHistory.map(n => artistMap.get(n)).filter(Boolean) as Artist[]);
 
         trackEvent('artist_view', { artist: artist.name });
         setAiContext({
