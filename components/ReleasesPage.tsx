@@ -344,7 +344,7 @@ export const ReleasesPage: React.FC = () => {
                                         <a
                                             href={selectedRelease.link}
                                             target="_blank"
-                                            rel="noreferrer"
+                                            rel="noopener noreferrer"
                                             className="flex-1 py-4 rounded-xl bg-[var(--text-color)] text-[var(--bg-color)] font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
                                         >
                                             Full Experience <ExternalLink size={16} />
