@@ -18,7 +18,7 @@ let app;
 let analytics;
 let perf;
 
-if (firebaseConfig.apiKey && firebaseConfig.apiKey !== 'YOUR_FIREBASE_API_KEY') {
+if (typeof firebaseConfig.apiKey === 'string' && firebaseConfig.apiKey.startsWith('AIza')) {
     try {
         app = initializeApp(firebaseConfig);
 
