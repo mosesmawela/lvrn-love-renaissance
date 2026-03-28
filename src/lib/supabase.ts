@@ -18,8 +18,4 @@ const isValidUrl = (url: string | undefined) => {
 const urlToUse = isValidUrl(supabaseUrl) ? supabaseUrl : 'https://placeholder-project.supabase.co';
 const keyToUse = supabaseAnonKey || 'placeholder-key';
 
-if (!isValidUrl(supabaseUrl) || !supabaseAnonKey) {
-  console.warn('Supabase URL or Anon Key is invalid or missing. Using placeholder to prevent crash.');
-}
-
 export const supabase = createClient(urlToUse, keyToUse);
