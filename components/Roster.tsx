@@ -56,7 +56,7 @@ export const Roster: React.FC<RosterProps> = ({ onViewProfile }) => {
                 const artists = names.map(n => ARTIST_MAP[n]).filter(Boolean) as Artist[];
                 setRecentArtists(artists);
             }
-        } catch (e) { console.error("History Load Error", e); }
+        } catch { }
     }, []);
 
     // Listen for Global Search Shortcut
