@@ -38,6 +38,20 @@ export interface UnifiedVideo {
     duration: string;
 }
 
+export interface YouTubeSearchItem {
+    id: {
+        videoId: string;
+    };
+    snippet: {
+        title: string;
+        thumbnails: {
+            high: {
+                url: string;
+            };
+        };
+    };
+}
+
 export interface UnifiedAnalyticsData {
     artist: UnifiedArtist;
     topTracks: UnifiedTrack[];
@@ -244,14 +258,14 @@ class MusicDataService {
     async getArtistVideos(artistName: string): Promise<UnifiedVideo[]> {
         try {
             const youtubeKey = import.meta.env.VITE_YOUTUBE_API_KEY;
-            const config = (ARTIST_CONFIG as any)[artistName];
+            const config = (ARTIST_CONFIG as Record<string, { youtubeId?: string }>)[artistName];
 
             if (youtubeKey && config?.youtubeId) {
                 const response = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${config.youtubeId}&maxResults=10&order=viewCount&type=video&key=${youtubeKey}`);
                 const data = await response.json();
 
                 if (data.items) {
-                    return data.items.map((item: any) => ({
+                    return data.items.map((item: YouTubeSearchItem) => ({
                         id: item.id.videoId,
                         title: item.snippet.title,
                         artist: artistName,
