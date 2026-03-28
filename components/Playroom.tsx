@@ -411,8 +411,8 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
                 analyserRef.current = audioContextRef.current.createAnalyser();
                 analyserRef.current.fftSize = FFT_SIZE;
                 analyserRef.current.smoothingTimeConstant = AUDIO_SMOOTHING;
-            } catch (e) {
-                console.error("Audio Context Init Failed", e);
+            } catch {
+                // Ignore audio context init failures silently
             }
         }
 
@@ -658,8 +658,7 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
                 analyserRef.current = ctx.createAnalyser();
                 analyserRef.current.fftSize = FFT_SIZE;
                 analyserRef.current.smoothingTimeConstant = AUDIO_SMOOTHING;
-            } catch (e) {
-                console.error("Failed to create AudioContext", e);
+            } catch {
                 setMicError(true);
                 setMicErrorMessage("Audio System Failure. Your browser may not support this feature.");
                 showNotification("System Audio Error", "error");
@@ -671,8 +670,8 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
         if (ctx.state === 'suspended') {
             try {
                 await ctx.resume();
-            } catch (e) {
-                console.error("Failed to resume AudioContext", e);
+            } catch {
+                // Ignore resume failures silently
             }
         }
 
@@ -694,7 +693,6 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
             currentColorRef.current = { r: 255, g: 255, b: 255 }; // White for Mic
             showNotification("Microphone Input Active", "success");
         } catch (err: any) {
-            console.error("Mic Error", err);
             setMicError(true);
 
             // Specific Error Handling
