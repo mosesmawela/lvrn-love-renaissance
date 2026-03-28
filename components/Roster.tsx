@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ARTISTS } from '../constants';
+import { ARTISTS, ARTIST_MAP } from '../constants';
 import { SearchX, Search, ArrowDownUp, Clock } from 'lucide-react';
 import { Artist } from '../types';
 import { useExperience } from './ExperienceProvider';
@@ -52,7 +52,7 @@ export const Roster: React.FC<RosterProps> = ({ onViewProfile }) => {
             const stored = localStorage.getItem(HISTORY_KEY);
             if (stored) {
                 const names = JSON.parse(stored) as string[];
-                const artists = names.map(n => ARTISTS.find(a => a.name === n)).filter(Boolean) as Artist[];
+                const artists = names.map(n => ARTIST_MAP[n]).filter(Boolean) as Artist[];
                 setRecentArtists(artists);
             }
         } catch (e) { console.error("History Load Error", e); }
@@ -101,7 +101,7 @@ export const Roster: React.FC<RosterProps> = ({ onViewProfile }) => {
         // Update History
         const newHistory = [artist.name, ...recentArtists.map(r => r.name).filter(n => n !== artist.name)].slice(0, 5);
         localStorage.setItem(HISTORY_KEY, JSON.stringify(newHistory));
-        setRecentArtists(newHistory.map(n => ARTISTS.find(a => a.name === n)).filter(Boolean) as Artist[]);
+        setRecentArtists(newHistory.map(n => ARTIST_MAP[n]).filter(Boolean) as Artist[]);
 
         trackEvent('artist_view', { artist: artist.name });
         setAiContext({
