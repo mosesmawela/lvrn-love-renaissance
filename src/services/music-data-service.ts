@@ -228,13 +228,12 @@ class MusicDataService {
             if (spotifyId && youtubeKey) {
                 // Actual API implementation would go here
             }
-        } catch (error) {
-            console.warn('Failed to fetch real-time analytics:', error);
+        } catch {
+            // Ignored error during mock implementation phase
         }
 
         const data = MOCK_DATA[artistName];
         if (!data) {
-            console.warn(`No analytics data found for ${artistName}, returning empty stats.`);
             return {
                 artist: { id: '0', name: artistName, images: [], spotify: {}, appleMusic: {}, youtube: {} },
                 topTracks: [],
