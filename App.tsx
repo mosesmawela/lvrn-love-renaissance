@@ -209,7 +209,7 @@ const AppContent: React.FC = () => {
       if (existing) {
         return prev.map(item => item.cartId === existing.cartId ? { ...item, quantity: item.quantity + 1 } : item);
       }
-      return [...prev, { ...product, selectedSize: size, quantity: 1, cartId: Math.random().toString(36).substr(2, 9) }];
+      return [...prev, { ...product, selectedSize: size, quantity: 1, cartId: crypto.randomUUID() }];
     });
   }, []);
 
