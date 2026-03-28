@@ -1,275 +1,328 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Play, X, Clock, Eye, AlertCircle, Loader2, Filter, Youtube } from 'lucide-react';
-import { GlassCard } from './GlassCard';
+import { Play, Info, Plus, Check, Volume2, VolumeX, Search, X } from 'lucide-react';
+import { VideoItem, VIDEOS, ARTISTS } from '../constants';
 import { useExperience } from './ExperienceProvider';
-import { musicDataService, UnifiedVideo } from '../src/services/music-data-service';
+import { VideoRow } from './VideoRow';
+import { NetflixPlayer } from './NetflixPlayer';
 
-export const MusicVideos: React.FC = () => {
+interface MusicVideosProps {
+    onNavigate?: (pageId: string) => void;
+}
+
+export const MusicVideos: React.FC<MusicVideosProps> = ({ onNavigate }) => {
     const { showNotification } = useExperience();
-    const [videos, setVideos] = useState<UnifiedVideo[]>([]);
-    const [selectedVideo, setSelectedVideo] = useState<UnifiedVideo | null>(null);
-    const [filterArtist, setFilterArtist] = useState<string>('All');
-    const [loading, setLoading] = useState(true);
-    const [videoLoading, setVideoLoading] = useState(true);
-    const [videoError, setVideoError] = useState(false);
+    const [selectedVideo, setSelectedVideo] = useState<VideoItem | null>(null);
+    const [isMuted, setIsMuted] = useState(true);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [myList, setMyList] = useState<string[]>([]);
+    const [watchHistory, setWatchHistory] = useState<string[]>([]);
+    const [filterArtist, setFilterArtist] = useState('All');
+    const [isScrolled, setIsScrolled] = useState(false);
 
+    const [isLoading, setIsLoading] = useState(true);
+
+    // Persistance
     useEffect(() => {
-        const fetchAllVideos = async () => {
-            setLoading(true);
-            try {
-                // Fetch videos for major artists or a general list
-                // In a real app, this might be a single 'getFeaturedVideos' call
-                const artistList = ['6LACK', 'Summer Walker', 'Odeal', 'Santi', 'SPINALL'];
-                const videoPromises = artistList.map(name => musicDataService.getArtistVideos(name));
-                const results = await Promise.all(videoPromises);
-                const allVideos = results.flat();
-                setVideos(allVideos);
-            } catch (error) {
-                console.error("Error fetching videos:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+        const savedList = localStorage.getItem('lvrn_my_list');
+        const savedHistory = localStorage.getItem('lvrn_watch_history');
+        if (savedList) setMyList(JSON.parse(savedList));
+        if (savedHistory) setWatchHistory(JSON.parse(savedHistory));
 
-        fetchAllVideos();
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+        window.addEventListener('scroll', handleScroll);
+        
+        // Simulate initial load
+        const timer = setTimeout(() => setIsLoading(false), 1000);
+        
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+            clearTimeout(timer);
+        };
     }, []);
 
-    // Extract unique artists for filter
-    const artists = useMemo(() => {
-        const unique = Array.from(new Set(videos.map(v => v.artist.split(' ')[0])));
-        return ['All', ...unique];
-    }, [videos]);
+    const toggleList = useCallback((video: VideoItem) => {
+        setMyList(prev => {
+            const newList = prev.includes(video.id) 
+                ? prev.filter(id => id !== video.id) 
+                : [video.id, ...prev];
+            localStorage.setItem('lvrn_my_list', JSON.stringify(newList));
+            showNotification(prev.includes(video.id) ? 'Removed from My List' : 'Added to My List', 'info');
+            return newList;
+        });
+    }, [showNotification]);
 
-    const filteredVideos = useMemo(() => {
-        return filterArtist === 'All'
-            ? videos
-            : videos.filter(v => v.artist.includes(filterArtist));
-    }, [videos, filterArtist]);
+    const handleVideoSelect = useCallback((video: VideoItem) => {
+        setSelectedVideo(video);
+        setWatchHistory(prev => {
+            const newHistory = [video.id, ...prev.filter(id => id !== video.id)].slice(0, 10);
+            localStorage.setItem('lvrn_watch_history', JSON.stringify(newHistory));
+            return newHistory;
+        });
+    }, []);
 
-    useEffect(() => {
-        if (selectedVideo) {
-            setVideoLoading(true);
-            setVideoError(false);
-        }
-    }, [selectedVideo]);
+    // Filtered Content
+    const featuredVideo = useMemo(() => VIDEOS[0], []);
+    
+    const myListVideos = useMemo(() => 
+        VIDEOS.filter(v => myList.includes(v.id)), 
+    [myList]);
 
-    // Keyboard Close
-    useEffect(() => {
-        const handleEsc = (e: KeyboardEvent) => {
-            if (e.key === 'Escape' && selectedVideo) setSelectedVideo(null);
-        };
-        window.addEventListener('keydown', handleEsc);
-        return () => window.removeEventListener('keydown', handleEsc);
-    }, [selectedVideo]);
+    const continueWatchingVideos = useMemo(() => 
+        VIDEOS.filter(v => watchHistory.includes(v.id)), 
+    [watchHistory]);
 
-    const featuredVideo = videos[0];
+    const trendingVideos = useMemo(() => 
+        [...VIDEOS].sort(() => 0.5 - Math.random()), 
+    []);
+
+    const artistRows = useMemo(() => {
+        const artists = Array.from(new Set(VIDEOS.map(v => v.artist.split(/,|&/)[0].trim())));
+        return artists.map(artist => ({
+            name: artist,
+            videos: VIDEOS.filter(v => v.artist.includes(artist))
+        }));
+    }, []);
+
+    const searchResults = useMemo(() => {
+        if (!searchQuery) return [];
+        return VIDEOS.filter(v => 
+            v.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            v.artist.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+    }, [searchQuery]);
+
+    if (isLoading) {
+        return (
+            <div className="min-h-screen bg-[#141414] flex items-center justify-center">
+                <motion.div 
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-4xl font-black text-[var(--accent)] tracking-tighter animate-pulse"
+                >
+                    LVRN TV
+                </motion.div>
+            </div>
+        );
+    }
 
     return (
-        <div className="min-h-screen py-12 relative">
-            <div className="max-w-7xl mx-auto px-6">
-
-                {/* Header */}
-                <div className="flex flex-col lg:flex-row justify-between items-end mb-12 gap-6">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        animate={{ opacity: 1, y: 0 }}
+        <div className="min-h-screen bg-[#141414] text-white selection:bg-[var(--accent)]/30">
+            {/* Transparent Header */}
+            <div className={`fixed top-0 w-full z-[100] transition-colors duration-500 px-6 md:px-12 py-4 flex items-center justify-between ${isScrolled ? 'bg-[#141414]' : 'bg-gradient-to-b from-black/70 to-transparent'}`}>
+                <div className="flex items-center gap-8">
+                    <span 
+                        className="text-2xl font-black tracking-tighter text-[var(--accent)] cursor-pointer"
+                        onClick={() => onNavigate?.('home')}
                     >
-                        <h1 className="text-5xl md:text-7xl font-black text-[var(--text-color)] tracking-tighter mb-4">
-                            Visuals
-                        </h1>
-                        <p className="text-xl text-[var(--text-secondary)] max-w-2xl">
-                            Cinematic experiences from the LVRN roster.
-                        </p>
-                    </motion.div>
+                        LVRN TV
+                    </span>
+                    <nav className="hidden lg:flex items-center gap-5 text-sm font-medium text-gray-300">
+                        <button onClick={() => setFilterArtist('All')} className={`hover:text-white transition-colors ${filterArtist === 'All' ? 'text-white font-bold' : ''}`}>Home</button>
+                        <button className="hover:text-white transition-colors">Music Videos</button>
+                        <button className="hover:text-white transition-colors">Interviews</button>
+                        <button className="hover:text-white transition-colors">Behind The Scenes</button>
+                        <button className="hover:text-white transition-colors">My List</button>
+                    </nav>
+                </div>
 
-                    {/* Filters */}
-                    <div className="flex items-center gap-3 overflow-x-auto max-w-full pb-2">
-                        <Filter size={16} className="text-[var(--text-secondary)] shrink-0" />
-                        {artists.map(artist => (
-                            <button
-                                key={artist}
-                                onClick={() => setFilterArtist(artist)}
-                                className={`px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all whitespace-nowrap border ${filterArtist === artist
-                                    ? 'bg-[var(--accent)] border-[var(--accent)] text-white'
-                                    : 'bg-transparent border-[var(--card-border)] text-[var(--text-secondary)] hover:border-[var(--text-color)]'
-                                    }`}
-                            >
-                                {artist}
-                            </button>
+                <div className="flex items-center gap-6">
+                    <div className="relative group flex items-center">
+                        <Search size={20} className="text-gray-300 group-hover:text-white cursor-pointer transition-colors" />
+                        <input 
+                            type="text"
+                            placeholder="Titles, artists..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-0 group-hover:w-64 focus:w-64 transition-all duration-300 bg-black/80 border border-white/20 rounded-md px-0 group-hover:px-4 py-1.5 text-sm focus:outline-none ml-2"
+                        />
+                    </div>
+                    
+                    <button 
+                        onClick={() => onNavigate?.('home')}
+                        className="text-xs font-bold uppercase tracking-widest border border-white/20 px-4 py-2 rounded-md hover:bg-white/10 transition-colors"
+                    >
+                        Exit
+                    </button>
+                </div>
+            </div>
+
+            {/* Content Area */}
+            {searchQuery ? (
+                <div className="pt-32 px-6 md:px-12 pb-20">
+                    <h2 className="text-2xl font-bold mb-8">Results for "{searchQuery}"</h2>
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                        {searchResults.map(video => (
+                            <div key={video.id} className="aspect-video relative group cursor-pointer" onClick={() => handleVideoSelect(video)}>
+                                <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover rounded-md" />
+                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4 rounded-md">
+                                    <h4 className="font-bold text-sm">{video.title}</h4>
+                                    <p className="text-xs text-gray-300">{video.artist}</p>
+                                </div>
+                            </div>
                         ))}
                     </div>
                 </div>
-
-                {/* Content */}
-                {loading ? (
-                    <div className="flex flex-col items-center justify-center py-24 text-[var(--text-muted)]">
-                        <Loader2 className="animate-spin text-[var(--accent)] mb-4" size={48} />
-                        <p className="font-bold uppercase tracking-widest">Compiling Visuals...</p>
-                    </div>
-                ) : filteredVideos.length === 0 ? (
-                    <div className="flex flex-col items-center justify-center py-24 text-[var(--text-secondary)]">
-                        <AlertCircle size={48} className="opacity-20 mb-4" />
-                        <p className="font-bold">No videos found for this filter.</p>
-                        <button
-                            onClick={() => setFilterArtist('All')}
-                            className="mt-4 text-[var(--accent)] text-sm underline"
-                        >
-                            View All Videos
-                        </button>
-                    </div>
-                ) : (
-                    <>
-                        {/* Featured (Only if 'All' or if it matches filter) and we have videos */}
-                        {featuredVideo && (filterArtist === 'All' || featuredVideo.artist.includes(filterArtist)) && (
-                            <motion.div
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                animate={{ opacity: 1, scale: 1 }}
-                                className="relative aspect-video w-full rounded-3xl overflow-hidden group cursor-pointer mb-12 border border-[var(--card-border)] shadow-2xl"
-                                onClick={() => setSelectedVideo(featuredVideo)}
-                            >
-                                <img
-                                    src={featuredVideo.thumbnail}
-                                    alt={featuredVideo.title}
-                                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-80" />
-
-                                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 scale-90 group-hover:scale-100">
-                                    <div className="w-24 h-24 rounded-full bg-white/10 backdrop-blur-md flex items-center justify-center border border-white/20 shadow-[0_0_30px_rgba(255,255,255,0.2)]">
-                                        <Play size={40} className="text-white fill-white ml-2" />
-                                    </div>
-                                </div>
-
-                                <div className="absolute bottom-0 left-0 p-8 md:p-12 w-full">
-                                    <div className="inline-block px-3 py-1 bg-[var(--accent)] text-white text-xs font-bold uppercase tracking-widest rounded-full mb-4">
-                                        Latest Premiere
-                                    </div>
-                                    <h2 className="text-3xl md:text-6xl font-black text-white mb-2 leading-none line-clamp-2">{featuredVideo.title}</h2>
-                                    <p className="text-xl md:text-2xl text-gray-300 font-light">{featuredVideo.artist}</p>
-                                </div>
-                            </motion.div>
-                        )}
-
-                        {/* Grid */}
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {filteredVideos.filter(v => featuredVideo ? v.id !== featuredVideo.id || filterArtist !== 'All' : true).map((video, idx) => (
-                                <motion.div
-                                    key={video.id}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    animate={{ opacity: 1, y: 0 }}
-                                    transition={{ delay: idx * 0.1 }}
-                                >
-                                    <GlassCard
-                                        className="group cursor-pointer !p-0 overflow-hidden h-full flex flex-col focus-within:ring-2 focus-within:ring-[var(--accent)]"
-                                        onClick={() => setSelectedVideo(video)}
-                                        tabIndex={0}
-                                        onKeyDown={(e) => e.key === 'Enter' && setSelectedVideo(video)}
-                                    >
-                                        <div className="relative aspect-video overflow-hidden bg-black">
-                                            <img
-                                                src={video.thumbnail}
-                                                alt={video.title}
-                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                                            />
-                                            <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                                <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center border border-white/30">
-                                                    <Play size={20} className="text-white fill-white ml-1" />
-                                                </div>
-                                            </div>
-                                            <div className="absolute bottom-3 right-3 px-2 py-1 bg-black/80 rounded text-[10px] font-bold text-white flex items-center gap-1">
-                                                <Clock size={10} /> {video.duration || '4:00'}
-                                            </div>
-                                        </div>
-                                        <div className="p-5 flex-1 flex flex-col justify-between">
-                                            <div>
-                                                <h3 className="text-lg font-bold text-[var(--text-color)] line-clamp-1 mb-1">{video.title}</h3>
-                                                <p className="text-[var(--text-secondary)] text-sm line-clamp-1">{video.artist}</p>
-                                            </div>
-                                            <div className="flex items-center gap-4 mt-4 text-xs text-[var(--text-muted)] font-mono border-t border-[var(--text-color)]/10 pt-3">
-                                                <span className="flex items-center gap-1"><Eye size={12} /> {video.views || '1.2M'}</span>
-                                            </div>
-                                        </div>
-                                    </GlassCard>
-                                </motion.div>
-                            ))}
+            ) : (
+                <div className="relative">
+                    {/* Hero Section */}
+                    <div className="relative h-[85vh] md:h-[100vh] w-full overflow-hidden">
+                        {/* Hero Video / Thumbnail */}
+                        <div className="absolute inset-0 w-full h-full">
+                            <iframe
+                                src={`${featuredVideo.embedUrl}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&enablejsapi=1&loop=1&playlist=${featuredVideo.embedUrl.split('/').pop()}`}
+                                className="w-[140%] h-[140%] -translate-x-[15%] -translate-y-[15%] pointer-events-none"
+                                allow="autoplay"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-r from-[#141414] via-[#141414]/20 to-transparent" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-black/20" />
                         </div>
-                    </>
-                )}
-            </div>
 
-            {/* Video Modal */}
-            <AnimatePresence>
-                {selectedVideo && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 md:p-10"
-                        onClick={() => setSelectedVideo(null)}
-                    >
-                        <div className="w-full max-w-6xl relative" onClick={e => e.stopPropagation()}>
-                            <button
-                                onClick={() => setSelectedVideo(null)}
-                                className="absolute -top-12 right-0 text-white/50 hover:text-white transition-colors flex items-center gap-2 text-sm font-bold uppercase tracking-widest focus:outline-none focus:text-[var(--accent)]"
-                                aria-label="Close video"
-                                title="Close video"
+                        {/* Hero Content */}
+                        <div className="absolute inset-0 flex flex-col justify-center px-6 md:px-12 pt-20 max-w-2xl z-20">
+                            <motion.div
+                                initial={{ opacity: 0, y: 30 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 1, delay: 0.5 }}
                             >
-                                Close <X size={20} />
-                            </button>
-
-                            <div className="aspect-video w-full rounded-xl overflow-hidden shadow-2xl border border-white/10 bg-black relative">
-                                {videoLoading && !videoError && (
-                                    <div className="absolute inset-0 flex items-center justify-center bg-zinc-900">
-                                        <div className="text-center">
-                                            <Loader2 size={40} className="text-[var(--accent)] animate-spin mx-auto mb-2" />
-                                            <p className="text-xs font-mono text-gray-500 uppercase">Loading Stream...</p>
-                                        </div>
-                                    </div>
-                                )}
-
-                                {videoError ? (
-                                    <div className="absolute inset-0 flex items-center justify-center bg-zinc-900">
-                                        <div className="text-center text-red-400">
-                                            <AlertCircle size={40} className="mx-auto mb-2" />
-                                            <p className="font-bold">Playback Error</p>
-                                            <p className="text-sm opacity-80">Video unavailable.</p>
-                                        </div>
-                                    </div>
-                                ) : (
-                                    <iframe
-                                        src={`${selectedVideo.embedUrl}?autoplay=1`}
-                                        title={`Video: ${selectedVideo.title}`}
-                                        className="w-full h-full relative z-10"
-                                        frameBorder="0"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                                        allowFullScreen
-                                        onLoad={() => setVideoLoading(false)}
-                                        onError={() => setVideoError(true)}
-                                    />
-                                )}
-                            </div>
-
-                            <div className="mt-6 flex justify-between items-start">
-                                <div>
-                                    <h2 className="text-2xl md:text-3xl font-black text-white mb-1">{selectedVideo.title}</h2>
-                                    <p className="text-xl text-gray-400">{selectedVideo.artist}</p>
+                                <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mb-6">
+                                    <span className="flex h-2 w-2 rounded-full bg-red-500 animate-pulse" />
+                                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/80">LVRN Premiere</span>
                                 </div>
-                                <div className="flex gap-4">
-                                    <button
-                                        onClick={() => showNotification("Added to Library", "success")}
-                                        className="px-6 py-3 bg-white/10 hover:bg-white/20 rounded-full font-bold uppercase text-xs text-white transition-colors"
-                                        title="Save Video"
-                                        aria-label="Save Video"
+                                <h1 className="text-5xl md:text-7xl font-black text-white mb-4 leading-none tracking-tight">
+                                    {featuredVideo.title}
+                                </h1>
+                                <p className="text-lg md:text-xl text-gray-300 font-medium mb-8 line-clamp-3 md:line-clamp-none max-w-xl">
+                                    Experience the latest visual masterpiece from {featuredVideo.artist}. Directed by the LVRN creative team in Atlanta.
+                                </p>
+
+                                <div className="flex flex-wrap items-center gap-4">
+                                    <button 
+                                        onClick={() => handleVideoSelect(featuredVideo)}
+                                        className="flex items-center gap-3 px-8 py-3 bg-white text-black rounded-md font-bold text-lg hover:bg-white/80 transition-colors"
                                     >
-                                        Save
+                                        <Play fill="black" size={24} /> Play
+                                    </button>
+                                    <button className="flex items-center gap-3 px-8 py-3 bg-white/20 backdrop-blur-md text-white rounded-md font-bold text-lg hover:bg-white/10 transition-colors border border-white/10">
+                                        <Info size={24} /> More Info
+                                    </button>
+                                    
+                                    <button 
+                                        onClick={() => setIsMuted(!isMuted)}
+                                        className="p-3 rounded-full border border-white/20 hover:bg-white/10 transition-colors"
+                                    >
+                                        {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
                                     </button>
                                 </div>
+                            </motion.div>
+                        </div>
+                        
+                        {/* Rating/Feature Tag */}
+                        <div className="absolute right-0 bottom-[20%] z-20 flex items-center gap-0">
+                            <div className="bg-black/40 backdrop-blur-md border-l-4 border-white/40 py-2 pl-4 pr-12 text-sm font-medium">
+                                Visual Excellence
                             </div>
                         </div>
-                    </motion.div>
+                    </div>
+
+                    {/* Rows */}
+                    <div className="relative z-30 -mt-32 md:-mt-48 space-y-8 pb-20">
+                        {myListVideos.length > 0 && (
+                            <VideoRow 
+                                title="My List" 
+                                videos={myListVideos} 
+                                onSelect={handleVideoSelect}
+                                isMuted={isMuted}
+                                onToggleMute={() => setIsMuted(!isMuted)}
+                                myList={myList}
+                                onToggleList={toggleList}
+                            />
+                        )}
+
+                        {continueWatchingVideos.length > 0 && (
+                            <VideoRow 
+                                title="Continue Watching" 
+                                videos={continueWatchingVideos} 
+                                onSelect={handleVideoSelect}
+                                isMuted={isMuted}
+                                onToggleMute={() => setIsMuted(!isMuted)}
+                                myList={myList}
+                                onToggleList={toggleList}
+                            />
+                        )}
+
+                        <VideoRow 
+                            title="Trending Now" 
+                            videos={trendingVideos} 
+                            onSelect={handleVideoSelect}
+                            isMuted={isMuted}
+                            onToggleMute={() => setIsMuted(!isMuted)}
+                            myList={myList}
+                            onToggleList={toggleList}
+                        />
+
+                        {artistRows.map(row => (
+                            <VideoRow 
+                                key={row.name}
+                                title={row.name} 
+                                videos={row.videos} 
+                                onSelect={handleVideoSelect}
+                                isMuted={isMuted}
+                                onToggleMute={() => setIsMuted(!isMuted)}
+                                myList={myList}
+                                onToggleList={toggleList}
+                            />
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Video Player Overlay */}
+            <AnimatePresence>
+                {selectedVideo && (
+                    <NetflixPlayer 
+                        video={selectedVideo} 
+                        onClose={() => setSelectedVideo(null)} 
+                        onNext={() => {
+                            const currentIndex = VIDEOS.findIndex(v => v.id === selectedVideo.id);
+                            const nextIndex = (currentIndex + 1) % VIDEOS.length;
+                            handleVideoSelect(VIDEOS[nextIndex]);
+                        }}
+                    />
                 )}
             </AnimatePresence>
+
+            {/* Footer with Netflix style */}
+            <footer className="pt-20 pb-10 px-6 md:px-12 max-w-6xl mx-auto border-t border-white/10 text-gray-500 text-sm">
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-10">
+                    <ul className="space-y-3">
+                        <li className="hover:underline cursor-pointer">Audio Description</li>
+                        <li className="hover:underline cursor-pointer">Help Center</li>
+                        <li className="hover:underline cursor-pointer">Gift Cards</li>
+                        <li className="hover:underline cursor-pointer">Media Center</li>
+                    </ul>
+                    <ul className="space-y-3">
+                        <li className="hover:underline cursor-pointer">Investor Relations</li>
+                        <li className="hover:underline cursor-pointer">Jobs</li>
+                        <li className="hover:underline cursor-pointer">Terms of Use</li>
+                        <li className="hover:underline cursor-pointer">Privacy</li>
+                    </ul>
+                    <ul className="space-y-3">
+                        <li className="hover:underline cursor-pointer">Legal Notices</li>
+                        <li className="hover:underline cursor-pointer">Cookie Preferences</li>
+                        <li className="hover:underline cursor-pointer">Corporate Information</li>
+                        <li className="hover:underline cursor-pointer">Contact Us</li>
+                    </ul>
+                    <div>
+                        <button className="border border-gray-500 px-2 py-1 hover:text-white hover:border-white transition-colors">
+                            Service Code
+                        </button>
+                    </div>
+                </div>
+                <p>© 1997-{new Date().getFullYear()} Love Renaissance, Inc.</p>
+            </footer>
         </div>
     );
 };

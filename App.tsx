@@ -1,78 +1,75 @@
-import React, { useRef, useState, useEffect, lazy, Suspense, memo } from 'react';
-const Hero = React.lazy(() => import('./components/Hero').then(m => ({ default: m.Hero })));
-const NewReleases = React.lazy(() => import('./components/NewReleases').then(m => ({ default: m.NewReleases })));
-const Trending = React.lazy(() => import('./components/Trending').then(m => ({ default: m.Trending })));
-const Playlist = React.lazy(() => import('./components/Playlist').then(m => ({ default: m.Playlist })));
-const Founders = React.lazy(() => import('./components/Founders').then(m => ({ default: m.Founders })));
-const Roster = React.lazy(() => import('./components/Roster').then(m => ({ default: m.Roster })));
-const Timeline = React.lazy(() => import('./components/Timeline').then(m => ({ default: m.Timeline })));
-const Stats = React.lazy(() => import('./components/Stats').then(m => ({ default: m.Stats })));
-const SpotifyFeature = React.lazy(() => import('./components/SpotifyFeature').then(m => ({ default: m.SpotifyFeature })));
-const Foundation = React.lazy(() => import('./components/Foundation').then(m => ({ default: m.Foundation })));
-const AiAssistant = React.lazy(() => import('./components/AiAssistant').then(m => ({ default: m.AiAssistant })));
-const SocialHub = React.lazy(() => import('./components/SocialHub').then(m => ({ default: m.SocialHub })));
-const BookingHub = React.lazy(() => import('./components/BookingHub').then(m => ({ default: m.BookingHub })));
-const BookingForm = React.lazy(() => import('./components/BookingForm').then(m => ({ default: m.BookingForm })));
-const Playroom = React.lazy(() => import('./components/Playroom').then(m => ({ default: m.Playroom })));
-const ArtistProfile = React.lazy(() => import('./components/ArtistProfile').then(m => ({ default: m.ArtistProfile })));
-const MusicVideos = React.lazy(() => import('./components/MusicVideos').then(m => ({ default: m.MusicVideos })));
-const ReleasesPage = React.lazy(() => import('./components/ReleasesPage').then(m => ({ default: m.ReleasesPage })));
-const TourPage = React.lazy(() => import('./components/TourPage').then(m => ({ default: m.TourPage })));
-const MerchStore = React.lazy(() => import('./components/MerchStore').then(m => ({ default: m.MerchStore })));
-const Artist3DCarousel = React.lazy(() => import('./components/Artist3DCarousel').then(m => ({ default: m.Artist3DCarousel })));
-const MeetTheTeam = React.lazy(() => import('./components/MeetTheTeam').then(m => ({ default: m.MeetTheTeam })));
-const DJPacks = React.lazy(() => import('./components/DJPacks').then(m => ({ default: m.DJPacks })));
-import { Navbar } from './components/Navbar';
-import { Logo } from './components/Logo';
-import { PHILOSOPHY, SOCIAL_LINKS, MerchProduct, ARTISTS } from './constants';
-import { GlassCard } from './components/GlassCard';
-import { CartItem } from './components/MerchStore';
+import React, { useRef, useState, useEffect, Suspense, memo, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Disc, Users, Briefcase } from 'lucide-react';
+import { PHILOSOPHY, SOCIAL_LINKS, MerchProduct, ARTISTS } from './constants';
 import { Artist } from './types';
-import { ExperienceProvider, useExperience } from './components/ExperienceProvider';
-import { EntryScreen } from './components/EntryScreen';
-import { GlobalPlayer } from './components/GlobalPlayer';
-import { NotificationContainer } from './components/Notification';
 
-// Page Transition Wrapper
-const PageTransition = memo(({ children }: { children: React.ReactNode }) => (
+// Barrel imports for cleaner code organization
+import {
+  Navbar, Logo, EntryScreen, GlobalPlayer, NotificationContainer,
+  ExperienceProvider, useExperience, GlassCard
+} from './components';
+
+// Lazy loaded page components
+import {
+  Hero, NewReleases, Trending, Playlist, Founders, Roster,
+  Timeline, Stats, SpotifyFeature, Foundation, AiAssistant,
+  SocialHub, BookingHub, BookingForm, Playroom, ArtistProfile,
+  MusicVideos, ReleasesPage, TourPage, MerchStore, Artist3DCarousel,
+  MeetTheTeam, DJPacks
+} from './components';
+
+import type { CartItem } from './components';
+
+// Page Transition Wrapper with reduced motion support
+const PageTransition = memo(({ children, pageName }: { children: React.ReactNode; pageName?: string }) => (
   <motion.div
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
     exit={{ opacity: 0, y: -20 }}
     transition={{ duration: 0.4, ease: "easeInOut" }}
     className="min-h-screen pt-20"
+    role="main"
+    aria-label={pageName ? `${pageName} page` : 'Page content'}
   >
     {children}
   </motion.div>
 ));
 
-// Section Wrapper
-const Section = memo(({ title, subtitle, children, className = "" }: {
+PageTransition.displayName = 'PageTransition';
+
+// Section Wrapper with accessibility
+interface SectionProps {
   title?: string;
   subtitle?: string;
   children: React.ReactNode;
   className?: string;
-}) => {
+  id?: string;
+}
+
+const Section = memo(({ title, subtitle, children, className = "", id }: SectionProps) => {
   return (
-    <div className={`py-20 px-6 md:px-12 max-w-[1600px] mx-auto relative ${className}`}>
+    <section
+      className={`py-20 px-6 md:px-12 max-w-[1600px] mx-auto relative ${className}`}
+      id={id}
+      aria-label={title}
+    >
       {(title || subtitle) && (
         <motion.div
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           className="mb-16"
         >
           {subtitle && (
             <div className="flex items-center gap-4 mb-4">
-              <span className="label-text">{subtitle}</span>
-              <div className="accent-line" />
+              <span className="font-mono text-xs tracking-[0.3em] uppercase text-[var(--accent)]">{subtitle}</span>
+              <div className="h-px flex-1 max-w-[100px] bg-gradient-to-r from-[var(--accent)] to-transparent" />
             </div>
           )}
           {title && (
-            <h2 className="display-heading text-5xl md:text-7xl lg:text-8xl text-[var(--text-color)]">
+            <h2 className="font-display font-bold text-5xl md:text-7xl lg:text-8xl text-[var(--text-color)] tracking-tight">
               {title}
             </h2>
           )}
@@ -81,9 +78,11 @@ const Section = memo(({ title, subtitle, children, className = "" }: {
       <div className="relative z-10">
         {children}
       </div>
-    </div>
+    </section>
   );
 });
+
+Section.displayName = 'Section';
 
 const AppContent: React.FC = () => {
   const [showBookingHub, setShowBookingHub] = useState(false);
@@ -109,6 +108,13 @@ const AppContent: React.FC = () => {
   useEffect(() => {
     document.body.className = isDarkMode ? '' : 'theme-light';
   }, [isDarkMode]);
+
+  // Memoized callbacks for better performance
+  const toggleTheme = useCallback(() => {
+    const newMode = !isDarkMode;
+    setIsDarkMode(newMode);
+    showNotification(`Switched to ${newMode ? 'Dark' : 'Light'} Mode`, "info");
+  }, [isDarkMode, showNotification]);
 
   // Centralized Escape & Global Key Handler
   useEffect(() => {
@@ -172,38 +178,32 @@ const AppContent: React.FC = () => {
     }
   }, [targetSection, clearNavigation]);
 
-  const toggleTheme = () => {
-    const newMode = !isDarkMode;
-    setIsDarkMode(newMode);
-    showNotification(`Switched to ${newMode ? 'Dark' : 'Light'} Mode`, "info");
-  };
-
-  const handleNavigate = (pageId: string) => {
+  const handleNavigate = useCallback((pageId: string) => {
     if (pageId === activePage) return;
     setActivePage(pageId);
     setViewingArtist(null);
     setShowBookingHub(false);
     setIsCartOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  }, [activePage]);
 
-  const handleOpenBookingHub = () => {
+  const handleOpenBookingHub = useCallback(() => {
     setShowBookingHub(true);
     showNotification("Loading Booking Roster...", "info");
-  };
+  }, [showNotification]);
 
-  const handleSelectBookingArtist = (artist: Artist) => {
+  const handleSelectBookingArtist = useCallback((artist: Artist) => {
     setSelectedBookingArtist(artist);
     setShowBookingForm(true);
-  };
+  }, []);
 
-  const handleCloseBookingForm = () => {
+  const handleCloseBookingForm = useCallback(() => {
     setShowBookingForm(false);
     setSelectedBookingArtist(null);
-  };
+  }, []);
 
-  // --- Cart Functions ---
-  const handleAddToCart = (product: MerchProduct, size: string) => {
+  // --- Cart Functions with useCallback ---
+  const handleAddToCart = useCallback((product: MerchProduct, size: string) => {
     setCart(prev => {
       const existing = prev.find(item => item.id === product.id && item.selectedSize === size);
       if (existing) {
@@ -211,24 +211,22 @@ const AppContent: React.FC = () => {
       }
       return [...prev, { ...product, selectedSize: size, quantity: 1, cartId: Math.random().toString(36).substr(2, 9) }];
     });
-  };
+  }, []);
 
-  const handleRemoveFromCart = (cartId: string) => {
+  const handleRemoveFromCart = useCallback((cartId: string) => {
     setCart(prev => prev.filter(item => item.cartId !== cartId));
-  };
+  }, []);
 
-  const handleClearCart = () => {
+  const handleClearCart = useCallback(() => {
     setCart([]);
-  };
+  }, []);
 
   // --- Page Renderers ---
 
   const renderHome = () => (
     <PageTransition>
       <Hero />
-      <div className="bg-gradient-to-b from-transparent to-[var(--accent)]/5">
-        <NewReleases />
-      </div>
+      <Trending />
       <Section title="Featured Artists" subtitle="Voices of the Future">
         <div className="mt-8">
           <Artist3DCarousel
@@ -354,7 +352,7 @@ const AppContent: React.FC = () => {
   // New Page Renderers
   const renderVideos = () => (
     <PageTransition>
-      <MusicVideos />
+      <MusicVideos onNavigate={handleNavigate} />
     </PageTransition>
   );
 
@@ -396,7 +394,9 @@ const AppContent: React.FC = () => {
   );
 
   return (
-    <div className="min-h-screen text-[var(--text-color)] selection:bg-[var(--accent)]/30 transition-colors duration-300 bg-[var(--bg-color)]">
+    <div className="min-h-screen text-[var(--text-color)] selection:bg-[var(--accent)]/30 transition-colors duration-300 bg-[var(--bg-color)] font-body">
+      {/* Noise Texture Overlay */}
+      <div className="noise-overlay" />
 
       <EntryScreen />
 
@@ -412,21 +412,23 @@ const AppContent: React.FC = () => {
       </AnimatePresence>
 
       <div className={inPlayroom ? 'hidden' : 'block'}>
-        {/* Conditionally hide Navbar if viewing specific artist profile to avoid clutter */}
-        <div className={viewingArtist ? 'hidden md:block' : 'block'}>
-          <Navbar
-            onNavigate={handleNavigate}
-            onOpenBookings={handleOpenBookingHub}
-            onEnterPlayroom={() => setInPlayroom(true)}
-            isDarkMode={isDarkMode}
-            onToggleTheme={toggleTheme}
-            activeSection={activePage}
-            cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)}
-            onOpenCart={() => {
-              if (activePage !== 'shop') handleNavigate('shop');
-              setTimeout(() => setIsCartOpen(true), 100);
-            }}
-          />
+        {/* Conditionally hide Navbar if viewing specific artist profile or on videos page to avoid clutter */}
+        <div className={(viewingArtist || activePage === 'videos') ? 'hidden md:block' : 'block'}>
+          <div className={activePage === 'videos' ? 'hidden' : 'block'}>
+            <Navbar
+              onNavigate={handleNavigate}
+              onOpenBookings={handleOpenBookingHub}
+              onEnterPlayroom={() => setInPlayroom(true)}
+              isDarkMode={isDarkMode}
+              onToggleTheme={toggleTheme}
+              activeSection={activePage}
+              cartCount={cart.reduce((acc, item) => acc + item.quantity, 0)}
+              onOpenCart={() => {
+                if (activePage !== 'shop') handleNavigate('shop');
+                setTimeout(() => setIsCartOpen(true), 100);
+              }}
+            />
+          </div>
         </div>
 
         {/* Booking Overlays */}

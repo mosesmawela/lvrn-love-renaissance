@@ -10,6 +10,7 @@ export interface PlayroomAlbum {
   coverUrl: string;
   spotifyEmbedUrl: string;
   color: string;
+  type?: 'spotify' | 'vimeo';
 }
 
 export interface VideoItem {
@@ -55,51 +56,57 @@ export const FOUNDERS: Founder[] = [
   { name: "Junia Abaidoo", role: "Head of Operations", description: "Manages the logistical backbone of touring and operations." }
 ];
 
+// LVRN Exclusive Tracks - Vimeo Playroom
 export const PLAYROOM_ALBUMS: PlayroomAlbum[] = [
   {
-    id: "lvrn-broadcast",
-    artist: "LVRN",
-    title: "Broadcast Signal",
+    id: "lvrn-exclusive-1",
+    artist: "LVRN Exclusive",
+    title: "Playroom Session 1",
     year: "2025",
-    coverUrl: "https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=1000&auto=format&fit=crop",
-    spotifyEmbedUrl: "https://open.spotify.com/embed/track/1F6HMPZd1izYjwGoFsh7Ny?utm_source=generator",
-    color: "#ec4899"
-  },
-  {
-    id: "6lack-fatal",
-    artist: "6LACK",
-    title: "Fatal Attraction",
-    year: "2024",
     coverUrl: "https://images.unsplash.com/photo-1493225255756-d9584f8606e9?q=80&w=1000&auto=format&fit=crop",
-    spotifyEmbedUrl: "https://open.spotify.com/embed/track/1p0zeYPLjmIGtw1DzmshZO?utm_source=generator",
-    color: "#3b82f6"
+    spotifyEmbedUrl: "https://player.vimeo.com/video/1170803259",
+    color: "#ec4899",
+    type: "vimeo"
   },
   {
-    id: "summer-clear2",
-    artist: "Summer Walker",
-    title: "Clear 2: Soft Life",
-    year: "2023",
+    id: "lvrn-exclusive-2",
+    artist: "LVRN Exclusive",
+    title: "Playroom Session 2",
+    year: "2025",
     coverUrl: "https://images.unsplash.com/photo-1619983081563-430f63602796?q=80&w=1000&auto=format&fit=crop",
-    spotifyEmbedUrl: "https://open.spotify.com/embed/album/0xMQR9PD1M0Y70uP3VpyBl?utm_source=generator",
-    color: "#d97706"
+    spotifyEmbedUrl: "https://player.vimeo.com/video/1170803082",
+    color: "#3b82f6",
+    type: "vimeo"
   },
   {
-    id: "dvsn-karma",
-    artist: "DVSN",
-    title: "Working On My Karma",
-    year: "2022",
+    id: "lvrn-exclusive-3",
+    artist: "LVRN Exclusive",
+    title: "Playroom Session 3",
+    year: "2025",
     coverUrl: "https://images.unsplash.com/photo-1550684848-fac1c5b4e853?q=80&w=1000&auto=format&fit=crop",
-    spotifyEmbedUrl: "https://open.spotify.com/embed/album/4ms0fTBX5E76Ho0Ke4az0Q?utm_source=generator",
-    color: "#eab308"
+    spotifyEmbedUrl: "https://player.vimeo.com/video/1170802951",
+    color: "#d97706",
+    type: "vimeo"
   },
   {
-    id: "6lack-east",
-    artist: "6LACK",
-    title: "East Atlanta Love Letter",
-    year: "2018",
+    id: "lvrn-exclusive-4",
+    artist: "LVRN Exclusive",
+    title: "Playroom Session 4",
+    year: "2025",
     coverUrl: "https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?q=80&w=1000&auto=format&fit=crop",
-    spotifyEmbedUrl: "https://open.spotify.com/embed/album/1Ba4tVkFViKy6KmRyd9adZ?utm_source=generator",
-    color: "#ef4444"
+    spotifyEmbedUrl: "https://player.vimeo.com/video/1170802832",
+    color: "#ef4444",
+    type: "vimeo"
+  },
+  {
+    id: "lvrn-exclusive-hero",
+    artist: "LVRN Exclusive",
+    title: "The Renaissance Vision",
+    year: "2025",
+    coverUrl: "https://ik.imagekit.io/mosesmawela/LOGO/logo.svg?updatedAt=1769936404900",
+    spotifyEmbedUrl: "https://player.vimeo.com/video/1170800625",
+    color: "#f97316",
+    type: "vimeo"
   }
 ];
 
@@ -118,7 +125,8 @@ export const ARTISTS: Artist[] = [
     spotifyEmbedId: "artist/4IVAbR2w4JJNJDDRFP3E83",
     appleMusicEmbedId: "za/artist/6lack/1016633280",
     spotifyArtistUrl: "https://open.spotify.com/artist/4IVAbR2w4JJNJDDRFP3E83",
-    appleMusicArtistUrl: "https://music.apple.com/za/artist/6lack/1016633280"
+    appleMusicArtistUrl: "https://music.apple.com/za/artist/6lack/1016633280",
+    videoId: "peH96cvRmls"
   },
   {
     name: "Summer Walker",
@@ -130,10 +138,11 @@ export const ARTISTS: Artist[] = [
     quote: "Summer Walker has established a new narrative for expressive and unapologetic music from female artists.",
     bio: "A songstress from Atlanta, Summer Walker has established a new narrative for expressive and unapologetic music from female artists. Growing up in solitude in an Atlanta home, she represents the coalescence of introversion and untamed expressionism. Her debut studio album, Over It was released on October 4, 2019 and received universal acclaim from critics, debuting at number two on the Billboard 200.",
     stats: { followers: "27M", streams: "13.1B", playlists: "42.4K", charts: "3146" },
-    spotifyEmbedId: "artist/57LYzLEk2LcFghVwuWbcuS",
+    spotifyEmbedId: "57LYzLEk2LcFghVwuWbcuS",
     appleMusicEmbedId: "za/artist/summer-walker/990402287",
     spotifyArtistUrl: "https://open.spotify.com/artist/57LYzLEk2LcFghVwuWbcuS",
-    appleMusicArtistUrl: "https://music.apple.com/za/artist/summer-walker/990402287"
+    appleMusicArtistUrl: "https://music.apple.com/za/artist/summer-walker/990402287",
+    videoId: "1ipRd0WgB0c"
   },
   {
     name: "Odeal",
@@ -147,7 +156,8 @@ export const ARTISTS: Artist[] = [
     stats: { followers: "1.37M", streams: "616M", playlists: "5,969", charts: "946" },
     spotifyId: "4Z8vY9vY9vY9vY9vY9vY",
     appleMusicId: "1456156156",
-    youtubeId: "UC_O_D_E_A_L_L_L_L_L"
+    youtubeId: "UC_O_D_E_A_L_L_L_L_L",
+    videoId: "V_KchwQrS7Y"
   },
   {
     name: "CIZA",
@@ -162,7 +172,8 @@ export const ARTISTS: Artist[] = [
     spotifyEmbedId: "artist/71hPkbyih5bdlHVPBgav33",
     appleMusicEmbedId: "za/artist/ciza/1472059692",
     spotifyArtistUrl: "https://open.spotify.com/artist/71hPkbyih5bdlHVPBgav33",
-    appleMusicArtistUrl: "https://music.apple.com/za/artist/ciza/1472059692"
+    appleMusicArtistUrl: "https://music.apple.com/za/artist/ciza/1472059692",
+    videoId: "sel1mCYFJ8U"
   },
   {
     name: "Belly Gang Kushington",
@@ -275,7 +286,8 @@ export const ARTISTS: Artist[] = [
     bookingRegion: "Africa / Intl",
     quote: "Al Xapo is a young versatile and talented producer, Dj, and vocalist.",
     bio: "Al Xapo, AKA 'Public Enemy' is a young versatile and talented producer & beat maker as well as artist & DJ who started his musical journey at the tender age of 15. He started by being on the decks then later exploring his production and vocal talents.",
-    stats: { followers: "10K", streams: "1.2M", creates: "139K" }
+    stats: { followers: "10K", streams: "1.2M", creates: "139K" },
+    videoId: "YxU-vshDkAA"
   },
   {
     name: "Chley",
@@ -411,22 +423,27 @@ export const PHILOSOPHY: PhilosophyItem[] = [
 ];
 
 export const SOCIAL_LINKS: SocialLink[] = [
-  { name: 'Linktree', url: 'https://linktr.ee/loverenaissance' },
+  { name: 'Website', url: 'https://lvrn.com' },
   { name: 'Instagram', url: 'https://www.instagram.com/lvrngram' },
-  { name: 'X', url: 'https://x.com/lvrn' },
+  { name: 'X', url: 'https://twitter.com/LVRN' },
+  { name: 'Spotify', url: 'https://open.spotify.com/user/vx7zuhzujq48tyyjsrzw2u1h5' },
+  { name: 'Facebook', url: 'https://www.facebook.com/loverenaissance' },
   { name: 'TikTok', url: 'https://www.tiktok.com/@lvrn' },
   { name: 'YouTube', url: 'https://www.youtube.com/channel/UCILhhbWqZU3b5x2KVRnspfQ' }
 ];
 
 export const VIDEOS: VideoItem[] = [
-  { id: 'v5', title: 'SNOKONOKO', artist: 'Al Xapo, Benzoo & EeQue', thumbnail: 'https://img.youtube.com/vi/wgGa9SgxhJI/maxresdefault.jpg', embedUrl: 'https://www.youtube.com/embed/wgGa9SgxhJI', duration: '5:24', views: '150K' },
-  { id: 'v6', title: 'Still Finally Over It Tour Trailer', artist: 'Summer Walker', thumbnail: 'https://img.youtube.com/vi/XzcInRty6mc/maxresdefault.jpg', embedUrl: 'https://www.youtube.com/embed/XzcInRty6mc', duration: '1:30', views: '500K' },
-  { id: 'v8', title: 'Nakupenda', artist: 'TxC, Davido, Shoday & Scotts Maphuma', thumbnail: 'https://img.youtube.com/vi/8JZZvo-gJaU/maxresdefault.jpg', embedUrl: 'https://www.youtube.com/embed/8JZZvo-gJaU', duration: '4:10', views: '800K' },
-  { id: 'v4', title: 'ISAKA (6AM)', artist: 'CIZA ft. Jazzworx & Thukuthela', thumbnail: 'https://img.youtube.com/vi/sel1mCYFJ8U/maxresdefault.jpg', embedUrl: 'https://www.youtube.com/embed/sel1mCYFJ8U', duration: '4:45', views: '1.2M' },
-  { id: 'v7', title: 'Modern Day Suicide', artist: 'Odeal', thumbnail: 'https://img.youtube.com/vi/8TBfhOSyexE/maxresdefault.jpg', embedUrl: 'https://www.youtube.com/embed/8TBfhOSyexE', duration: '3:20', views: '300K' },
-  { id: 'v1', title: 'Heart of a Woman', artist: 'Summer Walker', thumbnail: 'https://img.youtube.com/vi/g3p6u5PjCMA/maxresdefault.jpg', embedUrl: 'https://www.youtube.com/embed/g3p6u5PjCMA', duration: '4:12', views: '2.4M' },
-  { id: 'v2', title: 'Be Easy', artist: 'Odeal', thumbnail: 'https://img.youtube.com/vi/qY2-oF4-vT0/maxresdefault.jpg', embedUrl: 'https://www.youtube.com/embed/qY2-oF4-vT0', duration: '3:45', views: '616K' },
-  { id: 'v3', title: 'Since I Have A Lover', artist: '6LACK', thumbnail: 'https://img.youtube.com/vi/jJvDNyI7hG4/maxresdefault.jpg', embedUrl: 'https://www.youtube.com/embed/jJvDNyI7hG4', duration: '4:20', views: '5.1M' }
+  { id: 'v6', title: 'SNOKONOKO II', artist: 'Al Xapo, ShalliPoppi, Benzoo & Eeque', thumbnail: 'https://i.ytimg.com/vi/bnoGzqxTUYQ/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/bnoGzqxTUYQ', duration: '—', views: '—' },
+  { id: 'v1', title: 'Rent Due', artist: 'Belly Gang Kushington', thumbnail: 'https://i.ytimg.com/vi/G1l_yUbex0g/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/G1l_yUbex0g', duration: '—', views: '—' },
+  { id: 'v2', title: 'Snokonoko', artist: 'Al Xapo, Benzoo & Eeque', thumbnail: 'https://i.ytimg.com/vi/YxU-vshDkAA/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/YxU-vshDkAA', duration: '—', views: '—' },
+  { id: 'v3', title: 'Nakupenda', artist: 'TxC, Davido, Shoday & Scotts Maphuma ft. Zlatan & Al Xapo', thumbnail: 'https://i.ytimg.com/vi/86pC4vqOi80/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/86pC4vqOi80', duration: '—', views: '—' },
+  { id: 'v4', title: 'PINACOLADA', artist: 'Thisizlondon ft. Ayra Starr & 6LACK', thumbnail: 'https://i.ytimg.com/vi/peH96cvRmls/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/peH96cvRmls', duration: '—', views: '—' },
+  { id: 'v5', title: 'Yebo', artist: 'TXC & Davido ft. Tony Duardo, LeeMckrazy & DJ Biza', thumbnail: 'https://i.ytimg.com/vi/zrW2Zap7R4k/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/zrW2Zap7R4k', duration: '—', views: '—' },
+  { id: 'v7', title: 'SNOKONOKO', artist: 'Al Xapo, Benzoo & EeQue', thumbnail: 'https://i.ytimg.com/vi/wgGa9SgxhJI/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/wgGa9SgxhJI', duration: '—', views: '—' },
+  { id: 'v8', title: 'STANCE', artist: 'Al Xapo, Benzoo & Optimist MusicZA', thumbnail: 'https://i.ytimg.com/vi/KHf9unwLGH8/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/KHf9unwLGH8', duration: '—', views: '—' },
+  { id: 'v9', title: 'Sandla Sam', artist: 'Ggoldie, CowBoii & Al Xapo', thumbnail: 'https://i.ytimg.com/vi/C18pDqqtdgg/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/C18pDqqtdgg', duration: '—', views: '—' },
+  { id: 'v10', title: 'Snokonoko (Lyric Video)', artist: 'Al Xapo, Benzoo & Eeque', thumbnail: 'https://i.ytimg.com/vi/BGpdaPA5M1s/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/BGpdaPA5M1s', duration: '—', views: '—' },
+  { id: 'v11', title: 'STANCE (Lyric Video)', artist: 'Al Xapo, Benzoo & Optimist Music ZA', thumbnail: 'https://i.ytimg.com/vi/_TR4QP7y_TI/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/_TR4QP7y_TI', duration: '—', views: '—' }
 ];
 
 export const MERCH_PRODUCTS: MerchProduct[] = [

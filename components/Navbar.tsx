@@ -14,9 +14,9 @@ interface NavbarProps {
   onOpenCart?: () => void;
 }
 
-export const Navbar: React.FC<NavbarProps> = ({ 
-  onNavigate, 
-  onOpenBookings, 
+export const Navbar: React.FC<NavbarProps> = ({
+  onNavigate,
+  onOpenBookings,
   onEnterPlayroom,
   isDarkMode,
   onToggleTheme,
@@ -29,7 +29,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   useEffect(() => {
     const handleScroll = () => {
-        setScrolled(window.scrollY > 50);
+      setScrolled(window.scrollY > 50);
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -53,27 +53,28 @@ export const Navbar: React.FC<NavbarProps> = ({
         initial={{ y: -100 }}
         animate={{ y: 0 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-            scrolled 
-            ? 'bg-[var(--nav-bg)] backdrop-blur-2xl border-b border-[var(--card-border)] py-3 shadow-lg' 
-            : 'bg-transparent py-6'
-        }`}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${scrolled
+          ? 'bg-[var(--nav-bg)] backdrop-blur-2xl border-b border-[var(--card-border)] py-3 shadow-lg'
+          : 'bg-transparent py-6'
+          }`}
         role="navigation"
         aria-label="Main Navigation"
       >
-        <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-          <div 
-            className="flex items-center gap-2 cursor-pointer z-50 group focus:outline-none focus:ring-2 focus:ring-[var(--accent)] rounded-lg" 
-            onClick={() => onNavigate('home')}
-            onKeyDown={(e) => e.key === 'Enter' && onNavigate('home')}
-            tabIndex={0}
-            aria-label="Go to Homepage"
-          >
-            <Logo className="h-8 w-auto text-[var(--text-color)] transition-transform group-hover:scale-110" />
+        <div className="max-w-[100rem] 2xl:max-w-[120rem] w-full mx-auto px-6 flex items-center justify-between">
+          <div className="flex-1 flex justify-start items-center">
+            <div
+              className="flex items-center gap-2 cursor-pointer group focus:outline-none focus:ring-2 focus:ring-[var(--accent)] rounded-lg"
+              onClick={() => onNavigate('home')}
+              onKeyDown={(e) => e.key === 'Enter' && onNavigate('home')}
+              tabIndex={0}
+              aria-label="Go to Homepage"
+            >
+              <Logo className="h-7 w-auto text-[var(--text-color)] transition-transform group-hover:scale-105" />
+            </div>
           </div>
 
           {/* Desktop Navigation */}
-          <div className="hidden lg:flex items-center gap-6">
+          <div className="hidden lg:flex items-center justify-center shrink-0">
             <div className="flex items-center gap-1 bg-black/5 dark:bg-white/5 rounded-full p-1 border border-black/5 dark:border-white/5 backdrop-blur-md">
               {navLinks.map((link) => {
                 const isActive = activeSection === link.id;
@@ -81,9 +82,8 @@ export const Navbar: React.FC<NavbarProps> = ({
                   <button
                     key={link.id}
                     onClick={() => onNavigate(link.id)}
-                    className={`relative px-4 py-2 text-xs font-bold transition-colors uppercase tracking-wide rounded-full focus:outline-none focus:ring-2 focus:ring-[var(--accent)] ${
-                      isActive ? 'text-[var(--bg-color)]' : 'text-[var(--text-secondary)] hover:text-[var(--text-color)]'
-                    }`}
+                    className={`relative px-4 py-2 text-xs font-bold transition-colors uppercase tracking-wide rounded-full focus:outline-none focus:ring-2 focus:ring-[var(--accent)] whitespace-nowrap ${isActive ? 'text-[var(--bg-color)]' : 'text-[var(--text-secondary)] hover:text-[var(--text-color)]'
+                      }`}
                     aria-current={isActive ? 'page' : undefined}
                   >
                     {isActive && (
@@ -98,155 +98,174 @@ export const Navbar: React.FC<NavbarProps> = ({
                 );
               })}
             </div>
+          </div>
 
+          <div className="hidden lg:flex items-center justify-end flex-1 gap-4 lg:gap-6">
             <div className="w-px h-6 bg-[var(--text-color)]/10" role="separator" />
 
             {/* Icons Group */}
             <div className="flex items-center gap-2">
-                {/* Cart Button */}
-                <button
-                    onClick={onOpenCart}
-                    className="relative p-2 rounded-full hover:bg-[var(--text-color)]/5 transition-colors border border-transparent hover:border-[var(--card-border)] group focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
-                    title="View Cart"
-                    aria-label="View Shopping Cart"
-                >
-                    <ShoppingBag size={18} className="text-[var(--text-color)]" />
-                    {cartCount > 0 && (
-                        <span className="absolute -top-1 -right-1 w-4 h-4 bg-[var(--accent)] text-white text-[9px] font-bold rounded-full flex items-center justify-center shadow-lg">
-                            {cartCount}
-                        </span>
-                    )}
-                </button>
+              {/* Cart Button */}
+              <button
+                onClick={onOpenCart}
+                className="relative p-2 rounded-full hover:bg-[var(--text-color)]/5 transition-colors border border-transparent hover:border-[var(--card-border)] group focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+                title="View Cart"
+                aria-label="View Shopping Cart"
+              >
+                <ShoppingBag size={18} className="text-[var(--text-color)]" />
+                {cartCount > 0 && (
+                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-[var(--accent)] text-white text-[9px] font-bold rounded-full flex items-center justify-center shadow-lg">
+                    {cartCount}
+                  </span>
+                )}
+              </button>
 
-                {/* Theme Toggle */}
-                <button
-                    onClick={onToggleTheme}
-                    className="p-2 rounded-full hover:bg-[var(--text-color)]/5 transition-colors border border-transparent hover:border-[var(--card-border)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
-                    title={`Switch to ${isDarkMode ? 'Light' : 'Dark'} Mode`}
-                    aria-label={`Switch to ${isDarkMode ? 'Light' : 'Dark'} Mode`}
-                >
-                    {isDarkMode ? (
-                        <Sun size={18} className="text-[var(--text-color)]" />
-                    ) : (
-                        <Moon size={18} className="text-[var(--text-color)]" />
-                    )}
-                </button>
+              {/* Theme Toggle */}
+              <button
+                onClick={onToggleTheme}
+                className="p-2 rounded-full hover:bg-[var(--text-color)]/5 transition-colors border border-transparent hover:border-[var(--card-border)] focus:outline-none focus:ring-2 focus:ring-[var(--accent)]"
+                title={`Switch to ${isDarkMode ? 'Light' : 'Dark'} Mode`}
+                aria-label={`Switch to ${isDarkMode ? 'Light' : 'Dark'} Mode`}
+              >
+                {isDarkMode ? (
+                  <Sun size={18} className="text-[var(--text-color)]" />
+                ) : (
+                  <Moon size={18} className="text-[var(--text-color)]" />
+                )}
+              </button>
             </div>
 
             <div className="flex items-center gap-3">
-               <button 
+              <button
                 onClick={onEnterPlayroom}
                 className="px-6 py-3 border border-[var(--text-color)]/20 hover:bg-[var(--text-color)] hover:text-[var(--text-inverse)] text-[var(--text-color)] text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 focus:outline-none"
-               >
-                 Playroom
-               </button>
-               <button 
+              >
+                Playroom
+              </button>
+              <button
                 onClick={onOpenBookings}
                 className="btn-luxury text-xs"
-               >
-                 Bookings
-               </button>
+              >
+                Bookings
+              </button>
+              <a
+                href="https://lvrn-submiison-website.web.app/?access=label"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="px-6 py-3 bg-[var(--accent)] hover:bg-[var(--accent)]/80 text-white text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 focus:outline-none rounded-lg"
+              >
+                Submissions
+              </a>
             </div>
           </div>
 
           {/* Mobile Menu Toggle */}
-          <div className="flex items-center gap-4 lg:hidden">
-             {/* Mobile Cart */}
-              <button
-                onClick={onOpenCart}
-                className="relative p-2 text-[var(--text-color)]"
-                aria-label="View Cart"
+          <div className="flex items-center justify-end flex-1 gap-4 lg:hidden">
+            {/* Mobile Cart */}
+            <button
+              onClick={onOpenCart}
+              className="relative p-2 text-[var(--text-color)]"
+              aria-label="View Cart"
             >
-                <ShoppingBag size={20} />
-                {cartCount > 0 && (
-                    <span className="absolute -top-1 -right-1 w-4 h-4 bg-[var(--accent)] text-white text-[9px] font-bold rounded-full flex items-center justify-center">
-                        {cartCount}
-                    </span>
-                )}
+              <ShoppingBag size={20} />
+              {cartCount > 0 && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-[var(--accent)] text-white text-[9px] font-bold rounded-full flex items-center justify-center">
+                  {cartCount}
+                </span>
+              )}
             </button>
-            
-            <button 
-                className="z-50 p-2 text-[var(--text-color)]"
-                onClick={() => setMobileOpen(!mobileOpen)}
-                aria-expanded={mobileOpen}
-                aria-label="Toggle Menu"
+
+            <button
+              className="z-50 p-2 text-[var(--text-color)]"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-expanded={mobileOpen}
+              aria-label="Toggle Menu"
             >
-                {mobileOpen ? <X /> : <Menu />}
+              {mobileOpen ? <X /> : <Menu />}
             </button>
           </div>
         </div>
-      </motion.nav>
+      </motion.nav >
 
       {/* Mobile Menu Overlay */}
       <AnimatePresence>
-        {mobileOpen && (
-          <motion.div
-            initial={{ opacity: 0, clipPath: 'circle(0% at 100% 0)' }}
-            animate={{ opacity: 1, clipPath: 'circle(150% at 100% 0)' }}
-            exit={{ opacity: 0, clipPath: 'circle(0% at 100% 0)' }}
-            transition={{ duration: 0.5, ease: "easeInOut" }}
-            className="fixed inset-0 z-40 bg-[var(--bg-color)] pt-24 px-6 lg:hidden overflow-y-auto"
-          >
-            <div className="flex flex-col gap-8">
-              <div className="flex flex-col gap-4">
-                {navLinks.map((link, i) => (
-                  <motion.button
-                    key={link.id}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.1 }}
-                    onClick={() => {
-                      onNavigate(link.id);
-                      setMobileOpen(false);
-                    }}
-                    className={`text-5xl font-black text-left transition-colors tracking-tighter ${
-                      activeSection === link.id 
-                        ? 'text-transparent bg-clip-text bg-gradient-to-r from-[var(--text-color)] to-[var(--text-secondary)]' 
+        {
+          mobileOpen && (
+            <motion.div
+              initial={{ opacity: 0, clipPath: 'circle(0% at 100% 0)' }}
+              animate={{ opacity: 1, clipPath: 'circle(150% at 100% 0)' }}
+              exit={{ opacity: 0, clipPath: 'circle(0% at 100% 0)' }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="fixed inset-0 z-40 bg-[var(--bg-color)] pt-24 px-6 lg:hidden overflow-y-auto"
+            >
+              <div className="flex flex-col gap-8">
+                <div className="flex flex-col gap-4">
+                  {navLinks.map((link, i) => (
+                    <motion.button
+                      key={link.id}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: i * 0.1 }}
+                      onClick={() => {
+                        onNavigate(link.id);
+                        setMobileOpen(false);
+                      }}
+                      className={`text-5xl font-black text-left transition-colors tracking-tighter ${activeSection === link.id
+                        ? 'text-transparent bg-clip-text bg-gradient-to-r from-[var(--text-color)] to-[var(--text-secondary)]'
                         : 'text-[var(--text-color)] hover:text-[var(--accent)]'
-                    }`}
-                  >
-                    {link.label}
-                  </motion.button>
-                ))}
-              </div>
+                        }`}
+                    >
+                      {link.label}
+                    </motion.button>
+                  ))}
+                </div>
 
-              <div className="h-px bg-[var(--text-color)]/10 w-full" />
+                <div className="h-px bg-[var(--text-color)]/10 w-full" />
 
-              <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center">
                   <p className="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Appearance</p>
-                  <button 
+                  <button
                     onClick={onToggleTheme}
                     className="flex items-center gap-2 px-4 py-3 rounded-xl bg-[var(--card-bg)] border border-[var(--card-border)] text-[var(--text-color)]"
                   >
-                      {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
-                      <span className="text-sm font-bold">{isDarkMode ? 'Light' : 'Dark'}</span>
+                    {isDarkMode ? <Sun size={18} /> : <Moon size={18} />}
+                    <span className="text-sm font-bold">{isDarkMode ? 'Light' : 'Dark'}</span>
                   </button>
-              </div>
+                </div>
 
-              <div className="flex flex-col gap-4 mt-4 pb-12">
-                <button 
-                  onClick={() => {
-                    onEnterPlayroom();
-                    setMobileOpen(false);
-                  }}
-                  className="w-full py-4 rounded-xl border border-[var(--text-color)]/20 text-[var(--text-color)] font-bold uppercase tracking-widest hover:bg-[var(--text-color)] hover:text-[var(--bg-color)] transition-all"
-                >
-                  Enter Playroom
-                </button>
-                <button 
-                  onClick={() => {
-                    onOpenBookings();
-                    setMobileOpen(false);
-                  }}
-                  className="w-full py-4 rounded-xl bg-[var(--accent)] text-white font-bold uppercase tracking-widest shadow-lg"
-                >
-                  Book Artist
-                </button>
+                <div className="flex flex-col gap-4 mt-4 pb-12">
+                  <button
+                    onClick={() => {
+                      onEnterPlayroom();
+                      setMobileOpen(false);
+                    }}
+                    className="w-full py-4 rounded-xl border border-[var(--text-color)]/20 text-[var(--text-color)] font-bold uppercase tracking-widest hover:bg-[var(--text-color)] hover:text-[var(--bg-color)] transition-all"
+                  >
+                    Enter Playroom
+                  </button>
+                  <a
+                    href="https://lvrn-submiison-website.web.app/?access=label"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full py-4 rounded-xl bg-[var(--text-color)] text-[var(--bg-color)] font-bold uppercase tracking-widest text-center shadow-lg"
+                  >
+                    Submissions
+                  </a>
+                  <button
+                    onClick={() => {
+                      onOpenBookings();
+                      setMobileOpen(false);
+                    }}
+                    className="w-full py-4 rounded-xl bg-[var(--accent)] text-white font-bold uppercase tracking-widest shadow-lg"
+                  >
+                    Book Artist
+                  </button>
+                </div>
               </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+            </motion.div>
+          )
+        }
+      </AnimatePresence >
     </>
   );
 };

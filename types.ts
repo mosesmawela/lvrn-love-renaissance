@@ -30,6 +30,7 @@ export interface Artist {
   appleMusicEmbedId?: string;
   spotifyArtistUrl?: string;
   appleMusicArtistUrl?: string;
+  videoId?: string;
   platformLinks?: {
     spotify?: string;
     appleMusic?: string;
