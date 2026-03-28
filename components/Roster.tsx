@@ -36,7 +36,8 @@ const parseMetric = (val?: string) => {
 };
 
 export const Roster: React.FC<RosterProps> = ({ onViewProfile }) => {
-    const [filter, setFilter] = useState<'All' | 'Signed' | 'Management' | 'Publishing' | 'Africa'>('All');
+    type FilterCategory = 'All' | 'Signed' | 'Management' | 'Publishing' | 'Africa';
+    const [filter, setFilter] = useState<FilterCategory>('All');
     const [searchQuery, setSearchQuery] = useState('');
     const [sortType, setSortType] = useState<'Default' | 'Name' | 'Popularity'>('Default');
     const [recentArtists, setRecentArtists] = useState<Artist[]>([]);
@@ -95,7 +96,7 @@ export const Roster: React.FC<RosterProps> = ({ onViewProfile }) => {
         return result;
     }, [filter, searchQuery, sortType]);
 
-    const categories = ['All', 'Signed', 'Management', 'Publishing', 'Africa'];
+    const categories: FilterCategory[] = ['All', 'Signed', 'Management', 'Publishing', 'Africa'];
 
     const handleArtistClick = (artist: Artist) => {
         // Update History
@@ -120,7 +121,7 @@ export const Roster: React.FC<RosterProps> = ({ onViewProfile }) => {
                     {categories.map((cat) => (
                         <button
                             key={cat}
-                            onClick={() => { setFilter(cat as any); trackEvent('filter_change', { category: cat }); }}
+                            onClick={() => { setFilter(cat); trackEvent('filter_change', { category: cat }); }}
                             className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap ${filter === cat
                                 ? 'bg-[var(--text-color)] text-[var(--bg-color)]'
                                 : 'text-[var(--text-secondary)] hover:text-[var(--text-color)]'
