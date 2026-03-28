@@ -2,6 +2,7 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { GoogleGenAI } from "@google/genai";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -9,11 +10,46 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 3001;
 
+// Middleware for parsing JSON
+app.use(express.json());
+
 const distPath = path.join(__dirname, 'dist');
 console.log('Serving static files from:', distPath);
 
 // Serve static files from the dist directory
 app.use(express.static(distPath));
+
+// API Proxy Endpoints
+app.get('/api/status', (req, res) => {
+    const aiAvailable = !!(process.env.API_KEY || process.env.GEMINI_API_KEY);
+    res.json({ status: 'active', aiAvailable });
+});
+
+app.post('/api/chat', async (req, res) => {
+    try {
+        const apiKey = process.env.API_KEY || process.env.GEMINI_API_KEY;
+        if (!apiKey) {
+            return res.status(500).json({ error: 'API key not configured.' });
+        }
+
+        const { contents, systemInstruction } = req.body;
+        const ai = new GoogleGenAI({ apiKey });
+
+        const response = await ai.models.generateContent({
+            model: 'gemini-2.5-flash',
+            contents,
+            config: {
+                systemInstruction,
+                responseMimeType: 'application/json'
+            }
+        });
+
+        res.json({ text: response.text });
+    } catch (error) {
+        console.error('Error in /api/chat:', error);
+        res.status(500).json({ error: 'Failed to generate content.' });
+    }
+});
 
 // Explicit root route
 app.get('/', (req, res) => {
