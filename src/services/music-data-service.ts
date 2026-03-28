@@ -226,7 +226,6 @@ class MusicDataService {
             const youtubeKey = import.meta.env.VITE_YOUTUBE_API_KEY;
 
             if (spotifyId && youtubeKey) {
-                console.log(`Fetching real-time data for ${artistName}...`);
                 // Actual API implementation would go here
             }
         } catch (error) {
