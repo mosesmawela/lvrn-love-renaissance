@@ -212,16 +212,14 @@ class MusicDataService {
             const youtubeKey = import.meta.env.VITE_YOUTUBE_API_KEY;
 
             if (spotifyId && youtubeKey) {
-                console.log(`Fetching real-time data for ${artistName}...`);
                 // Actual API implementation would go here
             }
-        } catch (error) {
-            console.warn('Failed to fetch real-time analytics:', error);
+        } catch {
+            // Ignore error
         }
 
         const data = MOCK_DATA[artistName];
         if (!data) {
-            console.warn(`No analytics data found for ${artistName}, returning empty stats.`);
             return {
                 artist: { id: '0', name: artistName, images: [], spotify: {}, appleMusic: {}, youtube: {} },
                 topTracks: [],
@@ -262,8 +260,8 @@ class MusicDataService {
                     }));
                 }
             }
-        } catch (error) {
-            console.warn('YouTube API fetch failed, falling back to mock data:', error);
+        } catch {
+            // Ignore error
         }
 
         return MOCK_VIDEOS[artistName] || MOCK_VIDEOS['6LACK'];
