@@ -693,15 +693,17 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
 
             currentColorRef.current = { r: 255, g: 255, b: 255 }; // White for Mic
             showNotification("Microphone Input Active", "success");
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error("Mic Error", err);
             setMicError(true);
 
+            const errName = err instanceof Error ? err.name : typeof err === 'object' && err !== null && 'name' in err ? String((err as Record<string, unknown>).name) : '';
+
             // Specific Error Handling
-            if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+            if (errName === 'NotAllowedError' || errName === 'PermissionDeniedError') {
                 setMicErrorMessage("Permission Denied. Please allow microphone access in your browser address bar.");
                 showNotification("Permission Denied", "error");
-            } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+            } else if (errName === 'NotFoundError' || errName === 'DevicesNotFoundError') {
                 setMicErrorMessage("No microphone found. Please check your connection.");
                 showNotification("Device Not Found", "error");
             } else {
