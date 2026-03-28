@@ -56,13 +56,18 @@ export const GlobalPlayer: React.FC<GlobalPlayerProps> = ({ forceMinimize = fals
                              </span>
                              <button 
                                 onClick={toggleMediaType}
-                                className="p-1 rounded-md bg-white/10 hover:bg-white/20 text-white transition-colors"
+                                className="p-1 rounded-md bg-white/10 hover:bg-white/20 text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white"
+                                aria-label="Switch Media Source"
                                 title="Switch Source"
                              >
                                  <Repeat size={10} />
                              </button>
                          </div>
-                         <button onClick={() => setShowPlayer(false)} className="p-1 hover:text-white text-gray-500 transition-colors">
+                         <button
+                            onClick={() => setShowPlayer(false)}
+                            className="p-1 hover:text-white text-gray-500 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white rounded-md"
+                            aria-label="Close Player"
+                         >
                             <X size={14} />
                          </button>
                     </div>
@@ -97,7 +102,16 @@ export const GlobalPlayer: React.FC<GlobalPlayerProps> = ({ forceMinimize = fals
         </AnimatePresence>
 
         <motion.div 
-          className={`bg-black/60 backdrop-blur-xl border border-white/10 rounded-full overflow-hidden shadow-2xl cursor-pointer hover:bg-black/80 transition-colors pr-6`}
+          role="button"
+          tabIndex={0}
+          aria-label={showPlayer ? "Close Media Player" : "Open Media Player"}
+          onKeyDown={(e) => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  setShowPlayer(!showPlayer);
+              }
+          }}
+          className={`bg-black/60 backdrop-blur-xl border border-white/10 rounded-full overflow-hidden shadow-2xl cursor-pointer hover:bg-black/80 transition-colors pr-6 focus-visible:ring-2 focus-visible:ring-white focus-visible:outline-none`}
           onClick={() => setShowPlayer(!showPlayer)}
           whileHover={{ scale: 1.02 }}
           whileTap={{ scale: 0.98 }}
