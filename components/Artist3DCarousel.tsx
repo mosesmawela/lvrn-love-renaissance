@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Maximize2 } from 'lucide-react';
 import { GlassCard } from './GlassCard';
@@ -25,6 +25,53 @@ const getGradient = (name: string) => {
 export const Artist3DCarousel: React.FC<Artist3DCarouselProps> = ({ artists, onSelect }) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const containerRef = useRef<HTMLDivElement>(null);
+    const [bgColor, setBgColor] = useState('rgba(0,0,0,1)');
+
+    // Extract color from image
+    useEffect(() => {
+        const artist = artists[activeIndex];
+        if (!artist) return;
+
+        const imagePath = artist.image || `assets/images/${artist.name.toLowerCase().replace(/[^a-z0-9]/g, '-')}.jpg`;
+        
+        const img = new Image();
+        img.crossOrigin = "Anonymous";
+        img.src = imagePath;
+
+        img.onload = () => {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            if (!ctx) return;
+
+            canvas.width = img.width;
+            canvas.height = img.height;
+            ctx.drawImage(img, 0, 0);
+
+            try {
+                // Get average color from a small sample in the center
+                const data = ctx.getImageData(img.width / 4, img.height / 4, img.width / 2, img.height / 2).data;
+                let r = 0, g = 0, b = 0;
+                const count = data.length / 4;
+
+                for (let i = 0; i < data.length; i += 4 * 10) { // Sample every 10th pixel for performance
+                    r += data[i];
+                    g += data[i+1];
+                    b += data[i+2];
+                }
+
+                const avgR = Math.floor((r / (count / 10)) * 0.6); // Darken for background
+                const avgG = Math.floor((g / (count / 10)) * 0.6);
+                const avgB = Math.floor((b / (count / 10)) * 0.6);
+
+                setBgColor(`rgba(${avgR}, ${avgG}, ${avgB}, 0.4)`);
+            } catch (e) {
+                // Fallback if getImageData fails (CORS)
+                setBgColor('rgba(20, 20, 20, 0.4)');
+            }
+        };
+
+        img.onerror = () => setBgColor('rgba(0,0,0,0.4)');
+    }, [activeIndex, artists]);
 
     // Reset index if artists array changes significantly
     useEffect(() => {
@@ -87,10 +134,19 @@ export const Artist3DCarousel: React.FC<Artist3DCarouselProps> = ({ artists, onS
     if (artists.length === 0) return null;
 
     return (
-        <div className="relative">
+        <div className="relative group/carousel">
+            {/* Dynamic Background Gradient */}
+            <motion.div 
+                className="absolute inset-0 pointer-events-none z-0"
+                animate={{ 
+                    background: `radial-gradient(circle at center, ${bgColor} 0%, rgba(0,0,0,0) 70%)`
+                }}
+                transition={{ duration: 1.5, ease: "easeInOut" }}
+            />
+
             <div
                 ref={containerRef}
-                className="h-[600px] w-full relative flex items-center justify-center overflow-hidden perspective-[1000px]"
+                className="h-[600px] w-full relative flex items-center justify-center overflow-hidden perspective-[1000px] z-10"
                 onTouchStart={handleTouchStart}
                 onTouchEnd={handleTouchEnd}
             >
@@ -169,7 +225,7 @@ export const Artist3DCarousel: React.FC<Artist3DCarouselProps> = ({ artists, onS
             </div>
 
             {/* Scrubber */}
-            <div className="flex justify-center items-center gap-2 mt-4 px-6 overflow-x-auto pb-4 custom-scrollbar">
+            <div className="flex justify-center items-center gap-2 mt-4 px-6 overflow-x-auto pb-4 custom-scrollbar relative z-10">
                 {artists.map((_, i) => (
                     <button
                         key={i}
