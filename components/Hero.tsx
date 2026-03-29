@@ -97,6 +97,17 @@ export const Hero: React.FC = () => {
     <section ref={containerRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Fluid Background Elements */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        {/* Interview Background Video */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+          <iframe
+            src="https://www.youtube.com/embed/zneGWJroa_Y?autoplay=1&mute=1&loop=1&playlist=zneGWJroa_Y&controls=0&showinfo=0&modestbranding=1&rel=0&iv_load_policy=3&enablejsapi=1"
+            className="absolute top-1/2 left-1/2 w-[160%] h-[160%] -translate-x-1/2 -translate-y-1/2 object-cover scale-110 opacity-30 md:opacity-40"
+            allow="autoplay; encrypted-media"
+            title="LVRN TV Background Video"
+          />
+          <div className="absolute inset-0 bg-black/50 backdrop-blur-[1px]" />
+        </div>
+
         {/* Blob 1 - Orange/Amber */}
         <motion.div
           className="absolute top-[-20%] left-[-20%] w-[80vw] h-[80vw] rounded-full blur-[150px] mix-blend-screen opacity-25"

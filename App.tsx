@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect, Suspense, memo, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapPin, Disc, Users, Briefcase } from 'lucide-react';
-import { PHILOSOPHY, SOCIAL_LINKS, MerchProduct, ARTISTS } from './constants';
-import { Artist } from './types';
+import { PHILOSOPHY, SOCIAL_LINKS, ARTISTS, ARTIST_MAP } from './constants';
+import { Artist, MerchProduct } from './types';
 
 // Barrel imports for cleaner code organization
 import {
@@ -181,7 +181,7 @@ const AppContent: React.FC = () => {
   const handleNavigate = useCallback((pageId: string) => {
     if (pageId === activePage) return;
     setActivePage(pageId);
-    setViewingArtist(null);
+    if (pageId !== 'artists') setViewingArtist(null);
     setShowBookingHub(false);
     setIsCartOpen(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -226,7 +226,12 @@ const AppContent: React.FC = () => {
   const renderHome = () => (
     <PageTransition>
       <Hero />
-      <Trending />
+      <Trending 
+        onViewProfile={(artist) => {
+          setViewingArtist(artist);
+          handleNavigate('artists');
+        }} 
+      />
       <Section title="Featured Artists" subtitle="Voices of the Future">
         <div className="mt-8">
           <Artist3DCarousel
@@ -265,7 +270,12 @@ const AppContent: React.FC = () => {
 
   const renderRadio = () => (
     <PageTransition>
-      <Trending />
+      <Trending 
+        onViewProfile={(artist) => {
+          setViewingArtist(artist);
+          handleNavigate('artists');
+        }} 
+      />
       <Section title="LVRN Radio" subtitle="On Rotation">
         <Playlist />
       </Section>

@@ -157,6 +157,7 @@ export const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist, onBack, on
                     {artist.videoId ? (
                         <div className="absolute inset-0 overflow-hidden pointer-events-none">
                             <iframe
+                                key={artist.videoId}
                                 src={`https://www.youtube.com/embed/${artist.videoId}?autoplay=1&mute=1&loop=1&playlist=${artist.videoId}&controls=0&showinfo=0&modestbranding=1&rel=0&iv_load_policy=3&enablejsapi=1`}
                                 className="absolute top-1/2 left-1/2 w-[160%] h-[160%] -translate-x-1/2 -translate-y-1/2 object-cover scale-110 opacity-70"
                                 allow="autoplay; encrypted-media"

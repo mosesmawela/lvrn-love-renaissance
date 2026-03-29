@@ -284,7 +284,7 @@ export const MusicVideos: React.FC<MusicVideosProps> = ({ onNavigate }) => {
 
                         {interviewVideos.length > 0 && !filterCategory && (
                             <VideoRow 
-                                title="LVRN TV Interviews" 
+                                title="LVRN TV" 
                                 videos={interviewVideos} 
                                 onSelect={handleVideoSelect}
                                 isMuted={isMuted}

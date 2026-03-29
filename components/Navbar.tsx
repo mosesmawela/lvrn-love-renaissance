@@ -38,7 +38,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   const navLinks = [
     { id: 'home', label: 'Home' },
     { id: 'releases', label: 'Releases' },
-    { id: 'videos', label: 'Videos' },
+    { id: 'videos', label: 'LVRN TV' },
     { id: 'artists', label: 'Artists' },
     { id: 'team', label: 'Team' },
     { id: 'djpacks', label: 'DJ Packs' },

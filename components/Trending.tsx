@@ -56,7 +56,7 @@ const TRENDS = {
       { label: "Apple Streams", value: "644k", icon: Music },
       { label: "TikTok Followers", value: "10k+", icon: BarChart3 }
     ],
-    videoId: "YxU-vshDkAA"
+    videoId: "7cQz60N88Jg"
   },
   ciza: {
     id: 'ciza',
@@ -80,7 +80,11 @@ const TRENDS = {
 
 type TrendKey = keyof typeof TRENDS;
 
-export const Trending: React.FC = () => {
+interface TrendingProps {
+  onViewProfile?: (artistName: string) => void;
+}
+
+export const Trending: React.FC<TrendingProps> = ({ onViewProfile }) => {
   const [activeTab, setActiveTab] = useState<TrendKey>('summerwalker');
 
   return (
@@ -187,18 +191,30 @@ export const Trending: React.FC = () => {
                 {TRENDS[activeTab].description}
               </p>
 
-              <motion.a
-                href={TRENDS[activeTab].link}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className={`inline-flex items-center gap-3 px-8 py-4 bg-white text-black rounded-full font-black text-lg group`}
-              >
-                <Play className="fill-current w-5 h-5" />
-                See Stats
-                <ExternalLink className="w-4 h-4 text-gray-400 group-hover:text-black transition-colors" />
-              </motion.a>
+              <div className="flex flex-wrap gap-4 pt-4">
+                <motion.button
+                  onClick={() => onViewProfile?.(TRENDS[activeTab].artist)}
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`${TRENDS[activeTab].accent.replace('text', 'bg')} text-black px-8 py-4 rounded-xl font-bold text-lg inline-flex items-center gap-2 hover:brightness-110 active:scale-95 transition-all shadow-xl shadow-${TRENDS[activeTab].accent.split('-')[1]}/20`}
+                >
+                  <Users className="w-5 h-5" />
+                  View Profile
+                </motion.button>
+
+                <motion.a
+                  href={TRENDS[activeTab].link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className={`inline-flex items-center gap-3 px-8 py-4 bg-white/5 text-white border border-white/10 rounded-xl font-bold text-lg group hover:bg-white/10 transition-all`}
+                >
+                  <BarChart3 className={TRENDS[activeTab].accent} size={20} />
+                  See More Stats
+                  <ExternalLink className="w-4 h-4 text-gray-500 group-hover:text-white transition-colors ml-1" />
+                </motion.a>
+              </div>
             </div>
 
             <div className="space-y-6 lg:pl-12">

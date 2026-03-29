@@ -1,5 +1,5 @@
 import { Founder, Artist, Milestone, Stat, PhilosophyItem, SocialLink, TeamMember, DJPack, VideoItem, PlayroomAlbum, MerchProduct, TourDate } from './types';
-export type { TeamMember, DJPack };
+export type { TeamMember, DJPack, VideoItem };
 
 export const FOUNDERS: Founder[] = [
   { name: "Tunde Balogun", role: "CEO & President", description: "Co-founded LVRN from humble beginnings as a party promoter." },
@@ -64,6 +64,7 @@ export const PLAYROOM_ALBUMS: PlayroomAlbum[] = [
 ];
 
 export const ARTIST_MAP: Record<string, Artist> = {};
+
 export const ARTISTS: Artist[] = [
   // Label Artists (Signed)
   {
@@ -131,6 +132,7 @@ export const ARTISTS: Artist[] = [
   },
   {
     name: "Belly Gang Kushington",
+    videoId: "G1l_yUbex0g",
     category: "Signed",
     role: "Rapper",
     image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Belly%20Gang%20Kushington",
@@ -142,6 +144,7 @@ export const ARTISTS: Artist[] = [
   },
   {
     name: "TxC",
+    videoId: "fT3-zWk92S4",
     category: "Signed",
     role: "DJs / Performers",
     image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/TXC",
@@ -168,6 +171,7 @@ export const ARTISTS: Artist[] = [
   },
   {
     name: "Sadboi",
+    videoId: "T9iP00B4U0E",
     category: "Signed",
     role: "Artist",
     image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Sadboi",
@@ -179,6 +183,7 @@ export const ARTISTS: Artist[] = [
   },
   {
     name: "Nektunez",
+    videoId: "38v77bL_uYw",
     category: "Signed",
     role: "DJ / Producer",
     image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Nektunze",
@@ -190,6 +195,7 @@ export const ARTISTS: Artist[] = [
   },
   {
     name: "BRS Kash",
+    videoId: "3j-k3Mvj_xM",
     category: "Signed",
     role: "Rapper",
     image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/BRS%20Kash",
@@ -241,7 +247,7 @@ export const ARTISTS: Artist[] = [
     quote: "Al Xapo is a young versatile and talented producer, Dj, and vocalist.",
     bio: "Al Xapo, AKA 'Public Enemy' is a young versatile and talented producer & beat maker as well as artist & DJ who started his musical journey at the tender age of 15. He started by being on the decks then later exploring his production and vocal talents.",
     stats: { followers: "10K", streams: "1.2M", creates: "139K" },
-    videoId: "YxU-vshDkAA"
+    videoId: "7cQz60N88Jg"
   },
   {
     name: "Chley",
@@ -565,3 +571,8 @@ export const DJ_PACKS: DJPack[] = [
     format: "WAV / STEMS"
   }
 ];
+
+// Populate ARTIST_MAP for rapid lookups and history management
+ARTISTS.forEach(artist => {
+  ARTIST_MAP[artist.name] = artist;
+});
