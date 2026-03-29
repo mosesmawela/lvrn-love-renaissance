@@ -64,9 +64,15 @@ export const MusicVideos: React.FC<MusicVideosProps> = ({ onNavigate }) => {
         });
     }, []);
 
+    const [filterCategory, setFilterCategory] = useState<string | null>(null);
+
     // Filtered Content
     const featuredVideo = useMemo(() => VIDEOS[0], []);
     
+    const interviewVideos = useMemo(() => 
+        VIDEOS.filter(v => v.category === 'Interview'),
+    []);
+
     const myListVideos = useMemo(() => 
         VIDEOS.filter(v => myList.includes(v.id)), 
     [myList]);
@@ -79,13 +85,19 @@ export const MusicVideos: React.FC<MusicVideosProps> = ({ onNavigate }) => {
         [...VIDEOS].sort(() => 0.5 - Math.random()), 
     []);
 
+    const filteredVideos = useMemo(() => {
+        if (!filterCategory) return VIDEOS;
+        return VIDEOS.filter(v => v.category === filterCategory);
+    }, [filterCategory]);
+
     const artistRows = useMemo(() => {
-        const artists = Array.from(new Set(VIDEOS.map(v => v.artist.split(/,|&/)[0].trim())));
+        const videosToUse = filterCategory ? filteredVideos : VIDEOS;
+        const artists = Array.from(new Set(videosToUse.map(v => v.artist.split(/,|&/)[0].trim())));
         return artists.map(artist => ({
             name: artist,
-            videos: VIDEOS.filter(v => v.artist.includes(artist))
+            videos: videosToUse.filter(v => v.artist.includes(artist))
         }));
-    }, []);
+    }, [filterCategory, filteredVideos]);
 
     const searchResults = useMemo(() => {
         if (!searchQuery) return [];
@@ -123,10 +135,10 @@ export const MusicVideos: React.FC<MusicVideosProps> = ({ onNavigate }) => {
                         <span className="text-2xl font-black tracking-tighter text-white">TV</span>
                     </div>
                     <nav className="hidden lg:flex items-center gap-5 text-sm font-medium text-gray-300">
-                        <button onClick={() => setFilterArtist('All')} className={`hover:text-white transition-colors ${filterArtist === 'All' ? 'text-white font-bold' : ''}`}>Home</button>
-                        <button className="hover:text-white transition-colors">Music Videos</button>
-                        <button className="hover:text-white transition-colors">Interviews</button>
-                        <button className="hover:text-white transition-colors">Behind The Scenes</button>
+                        <button onClick={() => { setFilterArtist('All'); setFilterCategory(null); }} className={`hover:text-white transition-colors ${filterArtist === 'All' && !filterCategory ? 'text-white font-bold' : ''}`}>Home</button>
+                        <button onClick={() => setFilterCategory('Music Video')} className={`hover:text-white transition-colors ${filterCategory === 'Music Video' ? 'text-white font-bold' : ''}`}>Music Videos</button>
+                        <button onClick={() => setFilterCategory('Interview')} className={`hover:text-white transition-colors ${filterCategory === 'Interview' ? 'text-white font-bold' : ''}`}>Interviews</button>
+                        <button onClick={() => setFilterCategory('Behind The Scenes')} className={`hover:text-white transition-colors ${filterCategory === 'Behind The Scenes' ? 'text-white font-bold' : ''}`}>Behind The Scenes</button>
                         <button className="hover:text-white transition-colors">My List</button>
                     </nav>
                 </div>
@@ -270,6 +282,18 @@ export const MusicVideos: React.FC<MusicVideosProps> = ({ onNavigate }) => {
                             />
                         )}
 
+                        {interviewVideos.length > 0 && !filterCategory && (
+                            <VideoRow 
+                                title="LVRN TV Interviews" 
+                                videos={interviewVideos} 
+                                onSelect={handleVideoSelect}
+                                isMuted={isMuted}
+                                onToggleMute={() => setIsMuted(!isMuted)}
+                                myList={myList}
+                                onToggleList={toggleList}
+                            />
+                        )}
+
                         {continueWatchingVideos.length > 0 && (
                             <VideoRow 
                                 title="Continue Watching" 
@@ -282,15 +306,17 @@ export const MusicVideos: React.FC<MusicVideosProps> = ({ onNavigate }) => {
                             />
                         )}
 
-                        <VideoRow 
-                            title="Trending Now" 
-                            videos={trendingVideos} 
-                            onSelect={handleVideoSelect}
-                            isMuted={isMuted}
-                            onToggleMute={() => setIsMuted(!isMuted)}
-                            myList={myList}
-                            onToggleList={toggleList}
-                        />
+                        {!filterCategory && (
+                            <VideoRow 
+                                title="Trending Now" 
+                                videos={trendingVideos} 
+                                onSelect={handleVideoSelect}
+                                isMuted={isMuted}
+                                onToggleMute={() => setIsMuted(!isMuted)}
+                                myList={myList}
+                                onToggleList={toggleList}
+                            />
+                        )}
 
                         {artistRows.map(row => (
                             <VideoRow 

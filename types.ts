@@ -1,3 +1,14 @@
+export interface VideoItem {
+  id: string;
+  title: string;
+  artist: string;
+  thumbnail: string;
+  embedUrl: string;
+  duration: string;
+  views: string;
+  category?: 'Music Video' | 'Interview' | 'Behind The Scenes' | 'Lyric Video';
+}
+
 export interface Founder {
   name: string;
   role: string;
@@ -79,4 +90,40 @@ export interface DJPack {
   downloadUrl: string;
   size: string;
   format: string;
+}
+
+export interface PlayroomAlbum {
+  id: string;
+  artist: string;
+  title: string;
+  year: string;
+  coverUrl: string;
+  spotifyEmbedUrl: string;
+  color: string;
+  type?: 'spotify' | 'vimeo';
+}
+
+export interface MerchProduct {
+  id: string;
+  name: string;
+  price: number;
+  category: string;
+  images: string[];
+  sizes: string[];
+  description: string;
+}
+
+export interface TourDate {
+  id: string;
+  artist: string;
+  city: string;
+  country: string;
+  venue: string;
+  date: string;
+  status: 'upcoming' | 'current' | 'past' | 'announced';
+  coordinates: {
+    lat: number;
+    lng: number;
+  };
+  ticketUrl: string;
 }

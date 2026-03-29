@@ -1,52 +1,5 @@
-import { Founder, Artist, Milestone, Stat, PhilosophyItem, SocialLink, TeamMember, DJPack } from './types';
+import { Founder, Artist, Milestone, Stat, PhilosophyItem, SocialLink, TeamMember, DJPack, VideoItem, PlayroomAlbum, MerchProduct, TourDate } from './types';
 export type { TeamMember, DJPack };
-
-// New Interface for Playroom
-export interface PlayroomAlbum {
-  id: string;
-  artist: string;
-  title: string;
-  year: string;
-  coverUrl: string;
-  spotifyEmbedUrl: string;
-  color: string;
-  type?: 'spotify' | 'vimeo';
-}
-
-export interface VideoItem {
-  id: string;
-  title: string;
-  artist: string;
-  thumbnail: string;
-  embedUrl: string;
-  duration: string;
-  views: string;
-}
-
-export interface MerchProduct {
-  id: string;
-  name: string;
-  price: number;
-  category: string;
-  images: string[];
-  sizes: string[];
-  description: string;
-}
-
-export interface TourDate {
-  id: string;
-  artist: string;
-  city: string;
-  country: string;
-  venue: string;
-  date: string;
-  status: 'upcoming' | 'current' | 'past' | 'announced';
-  coordinates: {
-    lat: number;
-    lng: number;
-  };
-  ticketUrl: string;
-}
 
 export const FOUNDERS: Founder[] = [
   { name: "Tunde Balogun", role: "CEO & President", description: "Co-founded LVRN from humble beginnings as a party promoter." },
@@ -438,17 +391,18 @@ export const SOCIAL_LINKS: SocialLink[] = [
 ];
 
 export const VIDEOS: VideoItem[] = [
-  { id: 'v6', title: 'SNOKONOKO II', artist: 'Al Xapo, ShalliPoppi, Benzoo & Eeque', thumbnail: 'https://i.ytimg.com/vi/bnoGzqxTUYQ/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/bnoGzqxTUYQ', duration: '—', views: '—' },
-  { id: 'v1', title: 'Rent Due', artist: 'Belly Gang Kushington', thumbnail: 'https://i.ytimg.com/vi/G1l_yUbex0g/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/G1l_yUbex0g', duration: '—', views: '—' },
-  { id: 'v2', title: 'Snokonoko', artist: 'Al Xapo, Benzoo & Eeque', thumbnail: 'https://i.ytimg.com/vi/YxU-vshDkAA/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/YxU-vshDkAA', duration: '—', views: '—' },
-  { id: 'v3', title: 'Nakupenda', artist: 'TxC, Davido, Shoday & Scotts Maphuma ft. Zlatan & Al Xapo', thumbnail: 'https://i.ytimg.com/vi/86pC4vqOi80/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/86pC4vqOi80', duration: '—', views: '—' },
-  { id: 'v4', title: 'PINACOLADA', artist: 'Thisizlondon ft. Ayra Starr & 6LACK', thumbnail: 'https://i.ytimg.com/vi/peH96cvRmls/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/peH96cvRmls', duration: '—', views: '—' },
-  { id: 'v5', title: 'Yebo', artist: 'TXC & Davido ft. Tony Duardo, LeeMckrazy & DJ Biza', thumbnail: 'https://i.ytimg.com/vi/zrW2Zap7R4k/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/zrW2Zap7R4k', duration: '—', views: '—' },
-  { id: 'v7', title: 'SNOKONOKO', artist: 'Al Xapo, Benzoo & EeQue', thumbnail: 'https://i.ytimg.com/vi/wgGa9SgxhJI/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/wgGa9SgxhJI', duration: '—', views: '—' },
-  { id: 'v8', title: 'STANCE', artist: 'Al Xapo, Benzoo & Optimist MusicZA', thumbnail: 'https://i.ytimg.com/vi/KHf9unwLGH8/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/KHf9unwLGH8', duration: '—', views: '—' },
-  { id: 'v9', title: 'Sandla Sam', artist: 'Ggoldie, CowBoii & Al Xapo', thumbnail: 'https://i.ytimg.com/vi/C18pDqqtdgg/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/C18pDqqtdgg', duration: '—', views: '—' },
-  { id: 'v10', title: 'Snokonoko (Lyric Video)', artist: 'Al Xapo, Benzoo & Eeque', thumbnail: 'https://i.ytimg.com/vi/BGpdaPA5M1s/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/BGpdaPA5M1s', duration: '—', views: '—' },
-  { id: 'v11', title: 'STANCE (Lyric Video)', artist: 'Al Xapo, Benzoo & Optimist Music ZA', thumbnail: 'https://i.ytimg.com/vi/_TR4QP7y_TI/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/_TR4QP7y_TI', duration: '—', views: '—' }
+  { id: 'v12', title: 'The Blackprint: Tunde Balogun Interview', artist: 'Tunde Balogun', thumbnail: 'https://i.ytimg.com/vi/zneGWJroa_Y/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/zneGWJroa_Y', duration: '52:14', views: '250K', category: 'Interview' },
+  { id: 'v6', title: 'SNOKONOKO II', artist: 'Al Xapo, ShalliPoppi, Benzoo & Eeque', thumbnail: 'https://i.ytimg.com/vi/bnoGzqxTUYQ/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/bnoGzqxTUYQ', duration: '—', views: '—', category: 'Music Video' },
+  { id: 'v1', title: 'Rent Due', artist: 'Belly Gang Kushington', thumbnail: 'https://i.ytimg.com/vi/G1l_yUbex0g/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/G1l_yUbex0g', duration: '—', views: '—', category: 'Music Video' },
+  { id: 'v2', title: 'Snokonoko', artist: 'Al Xapo, Benzoo & Eeque', thumbnail: 'https://i.ytimg.com/vi/YxU-vshDkAA/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/YxU-vshDkAA', duration: '—', views: '—', category: 'Music Video' },
+  { id: 'v3', title: 'Nakupenda', artist: 'TxC, Davido, Shoday & Scotts Maphuma ft. Zlatan & Al Xapo', thumbnail: 'https://i.ytimg.com/vi/86pC4vqOi80/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/86pC4vqOi80', duration: '—', views: '—', category: 'Music Video' },
+  { id: 'v4', title: 'PINACOLADA', artist: 'Thisizlondon ft. Ayra Starr & 6LACK', thumbnail: 'https://i.ytimg.com/vi/peH96cvRmls/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/peH96cvRmls', duration: '—', views: '—', category: 'Music Video' },
+  { id: 'v5', title: 'Yebo', artist: 'TXC & Davido ft. Tony Duardo, LeeMckrazy & DJ Biza', thumbnail: 'https://i.ytimg.com/vi/zrW2Zap7R4k/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/zrW2Zap7R4k', duration: '—', views: '—', category: 'Music Video' },
+  { id: 'v7', title: 'SNOKONOKO', artist: 'Al Xapo, Benzoo & EeQue', thumbnail: 'https://i.ytimg.com/vi/wgGa9SgxhJI/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/wgGa9SgxhJI', duration: '—', views: '—', category: 'Music Video' },
+  { id: 'v8', title: 'STANCE', artist: 'Al Xapo, Benzoo & Optimist MusicZA', thumbnail: 'https://i.ytimg.com/vi/KHf9unwLGH8/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/KHf9unwLGH8', duration: '—', views: '—', category: 'Music Video' },
+  { id: 'v9', title: 'Sandla Sam', artist: 'Ggoldie, CowBoii & Al Xapo', thumbnail: 'https://i.ytimg.com/vi/C18pDqqtdgg/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/C18pDqqtdgg', duration: '—', views: '—', category: 'Music Video' },
+  { id: 'v10', title: 'Snokonoko (Lyric Video)', artist: 'Al Xapo, Benzoo & Eeque', thumbnail: 'https://i.ytimg.com/vi/BGpdaPA5M1s/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/BGpdaPA5M1s', duration: '—', views: '—', category: 'Lyric Video' },
+  { id: 'v11', title: 'STANCE (Lyric Video)', artist: 'Al Xapo, Benzoo & Optimist Music ZA', thumbnail: 'https://i.ytimg.com/vi/_TR4QP7y_TI/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/_TR4QP7y_TI', duration: '—', views: '—', category: 'Lyric Video' }
 ];
 
 export const MERCH_PRODUCTS: MerchProduct[] = [

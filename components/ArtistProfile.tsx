@@ -154,17 +154,29 @@ export const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist, onBack, on
                     animate={{ scale: 1 }}
                     transition={{ duration: 10, ease: "easeOut" }}
                 >
-                    <img
-                        src={imagePath}
-                        alt={artist.name}
-                        className="w-full h-full object-cover object-top"
-                        onError={(e) => {
-                            e.currentTarget.style.display = 'none';
-                            e.currentTarget.parentElement?.classList.add('bg-gradient-to-br', 'from-orange-900', 'to-black');
-                        }}
-                    />
+                    {artist.videoId ? (
+                        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                            <iframe
+                                src={`https://www.youtube.com/embed/${artist.videoId}?autoplay=1&mute=1&loop=1&playlist=${artist.videoId}&controls=0&showinfo=0&modestbranding=1&rel=0&iv_load_policy=3&enablejsapi=1`}
+                                className="absolute top-1/2 left-1/2 w-[160%] h-[160%] -translate-x-1/2 -translate-y-1/2 object-cover scale-110 opacity-70"
+                                allow="autoplay; encrypted-media"
+                                title={`${artist.name} Background Video`}
+                            />
+                            <div className="absolute inset-0 bg-black/50 backdrop-blur-[2px]" />
+                        </div>
+                    ) : (
+                        <img
+                            src={imagePath}
+                            alt={artist.name}
+                            className="w-full h-full object-cover object-top"
+                            onError={(e) => {
+                                e.currentTarget.style.display = 'none';
+                                e.currentTarget.parentElement?.classList.add('bg-gradient-to-br', 'from-orange-900', 'to-black');
+                            }}
+                        />
+                    )}
                     <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-[var(--bg-color)]" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-color)] via-[var(--bg-color)]/20 to-transparent opacity-90" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[var(--bg-color)] via-transparent to-[var(--bg-color)] opacity-90 shadow-[inset_0_0_100px_rgba(0,0,0,0.5)]" />
                 </motion.div>
 
                 <div className="absolute bottom-0 left-0 w-full p-6 md:p-12 pb-24 z-20">
@@ -286,17 +298,7 @@ export const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist, onBack, on
                                 <p>{artist.bio || "Biography coming soon..."}</p>
                             </div>
 
-                            {artist.videoId && (
-                                <div className="mt-8 aspect-video w-full rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black/20 backdrop-blur-sm relative group">
-                                    <iframe
-                                        src={`https://www.youtube.com/embed/${artist.videoId}?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0`}
-                                        className="w-full h-full"
-                                        allow="autoplay; encrypted-media"
-                                        title={`${artist.name} Featured Video`}
-                                    />
-                                    <div className="absolute inset-0 pointer-events-none border border-white/5 rounded-2xl" />
-                                </div>
-                            )}
+                            {/* The video is now integrated into the hero background for a cinematic experience */}
                         </motion.div>
 
                         <motion.div

@@ -85,16 +85,35 @@ export const Trending: React.FC = () => {
 
   return (
     <section className="py-24 px-6 md:px-12 relative overflow-hidden">
-      {/* Background Ambience */}
+      {/* Background Video/Ambience */}
       <div className="absolute inset-0 bg-black transition-colors duration-1000">
-        <motion.div
-          key={activeTab}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-          className={`absolute inset-0 bg-gradient-to-br ${TRENDS[activeTab].theme}`}
-        />
-        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10" />
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={activeTab}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.5 }}
+            className="absolute inset-0 z-0"
+          >
+            {TRENDS[activeTab].videoId ? (
+              <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                <iframe
+                  src={`https://www.youtube.com/embed/${TRENDS[activeTab].videoId}?autoplay=1&mute=1&loop=1&playlist=${TRENDS[activeTab].videoId}&controls=0&showinfo=0&modestbranding=1&rel=0&iv_load_policy=3&enablejsapi=1`}
+                  className="absolute top-1/2 left-1/2 w-[160%] h-[160%] -translate-x-1/2 -translate-y-1/2 object-cover scale-110 opacity-40 md:opacity-50"
+                  allow="autoplay; encrypted-media"
+                  title="Background Ambient Video"
+                />
+                <div className="absolute inset-0 bg-black/40 backdrop-blur-[1px]" />
+                <div className={`absolute inset-0 bg-gradient-to-br ${TRENDS[activeTab].theme} mix-blend-multiply opacity-60`} />
+              </div>
+            ) : (
+              <div className={`absolute inset-0 bg-gradient-to-br ${TRENDS[activeTab].theme}`} />
+            )}
+          </motion.div>
+        </AnimatePresence>
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] opacity-10 z-[1]" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent z-[2]" />
       </div>
 
       <div className="relative z-10 max-w-7xl mx-auto">
@@ -182,27 +201,17 @@ export const Trending: React.FC = () => {
               </motion.a>
             </div>
 
-            <div className="space-y-6">
-              <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black/20 backdrop-blur-sm relative group">
-                <iframe
-                  src={`https://www.youtube.com/embed/${TRENDS[activeTab].videoId}?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0&iv_load_policy=3`}
-                  className="w-full h-full"
-                  allow="autoplay; encrypted-media"
-                  title={`${TRENDS[activeTab].artist} Video`}
-                />
-                <div className="absolute inset-0 pointer-events-none border border-white/5 rounded-2xl" />
-              </div>
-
+            <div className="space-y-6 lg:pl-12">
               <div className="grid grid-cols-2 gap-4">
                 {TRENDS[activeTab].stats.map((stat, index) => (
                   <GlassCard
                     key={stat.label}
-                    className="!bg-white/5 group hover:!bg-white/10 transition-colors"
+                    className="!bg-white/5 group hover:!bg-white/10 transition-colors border-white/5 hover:border-white/20"
                   >
                     <div className="flex flex-col h-full justify-between">
                       <stat.icon className={`w-6 h-6 mb-4 ${TRENDS[activeTab].accent} opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all`} />
                       <div>
-                        <div className="text-2xl md:text-4xl font-black text-white mb-1">
+                        <div className="text-2xl md:text-5xl font-black text-white mb-1">
                           {stat.value}
                         </div>
                         <div className="text-[10px] md:text-xs text-gray-400 uppercase tracking-widest font-medium">
@@ -213,6 +222,18 @@ export const Trending: React.FC = () => {
                   </GlassCard>
                 ))}
               </div>
+
+              <GlassCard className="!bg-white/5 border-white/5">
+                <div className="flex items-center gap-4">
+                  <div className={`w-12 h-12 rounded-full flex items-center justify-center bg-white/10 ${TRENDS[activeTab].accent}`}>
+                    <TrendingUp size={24} />
+                  </div>
+                  <div>
+                    <h4 className="text-white font-bold uppercase tracking-widest text-sm">Real-time Performance</h4>
+                    <p className="text-gray-400 text-xs uppercase tracking-wider">LVRN Data Engine Live</p>
+                  </div>
+                </div>
+              </GlassCard>
             </div>
           </motion.div>
         </AnimatePresence>
