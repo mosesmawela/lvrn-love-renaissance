@@ -28,7 +28,7 @@ export const BookingHub: React.FC<BookingHubProps> = ({ onSelectArtist, onClose 
                 >
                     <h1 className="text-5xl md:text-7xl font-black tracking-tighter mb-6 text-[var(--text-color)]">Booking Roster</h1>
                     <p className="text-xl text-[var(--text-secondary)] max-w-2xl mx-auto">
-                        Official booking rates and availability for the LVRN roster.
+                        Explore availability and inquire for the official LVRN roster.
                         Select an artist to begin the inquiry process.
                     </p>
                 </motion.div>
@@ -63,13 +63,6 @@ export const BookingHub: React.FC<BookingHubProps> = ({ onSelectArtist, onClose 
                                                 <span>Region</span>
                                             </div>
                                             <span className="font-medium text-[var(--text-color)]">{artist.bookingRegion || 'Global'}</span>
-                                        </div>
-                                        <div className="flex items-center justify-between text-sm">
-                                            <div className="flex items-center gap-2 text-[var(--text-secondary)]">
-                                                <Calendar size={14} />
-                                                <span>Est. Rate</span>
-                                            </div>
-                                            <span className="font-bold text-green-500">{artist.bookingRate || 'Inquire'}</span>
                                         </div>
                                     </div>
                                 </div>

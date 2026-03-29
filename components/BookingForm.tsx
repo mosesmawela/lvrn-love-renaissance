@@ -17,7 +17,6 @@ const STEPS = [
     { title: "Technical", icon: Volume2 },
     { title: "Travel", icon: Plane },
     { title: "Marketing", icon: Globe },
-    { title: "Financial", icon: DollarSign },
     { title: "Review", icon: ShieldCheck },
 ];
 
@@ -78,11 +77,6 @@ export const BookingForm: React.FC<BookingFormProps> = ({ onClose, preSelectedAr
         marketingChannels: [],
         sponsors: '',
 
-        // Step 7: Financial
-        budget: '',
-        currency: 'USD',
-        offerType: 'Flat Fee',
-
         // Meta
         artistName: preSelectedArtist?.name || '',
         agreedToTerms: false
@@ -139,15 +133,6 @@ export const BookingForm: React.FC<BookingFormProps> = ({ onClose, preSelectedAr
 
     useEffect(() => {
         if (preSelectedArtist?.bookingRegion) {
-            const region = preSelectedArtist.bookingRegion.toLowerCase();
-            let smartCurrency = 'USD';
-            if (region.includes('uk') || region.includes('europe')) smartCurrency = 'GBP';
-            if (region.includes('africa') || region.includes('sa')) smartCurrency = 'ZAR';
-
-            if (formData.currency === 'USD' && smartCurrency !== 'USD') {
-                setFormData(prev => ({ ...prev, currency: smartCurrency }));
-                showNotification(`Currency auto-set to ${smartCurrency}.`, 'info');
-            }
         }
     }, [preSelectedArtist]);
 
@@ -242,9 +227,6 @@ export const BookingForm: React.FC<BookingFormProps> = ({ onClose, preSelectedAr
                     newErrors.riderConfirmed = 'You must acknowledge the technical rider.';
                     isValid = false;
                 }
-                break;
-            case 7:
-                requireField('budget', 'Budget');
                 break;
             default:
                 break;
@@ -492,31 +474,8 @@ export const BookingForm: React.FC<BookingFormProps> = ({ onClose, preSelectedAr
                     </div>
                 </div>
             );
+
             case 7: return (
-                <div className="space-y-6">
-                    <div className="grid md:grid-cols-2 gap-6">
-                        {renderField("Budget Offer", "budget", "number", "Enter amount")}
-                        <div className="space-y-2">
-                            <label className="block text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Currency</label>
-                            <select name="currency" value={formData.currency} onChange={handleInputChange} className="theme-input w-full rounded-lg p-3 focus:border-[var(--accent)] focus:outline-none">
-                                <option>USD ($)</option>
-                                <option>EUR (€)</option>
-                                <option>GBP (£)</option>
-                                <option>ZAR (R)</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div className="space-y-2">
-                        <label className="block text-xs font-bold uppercase tracking-wider text-[var(--text-secondary)]">Offer Type</label>
-                        <select name="offerType" value={formData.offerType} onChange={handleInputChange} className="theme-input w-full rounded-lg p-3 focus:border-[var(--accent)] focus:outline-none">
-                            <option>Flat Guarantee</option>
-                            <option>Guarantee + Backend %</option>
-                            <option>Door Split</option>
-                        </select>
-                    </div>
-                </div>
-            );
-            case 8: return (
                 <div className="space-y-6">
                     <div className="bg-[var(--card-bg)] rounded-xl p-6 border border-[var(--text-color)]/10 space-y-4">
                         <h3 className="text-xl font-bold text-[var(--text-color)] mb-4">Summary</h3>
@@ -524,14 +483,13 @@ export const BookingForm: React.FC<BookingFormProps> = ({ onClose, preSelectedAr
                             <div><span className="block text-[var(--text-secondary)] text-xs uppercase">Promoter</span><span className="text-[var(--text-color)]">{formData.companyName} ({formData.promoterName})</span></div>
                             <div><span className="block text-[var(--text-secondary)] text-xs uppercase">Artist</span><span className="text-[var(--accent)] font-bold">{formData.artistName || "TBD"}</span></div>
                             <div><span className="block text-[var(--text-secondary)] text-xs uppercase">Event</span><span className="text-[var(--text-color)]">{formData.eventName} ({formData.eventDate})</span></div>
-                            <div><span className="block text-[var(--text-secondary)] text-xs uppercase">Offer</span><span className="text-[var(--text-color)]">{formData.currency} {formData.budget} ({formData.offerType})</span></div>
                         </div>
                     </div>
                     <div className="flex items-start gap-3">
                         <input type="checkbox" name="agreedToTerms" checked={formData.agreedToTerms} onChange={handleInputChange} className="mt-1 w-5 h-5 rounded border-gray-600 text-orange-600 focus:ring-orange-500" />
                         <div>
                             <label className="text-sm font-bold text-[var(--text-color)] block">I confirm the details above are accurate.</label>
-                            <p className="text-xs text-[var(--text-secondary)] mt-1">Submitting this form does not guarantee a booking. This is a request for availability and pricing confirmation. A formal contract will follow upon approval.</p>
+                            <p className="text-xs text-[var(--text-secondary)] mt-1">Submitting this form does not guarantee a booking. This is a request for availability and technical confirmation. A formal quote and contract will follow upon approval.</p>
                         </div>
                     </div>
                 </div>

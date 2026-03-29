@@ -242,13 +242,6 @@ export const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist, onBack, on
                                             </div>
                                             <span className="font-bold text-[var(--text-color)] text-sm">{artist.bookingRegion || 'Global'}</span>
                                         </div>
-                                        <div className="flex justify-between items-center py-1">
-                                            <div className="flex items-center gap-3">
-                                                <Calendar className="text-[var(--text-secondary)]" size={16} />
-                                                <span className="text-sm text-[var(--text-secondary)]">Est. Rate</span>
-                                            </div>
-                                            <span className="font-bold text-[var(--accent)] text-sm">{artist.bookingRate || 'Inquire'}</span>
-                                        </div>
 
                                         <button
                                             onClick={() => onBook(artist)}
