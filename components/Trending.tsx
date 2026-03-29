@@ -19,7 +19,8 @@ const TRENDS = {
       { label: "Streams", value: "13.1B", icon: Music },
       { label: "Playlists", value: "42.4K", icon: BarChart3 },
       { label: "Charts", value: "3146", icon: TrendingUp }
-    ]
+    ],
+    videoId: "1ipRd0WgB0c"
   },
   odeal: {
     id: 'odeal',
@@ -36,7 +37,8 @@ const TRENDS = {
       { label: "Streams", value: "616M", icon: Music },
       { label: "Playlists", value: "5,969", icon: BarChart3 },
       { label: "Charts", value: "946", icon: TrendingUp }
-    ]
+    ],
+    videoId: "V_KchwQrS7Y"
   },
   alxapo: {
     id: 'alxapo',
@@ -53,7 +55,8 @@ const TRENDS = {
       { label: "Spotify Listeners", value: "1.2M", icon: Users },
       { label: "Apple Streams", value: "644k", icon: Music },
       { label: "TikTok Followers", value: "10k+", icon: BarChart3 }
-    ]
+    ],
+    videoId: "YxU-vshDkAA"
   },
   ciza: {
     id: 'ciza',
@@ -70,7 +73,8 @@ const TRENDS = {
       { label: "Top Song", value: "#1 SA", icon: TrendingUp },
       { label: "Listeners", value: "3.2M", icon: Users },
       { label: "Shazams", value: "856k", icon: BarChart3 }
-    ]
+    ],
+    videoId: "sel1mCYFJ8U"
   }
 };
 
@@ -178,26 +182,37 @@ export const Trending: React.FC = () => {
               </motion.a>
             </div>
 
-            {/* Right Column: Stats Grid */}
-            <div className="grid grid-cols-2 gap-4">
-              {TRENDS[activeTab].stats.map((stat, index) => (
-                <GlassCard
-                  key={stat.label}
-                  className="!bg-white/5 group hover:!bg-white/10 transition-colors"
-                >
-                  <div className="flex flex-col h-full justify-between">
-                    <stat.icon className={`w-6 h-6 mb-4 ${TRENDS[activeTab].accent} opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all`} />
-                    <div>
-                      <div className="text-2xl md:text-4xl font-black text-white mb-1">
-                        {stat.value}
-                      </div>
-                      <div className="text-[10px] md:text-xs text-gray-400 uppercase tracking-widest font-medium">
-                        {stat.label}
+            <div className="space-y-6">
+              <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black/20 backdrop-blur-sm relative group">
+                <iframe
+                  src={`https://www.youtube.com/embed/${TRENDS[activeTab].videoId}?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0&iv_load_policy=3`}
+                  className="w-full h-full"
+                  allow="autoplay; encrypted-media"
+                  title={`${TRENDS[activeTab].artist} Video`}
+                />
+                <div className="absolute inset-0 pointer-events-none border border-white/5 rounded-2xl" />
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                {TRENDS[activeTab].stats.map((stat, index) => (
+                  <GlassCard
+                    key={stat.label}
+                    className="!bg-white/5 group hover:!bg-white/10 transition-colors"
+                  >
+                    <div className="flex flex-col h-full justify-between">
+                      <stat.icon className={`w-6 h-6 mb-4 ${TRENDS[activeTab].accent} opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all`} />
+                      <div>
+                        <div className="text-2xl md:text-4xl font-black text-white mb-1">
+                          {stat.value}
+                        </div>
+                        <div className="text-[10px] md:text-xs text-gray-400 uppercase tracking-widest font-medium">
+                          {stat.label}
+                        </div>
                       </div>
                     </div>
-                  </div>
-                </GlassCard>
-              ))}
+                  </GlassCard>
+                ))}
+              </div>
             </div>
           </motion.div>
         </AnimatePresence>

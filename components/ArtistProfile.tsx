@@ -73,7 +73,7 @@ export const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist, onBack, on
     const [tracks, setTracks] = useState<UnifiedTrack[]>([]);
     const [videos, setVideos] = useState<UnifiedVideo[]>([]);
     const [loading, setLoading] = useState(true);
-    const [activeMedia, setActiveMedia] = useState<{ type: 'track' | 'video', data: any } | null>(null);
+    const [activeMedia, setActiveMedia] = useState<({ type: 'track', data: UnifiedTrack } | { type: 'video', data: UnifiedVideo }) | null>(null);
 
     useEffect(() => {
         const fetchMedia = async () => {
@@ -85,8 +85,8 @@ export const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist, onBack, on
                 ]);
                 setTracks(artistTracks);
                 setVideos(artistVideos);
-            } catch (error) {
-                console.error("Error fetching media:", error);
+            } catch {
+                // Ignore error as we want to fail silently and stop loading
             } finally {
                 setLoading(false);
             }
@@ -285,6 +285,18 @@ export const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist, onBack, on
                             <div className="prose prose-lg prose-invert text-[var(--text-secondary)] max-w-none leading-loose">
                                 <p>{artist.bio || "Biography coming soon..."}</p>
                             </div>
+
+                            {artist.videoId && (
+                                <div className="mt-8 aspect-video w-full rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black/20 backdrop-blur-sm relative group">
+                                    <iframe
+                                        src={`https://www.youtube.com/embed/${artist.videoId}?autoplay=0&mute=1&controls=1&modestbranding=1&rel=0`}
+                                        className="w-full h-full"
+                                        allow="autoplay; encrypted-media"
+                                        title={`${artist.name} Featured Video`}
+                                    />
+                                    <div className="absolute inset-0 pointer-events-none border border-white/5 rounded-2xl" />
+                                </div>
+                            )}
                         </motion.div>
 
                         <motion.div

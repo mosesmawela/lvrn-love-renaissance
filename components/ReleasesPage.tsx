@@ -288,7 +288,7 @@ export const ReleasesPage: React.FC = () => {
                                 <div className="flex-1 overflow-y-auto custom-scrollbar bg-black/20">
                                     {activePlayer === 'spotify' ? (
                                         <iframe
-                                            src={`https://open.spotify.com/embed/album/${(selectedRelease as any).spotifyId}?utm_source=generator&theme=0`}
+                                            src={`https://open.spotify.com/embed/album/${selectedRelease.spotifyId}?utm_source=generator&theme=0`}
                                             width="100%"
                                             height="100%"
                                             frameBorder="0"
@@ -299,7 +299,7 @@ export const ReleasesPage: React.FC = () => {
                                         />
                                     ) : activePlayer === 'apple' ? (
                                         <iframe
-                                            src={`https://embed.music.apple.com/za/album/${(selectedRelease as any).appleId}`}
+                                            src={`https://embed.music.apple.com/za/album/${selectedRelease.appleId}`}
                                             width="100%"
                                             height="100%"
                                             frameBorder="0"
@@ -344,7 +344,7 @@ export const ReleasesPage: React.FC = () => {
                                         <a
                                             href={selectedRelease.link}
                                             target="_blank"
-                                            rel="noreferrer"
+                                            rel="noopener noreferrer"
                                             className="flex-1 py-4 rounded-xl bg-[var(--text-color)] text-[var(--bg-color)] font-bold uppercase tracking-widest text-sm flex items-center justify-center gap-2 hover:opacity-90 transition-opacity"
                                         >
                                             Full Experience <ExternalLink size={16} />

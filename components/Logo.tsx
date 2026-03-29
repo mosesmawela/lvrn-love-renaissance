@@ -26,10 +26,6 @@ export const Logo: React.FC<LogoProps> = ({ className = "", style = {} }) => {
         filter: 'var(--logo-filter) drop-shadow(0 0 10px rgba(168, 85, 247, 0.4))' 
       }}
       whileTap={{ scale: 0.95 }}
-      onError={(e) => {
-        // Fallback or error handling if needed
-        console.warn('Logo image failed to load');
-      }}
     />
   );
 };

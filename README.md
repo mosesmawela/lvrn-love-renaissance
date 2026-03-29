@@ -35,6 +35,14 @@ A seamless, multi-step booking and commerce system with predictive logistics and
 
 ## 🚀 Getting Started
 
+### Environment Variables Setup
+If you are deploying this application, you will need to configure your environment variables:
+1.  Go to your hosting provider's **Site configuration** > **Environment variables**.
+2.  Click **"Add a variable"**.
+3.  **Key**: `GEMINI_API_KEY`
+4.  **Value**: Your actual Google Gemini API Key.
+5.  Trigger a new deploy if you added this after the initial build.
+
 ### Prerequisites
 
 - Node.js (Latest LTS recommended)

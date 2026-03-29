@@ -31,11 +31,9 @@ if (firebaseConfig.apiKey && firebaseConfig.apiKey !== 'YOUR_FIREBASE_API_KEY') 
                 }
             });
         }
-    } catch (error) {
-        console.warn('Firebase initialization failed:', error);
+    } catch {
+        // Silently handle initialization failure
     }
-} else {
-    console.warn('Firebase API Key is missing or placeholder. Skipping Firebase initialization.');
 }
 
 export { app, analytics, perf };

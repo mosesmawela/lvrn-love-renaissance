@@ -110,6 +110,7 @@ export const PLAYROOM_ALBUMS: PlayroomAlbum[] = [
   }
 ];
 
+export const ARTIST_MAP: Record<string, Artist> = {};
 export const ARTISTS: Artist[] = [
   // Label Artists (Signed)
   {
@@ -395,6 +396,10 @@ export const ARTISTS: Artist[] = [
     stats: { followers: "8K", streams: "75M" }
   }
 ];
+
+ARTISTS.forEach(artist => {
+  ARTIST_MAP[artist.name] = artist;
+});
 
 export const MILESTONES: Milestone[] = [
   { year: "2012", title: "Inception", description: "LVRN founded by five Georgia State University students to bring authentic emotion back to music." },

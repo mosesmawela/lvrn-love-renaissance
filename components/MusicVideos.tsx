@@ -5,6 +5,7 @@ import { VideoItem, VIDEOS, ARTISTS } from '../constants';
 import { useExperience } from './ExperienceProvider';
 import { VideoRow } from './VideoRow';
 import { NetflixPlayer } from './NetflixPlayer';
+import { Logo } from './Logo';
 
 interface MusicVideosProps {
     onNavigate?: (pageId: string) => void;
@@ -100,9 +101,10 @@ export const MusicVideos: React.FC<MusicVideosProps> = ({ onNavigate }) => {
                 <motion.div 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="text-4xl font-black text-[var(--accent)] tracking-tighter animate-pulse"
+                    className="flex items-center gap-2"
                 >
-                    LVRN TV
+                    <Logo className="h-12 w-auto brightness-0 invert" />
+                    <span className="text-4xl font-black text-white tracking-tighter">TV</span>
                 </motion.div>
             </div>
         );
@@ -113,12 +115,13 @@ export const MusicVideos: React.FC<MusicVideosProps> = ({ onNavigate }) => {
             {/* Transparent Header */}
             <div className={`fixed top-0 w-full z-[100] transition-colors duration-500 px-6 md:px-12 py-4 flex items-center justify-between ${isScrolled ? 'bg-[#141414]' : 'bg-gradient-to-b from-black/70 to-transparent'}`}>
                 <div className="flex items-center gap-8">
-                    <span 
-                        className="text-2xl font-black tracking-tighter text-[var(--accent)] cursor-pointer"
+                    <div 
+                        className="flex items-center gap-2 cursor-pointer group"
                         onClick={() => onNavigate?.('home')}
                     >
-                        LVRN TV
-                    </span>
+                        <Logo className="h-8 w-auto brightness-0 invert group-hover:scale-105 transition-transform" />
+                        <span className="text-2xl font-black tracking-tighter text-white">TV</span>
+                    </div>
                     <nav className="hidden lg:flex items-center gap-5 text-sm font-medium text-gray-300">
                         <button onClick={() => setFilterArtist('All')} className={`hover:text-white transition-colors ${filterArtist === 'All' ? 'text-white font-bold' : ''}`}>Home</button>
                         <button className="hover:text-white transition-colors">Music Videos</button>
@@ -129,15 +132,20 @@ export const MusicVideos: React.FC<MusicVideosProps> = ({ onNavigate }) => {
                 </div>
 
                 <div className="flex items-center gap-6">
-                    <div className="relative group flex items-center">
-                        <Search size={20} className="text-gray-300 group-hover:text-white cursor-pointer transition-colors" />
+                    <div className="relative flex items-center bg-black/40 border border-white/20 rounded-full px-4 py-1.5 focus-within:ring-2 focus-within:ring-[var(--accent)] transition-all">
+                        <Search size={18} className="text-gray-400" />
                         <input 
                             type="text"
-                            placeholder="Titles, artists..."
+                            placeholder="Search..."
                             value={searchQuery}
                             onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-0 group-hover:w-64 focus:w-64 transition-all duration-300 bg-black/80 border border-white/20 rounded-md px-0 group-hover:px-4 py-1.5 text-sm focus:outline-none ml-2"
+                            className="bg-transparent border-none text-white text-sm focus:outline-none ml-2 w-24 md:w-48 transition-all"
                         />
+                        {searchQuery && (
+                            <button onClick={() => setSearchQuery('')} className="ml-2 text-gray-400 hover:text-white">
+                                <X size={16} />
+                            </button>
+                        )}
                     </div>
                     
                     <button 
@@ -152,18 +160,39 @@ export const MusicVideos: React.FC<MusicVideosProps> = ({ onNavigate }) => {
             {/* Content Area */}
             {searchQuery ? (
                 <div className="pt-32 px-6 md:px-12 pb-20">
-                    <h2 className="text-2xl font-bold mb-8">Results for "{searchQuery}"</h2>
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                        {searchResults.map(video => (
-                            <div key={video.id} className="aspect-video relative group cursor-pointer" onClick={() => handleVideoSelect(video)}>
-                                <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover rounded-md" />
-                                <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4 rounded-md">
-                                    <h4 className="font-bold text-sm">{video.title}</h4>
-                                    <p className="text-xs text-gray-300">{video.artist}</p>
-                                </div>
-                            </div>
-                        ))}
+                    <div className="flex items-center justify-between mb-8">
+                        <h2 className="text-2xl font-bold">Results for "{searchQuery}"</h2>
+                        <button 
+                            onClick={() => setSearchQuery('')}
+                            className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                        >
+                            <X size={24} />
+                        </button>
                     </div>
+                    {searchResults.length > 0 ? (
+                        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4 md:gap-6">
+                            {searchResults.map(video => (
+                                <motion.div 
+                                    key={video.id} 
+                                    layout
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    className="aspect-video relative group cursor-pointer rounded-lg overflow-hidden border border-white/5" 
+                                    onClick={() => handleVideoSelect(video)}
+                                >
+                                    <img src={video.thumbnail} alt={video.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex flex-col justify-end p-4">
+                                        <h4 className="font-bold text-sm line-clamp-1">{video.title}</h4>
+                                        <p className="text-xs text-gray-300">{video.artist}</p>
+                                    </div>
+                                </motion.div>
+                            ))}
+                        </div>
+                    ) : (
+                        <div className="py-20 text-center">
+                            <p className="text-gray-400">No videos found matching your search.</p>
+                        </div>
+                    )}
                 </div>
             ) : (
                 <div className="relative">

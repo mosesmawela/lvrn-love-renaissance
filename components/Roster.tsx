@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ARTISTS } from '../constants';
+import { ARTISTS, ARTIST_MAP } from '../constants';
 import { SearchX, Search, ArrowDownUp, Clock } from 'lucide-react';
 import { Artist } from '../types';
 import { useExperience } from './ExperienceProvider';
@@ -36,7 +36,8 @@ const parseMetric = (val?: string) => {
 };
 
 export const Roster: React.FC<RosterProps> = ({ onViewProfile }) => {
-    const [filter, setFilter] = useState<'All' | 'Signed' | 'Management' | 'Publishing' | 'Africa'>('All');
+    type FilterCategory = 'All' | 'Signed' | 'Management' | 'Publishing' | 'Africa';
+    const [filter, setFilter] = useState<FilterCategory>('All');
     const [searchQuery, setSearchQuery] = useState('');
     const [sortType, setSortType] = useState<'Default' | 'Name' | 'Popularity'>('Default');
     const [recentArtists, setRecentArtists] = useState<Artist[]>([]);
@@ -52,10 +53,10 @@ export const Roster: React.FC<RosterProps> = ({ onViewProfile }) => {
             const stored = localStorage.getItem(HISTORY_KEY);
             if (stored) {
                 const names = JSON.parse(stored) as string[];
-                const artists = names.map(n => ARTISTS.find(a => a.name === n)).filter(Boolean) as Artist[];
+                const artists = names.map(n => ARTIST_MAP[n]).filter(Boolean) as Artist[];
                 setRecentArtists(artists);
             }
-        } catch (e) { console.error("History Load Error", e); }
+        } catch { }
     }, []);
 
     // Listen for Global Search Shortcut
@@ -95,13 +96,13 @@ export const Roster: React.FC<RosterProps> = ({ onViewProfile }) => {
         return result;
     }, [filter, searchQuery, sortType]);
 
-    const categories = ['All', 'Signed', 'Management', 'Publishing', 'Africa'];
+    const categories: FilterCategory[] = ['All', 'Signed', 'Management', 'Publishing', 'Africa'];
 
     const handleArtistClick = (artist: Artist) => {
         // Update History
         const newHistory = [artist.name, ...recentArtists.map(r => r.name).filter(n => n !== artist.name)].slice(0, 5);
         localStorage.setItem(HISTORY_KEY, JSON.stringify(newHistory));
-        setRecentArtists(newHistory.map(n => ARTISTS.find(a => a.name === n)).filter(Boolean) as Artist[]);
+        setRecentArtists(newHistory.map(n => ARTIST_MAP[n]).filter(Boolean) as Artist[]);
 
         trackEvent('artist_view', { artist: artist.name });
         setAiContext({
@@ -120,7 +121,7 @@ export const Roster: React.FC<RosterProps> = ({ onViewProfile }) => {
                     {categories.map((cat) => (
                         <button
                             key={cat}
-                            onClick={() => { setFilter(cat as any); trackEvent('filter_change', { category: cat }); }}
+                            onClick={() => { setFilter(cat); trackEvent('filter_change', { category: cat }); }}
                             className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all whitespace-nowrap ${filter === cat
                                 ? 'bg-[var(--text-color)] text-[var(--bg-color)]'
                                 : 'text-[var(--text-secondary)] hover:text-[var(--text-color)]'

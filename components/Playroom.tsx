@@ -406,7 +406,7 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
         // Audio Analysis Setup - Create if not exists
         if (!audioContextRef.current) {
             try {
-                const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+                const AudioCtx = window.AudioContext || (window as typeof window & { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
                 audioContextRef.current = new AudioCtx();
                 analyserRef.current = audioContextRef.current.createAnalyser();
                 analyserRef.current.fftSize = FFT_SIZE;
@@ -652,14 +652,13 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
         // Lazy Init AudioContext
         if (!ctx) {
             try {
-                const AudioCtx = window.AudioContext || (window as any).webkitAudioContext;
+                const AudioCtx = window.AudioContext || (window as typeof window & { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
                 ctx = new AudioCtx();
                 audioContextRef.current = ctx;
                 analyserRef.current = ctx.createAnalyser();
                 analyserRef.current.fftSize = FFT_SIZE;
                 analyserRef.current.smoothingTimeConstant = AUDIO_SMOOTHING;
-            } catch (e) {
-                console.error("Failed to create AudioContext", e);
+            } catch {
                 setMicError(true);
                 setMicErrorMessage("Audio System Failure. Your browser may not support this feature.");
                 showNotification("System Audio Error", "error");
@@ -693,15 +692,16 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
 
             currentColorRef.current = { r: 255, g: 255, b: 255 }; // White for Mic
             showNotification("Microphone Input Active", "success");
-        } catch (err: any) {
+        } catch (err: unknown) {
             console.error("Mic Error", err);
             setMicError(true);
 
             // Specific Error Handling
-            if (err.name === 'NotAllowedError' || err.name === 'PermissionDeniedError') {
+            const error = err as Error;
+            if (error.name === 'NotAllowedError' || error.name === 'PermissionDeniedError') {
                 setMicErrorMessage("Permission Denied. Please allow microphone access in your browser address bar.");
                 showNotification("Permission Denied", "error");
-            } else if (err.name === 'NotFoundError' || err.name === 'DevicesNotFoundError') {
+            } else if (error.name === 'NotFoundError' || error.name === 'DevicesNotFoundError') {
                 setMicErrorMessage("No microphone found. Please check your connection.");
                 showNotification("Device Not Found", "error");
             } else {
