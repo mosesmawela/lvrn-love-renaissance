@@ -157,7 +157,7 @@ export const Hero: React.FC = () => {
       >
         <img
           src="https://ik.imagekit.io/mosesmawela/LOGO/logo.svg?updatedAt=1769936404900"
-          alt="LVRN"
+          alt="LVRN - Love Renaissance Logo"
           className="w-[280px] h-[280px] md:w-[450px] md:h-[450px] object-contain"
         />
       </motion.div>
@@ -169,6 +169,9 @@ export const Hero: React.FC = () => {
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }} // Custom Ease
           className="flex flex-col items-center text-center w-full"
         >
+          {/* SEO H1 - Visually Hidden */}
+          <h1 className="sr-only">LVRN - Love Renaissance | Leading Creative Agency & Record Label</h1>
+
           {/* Spacer to push content below the central logo */}
           <div className="h-[200px] md:h-[300px]" />
 

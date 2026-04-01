@@ -1,3 +1,5 @@
+import { VIDEOS } from '../../constants';
+
 export interface PlatformStats {
     popularity?: number;
     followers?: number;
@@ -254,6 +256,28 @@ class MusicDataService {
     }
 
     async getArtistVideos(artistName: string): Promise<UnifiedVideo[]> {
+        let results: UnifiedVideo[] = [];
+
+        // 1. Check constants.ts (Our source of truth for LVRN TV and interviews)
+        try {
+            const manualVideos = VIDEOS.filter(v => 
+                v.artist.toLowerCase().includes(artistName.toLowerCase()) ||
+                artistName.toLowerCase().includes(v.artist.toLowerCase())
+            ).map(v => ({
+                id: v.id,
+                title: v.title,
+                artist: v.artist,
+                thumbnail: v.thumbnail,
+                embedUrl: v.embedUrl,
+                duration: v.duration || '0:00',
+                views: v.views || 'Latest'
+            }));
+            results = [...manualVideos];
+        } catch (error) {
+            console.warn('Failed to fetch videos from constants:', error);
+        }
+
+        // 2. Try YouTube API if configured
         try {
             const youtubeKey = import.meta.env.VITE_YOUTUBE_API_KEY;
             const config = (ARTIST_CONFIG as Record<string, { youtubeId?: string }>)[artistName];
@@ -263,7 +287,7 @@ class MusicDataService {
                 const data = await response.json();
 
                 if (data.items) {
-                    return data.items.map((item: YouTubeSearchItem) => ({
+                    const youtubeVideos = data.items.map((item: YouTubeSearchItem) => ({
                         id: item.id.videoId,
                         title: item.snippet.title,
                         artist: artistName,
@@ -272,13 +296,31 @@ class MusicDataService {
                         duration: '0:00',
                         views: 'Latest'
                     }));
+                    // Merge and deduplicate by ID
+                    const existingIds = new Set(results.map(v => v.id));
+                    youtubeVideos.forEach((v: UnifiedVideo) => {
+                        if (!existingIds.has(v.id)) {
+                            results.push(v);
+                        }
+                    });
                 }
             }
         } catch (error) {
             console.warn('YouTube API fetch failed, falling back to mock data:', error);
         }
 
-        return MOCK_VIDEOS[artistName] || MOCK_VIDEOS['6LACK'];
+        // 3. Fallback to MOCK_VIDEOS if we still have nothing or very little
+        if (results.length < 2) {
+            const mock = MOCK_VIDEOS[artistName] || MOCK_VIDEOS['6LACK'];
+            const existingIds = new Set(results.map(v => v.id));
+            mock.forEach(v => {
+                if (!existingIds.has(v.id)) {
+                    results.push(v);
+                }
+            });
+        }
+
+        return results;
     }
 }
 
