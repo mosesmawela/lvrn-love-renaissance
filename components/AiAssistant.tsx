@@ -80,6 +80,7 @@ const PROMPT_CONTEXTS: Record<string, string[]> = {
 export const AiAssistant: React.FC = () => {
   const { hasEntered, navigateTo, showNotification, targetSection } = useExperience(); // targetSection now maps to activePage
   const [isOpen, setIsOpen] = useState(false);
+  const [showBubble, setShowBubble] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'model',
@@ -113,6 +114,21 @@ export const AiAssistant: React.FC = () => {
       setActivePrompts(prompts);
     }
   }, [isOpen, targetSection]);
+
+  // Show speech bubble every 10 seconds when chat is closed
+  useEffect(() => {
+    if (isOpen) {
+      setShowBubble(false);
+      return;
+    }
+
+    const showInterval = setInterval(() => {
+      setShowBubble(true);
+      setTimeout(() => setShowBubble(false), 4000);
+    }, 10000);
+
+    return () => clearInterval(showInterval);
+  }, [isOpen]);
 
   // Scroll to bottom
   useEffect(() => {
@@ -297,20 +313,45 @@ export const AiAssistant: React.FC = () => {
         )}
       </AnimatePresence>
 
-      <motion.button
-        onClick={() => setIsOpen(!isOpen)}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        className={`pointer-events-auto w-14 h-14 rounded-full backdrop-blur-md border flex items-center justify-center text-white shadow-lg group ${!isSystemOnline ? 'bg-red-900/50 border-red-500/50' : 'bg-black/50 border-white/20'
-          }`}
-        aria-label="Toggle AI Assistant"
-      >
-        <AnimatePresence mode="wait">
-          {isOpen ? <X size={24} /> : (
-            !isSystemOnline ? <AlertTriangle size={24} className="text-red-400" /> : <Zap size={24} className="group-hover:text-yellow-400 transition-colors" />
+      {/* Logo Button with Speech Bubble Animation */}
+      <div className="pointer-events-auto relative">
+        <AnimatePresence>
+          {!isOpen && showBubble && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, x: 10, y: -10 }}
+              animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
+              exit={{ opacity: 0, scale: 0.8, x: 10, y: -10 }}
+              className="absolute bottom-full right-0 mb-3 w-56 p-3 bg-black/90 backdrop-blur-md border border-white/10 rounded-xl shadow-2xl"
+            >
+              <p className="text-xs text-gray-300 leading-relaxed">You can ask the LVRN AI anything</p>
+              <div className="absolute bottom-[-6px] right-5 w-3 h-3 bg-black/90 border-r border-b border-white/10 rotate-45" />
+            </motion.div>
           )}
         </AnimatePresence>
-      </motion.button>
+
+        <motion.button
+          onClick={() => setIsOpen(!isOpen)}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className={`relative w-14 h-14 rounded-full backdrop-blur-md border flex items-center justify-center shadow-lg overflow-hidden transition-colors ${
+            !isSystemOnline
+              ? 'bg-red-900/50 border-red-500/50'
+              : 'bg-black/50 border-white/20 hover:border-white/40'
+          }`}
+          aria-label="Toggle AI Assistant"
+        >
+          {!isSystemOnline ? (
+            <AlertTriangle size={24} className="text-red-400" />
+          ) : (
+            <img
+              src="https://ik.imagekit.io/mosesmawela/LOGO/logo.svg?updatedAt=1769936404900"
+              alt="LVRN"
+              className="w-8 h-8 object-contain"
+              style={{ filter: 'brightness(0) invert(1)' }}
+            />
+          )}
+        </motion.button>
+      </div>
     </div>
   );
 };
