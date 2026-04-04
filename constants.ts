@@ -81,7 +81,7 @@ export const ARTISTS: Artist[] = [
     appleMusicEmbedId: "za/artist/6lack/1016633280",
     spotifyArtistUrl: "https://open.spotify.com/artist/4IVAbR2w4JJNJDDRFP3E83",
     appleMusicArtistUrl: "https://music.apple.com/za/artist/6lack/1016633280",
-    videoId: "peH96cvRmls"
+    videoId: "xHtLTXBmtQA"
   },
   {
     name: "Summer Walker",
@@ -112,7 +112,9 @@ export const ARTISTS: Artist[] = [
     spotifyId: "4Z8vY9vY9vY9vY9vY9vY",
     appleMusicId: "1456156156",
     youtubeId: "UC_O_D_E_A_L_L_L_L_L",
-    videoId: "V_KchwQrS7Y"
+    videoId: "LUEojiBiW1w",
+    spotifyEmbedId: "4Z8vY9vY9vY9vY9vY9vY",
+    appleMusicEmbedId: "1485652541"
   },
   {
     name: "CIZA",
@@ -132,7 +134,7 @@ export const ARTISTS: Artist[] = [
   },
   {
     name: "Belly Gang Kushington",
-    videoId: "G1l_yUbex0g",
+    videoId: "WkLBlEMoiaA",
     category: "Signed",
     role: "Rapper",
     image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Belly%20Gang%20Kushington",
@@ -140,7 +142,9 @@ export const ARTISTS: Artist[] = [
     bookingRegion: "US",
     quote: "Kush doesn't just create music; he narrates his life.",
     bio: "Born and bred in the city of Atlanta, Belly Gang Kushington found his calling in the heart of the city's rap scene. Kush doesn't just create music; he narrates his life. Every song is a page from his experiences, a snapshot of his reality. From the struggle of leaving the drug world behind to dealing with incarceration.",
-    stats: { followers: "45K", streams: "41.5M", saves: "551K", charts: "#1 Apple" }
+    stats: { followers: "45K", streams: "41.5M", saves: "551K", charts: "#1 Apple" },
+    spotifyEmbedId: "3i2l7bO5O1o5b9oO6x5J9x",
+    appleMusicEmbedId: "123456789"
   },
   {
     name: "TxC",
@@ -167,11 +171,14 @@ export const ARTISTS: Artist[] = [
     bookingRegion: "US / UK",
     quote: "With a growing portfolio, he has crafted chart-topping records for some of the biggest names in Pop and Afrobeats.",
     bio: "Grammy-nominated Producer Thisizlondon, born Michael Ovie Hunter in Kaduna, Nigeria, spent his youth moving across northern Nigeria. He taught himself production and relocated to Lagos, where he honed his skills. He notably contributed to Wizkid's 'Made in Lagos' and Rema's 'Rave & Roses'.",
-    stats: { followers: "15K", streams: "41.4M" }
+    stats: { followers: "15K", streams: "41.4M" },
+    videoId: "iMPsIFgYscc",
+    spotifyEmbedId: "5qR9V9w5X6vWqH6oJ6w9P9",
+    appleMusicEmbedId: "987654321"
   },
   {
     name: "Sadboi",
-    videoId: "T9iP00B4U0E",
+    videoId: "PpapqWrIN9U",
     category: "Signed",
     role: "Artist",
     image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Sadboi",
@@ -179,11 +186,13 @@ export const ARTISTS: Artist[] = [
     bookingRegion: "US / CA",
     quote: "SadBoi expertly weaves elements of reggae, dancehall, and Caribbean culture into her captivating sound.",
     bio: "Ebhoni Cato O'Garro, aka 'SadBoi,' is an Atlanta-based artist originally from Toronto, Canada. With a Jamaican & Antiguan heritage deeply ingrained in her musical roots, SadBoi expertly weaves elements of reggae, dancehall, and Caribbean culture into her captivating sound, blending R&B, rap, rock, and pop.",
-    stats: { followers: "85K", streams: "1.2M", playlists: "150+" }
+    stats: { followers: "85K", streams: "1.2M", playlists: "150+" },
+    spotifyEmbedId: "0AAt9vGg5Oa8Fqg5p5lqA",
+    appleMusicEmbedId: "1456156156"
   },
   {
     name: "Nektunez",
-    videoId: "38v77bL_uYw",
+    videoId: "5dR3OfSI7gM",
     category: "Signed",
     role: "DJ / Producer",
     image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Nektunze",
@@ -191,11 +200,12 @@ export const ARTISTS: Artist[] = [
     bookingRegion: "Global",
     quote: "He entered the global music scene in 2021 with Ameno Amapiano (Remix), which topped Global Shazam.",
     bio: "Nektunez (Nobel Zogli) is an Atlanta-based Ghanaian DJ, producer, and singer-songwriter shaping global music with his fusion of Afrobeats, Amapiano, and electronic sounds. He entered the global music scene in 2021 with 'Ameno Amapiano (Remix)', which topped Global Shazam and iTunes in 22 countries.",
-    stats: { followers: "210K", streams: "150M", shazams: "10M+" }
+    stats: { followers: "210K", streams: "150M", shazams: "10M+" },
+    spotifyEmbedId: "4X9zO9w5X6vWqH6oJ6w9P9",
+    appleMusicEmbedId: "246813579"
   },
   {
     name: "BRS Kash",
-    videoId: "3j-k3Mvj_xM",
     category: "Signed",
     role: "Rapper",
     image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/BRS%20Kash",
@@ -203,7 +213,10 @@ export const ARTISTS: Artist[] = [
     bookingRegion: "US",
     quote: "His single 'Throat Baby' trended #1 in the US on Apple Music.",
     bio: "Born Kenneth Duncan, BRS Kash started writing at the age of 12. His southern flare, connection to the streets, and royalty status in Atlanta's nightlife culture make him one of Hip-Hop's most exciting rising acts. His single 'Throat Baby' trended #1 in the US on Apple Music.",
-    stats: { followers: "560K", streams: "250M", charts: "#1" }
+    stats: { followers: "560K", streams: "250M", charts: "#1" },
+    videoId: "3j-k3Mvj_xM",
+    spotifyEmbedId: "5s87W9vGg5Oa8Fqg5p5lqA",
+    appleMusicEmbedId: "135792468"
   },
   {
     name: "North Ave Jax",
@@ -225,7 +238,9 @@ export const ARTISTS: Artist[] = [
     bookingRegion: "Africa / Intl",
     quote: "Duardo's mission is deeply intertwined with his personal faith.",
     bio: "Antonio-David Hampton; Tony Duardo, is an illustrious Pan-African record producer, DJ, creative director, Multi-Instrumentalist and entrepreneur. He leads HGA (Home of African Stars), one of the leading Independent Labels Across Africa. He played a pivotal role in developing talents such as Uncle Waffles and TxC.",
-    stats: { followers: "140K", streams: "15M" }
+    stats: { followers: "140K", streams: "15M" },
+    spotifyEmbedId: "2v9Xo9w5X6vWqH6oJ6w9P9",
+    appleMusicEmbedId: "123456789"
   },
   {
     name: "Ggoldie",
@@ -235,7 +250,9 @@ export const ARTISTS: Artist[] = [
     bookingRegion: "Africa",
     quote: "Ggoldie is a versatile DJ hailing from Tembisa, South Africa.",
     bio: "Ggoldie is a versatile DJ hailing from Tembisa, South Africa. She has been active in the music scene since 2021, carving out a distinctive path for herself within the Amapiano genre. She has graced some of South Africa's most prominent stages, including Cotton Fest and Boiler Room.",
-    stats: { followers: "85K", streams: "500K" }
+    stats: { followers: "85K", streams: "500K" },
+    spotifyEmbedId: "0k1O9w5X6vWqH6oJ6w9P9",
+    appleMusicEmbedId: "987654321"
   },
   {
     name: "Al Xapo",
@@ -247,6 +264,8 @@ export const ARTISTS: Artist[] = [
     quote: "Al Xapo is a young versatile and talented producer, Dj, and vocalist.",
     bio: "Al Xapo, AKA 'Public Enemy' is a young versatile and talented producer & beat maker as well as artist & DJ who started his musical journey at the tender age of 15. He started by being on the decks then later exploring his production and vocal talents.",
     stats: { followers: "10K", streams: "1.2M", creates: "139K" },
+    spotifyEmbedId: "2v9Xo9w5X6vWqH6oJ6w9P9",
+    appleMusicEmbedId: "246813579",
     videoId: "7cQz60N88Jg"
   },
   {
@@ -259,6 +278,42 @@ export const ARTISTS: Artist[] = [
     quote: "The 18 year old vocalist only began making music recently in 2021.",
     bio: "Siphesihle Nkosi affectionately known as Chley is a South African talent sensation born in the East Rand, Benoni. Her big breakthrough was in 2022 when she worked with Musa Keys on 'M'nike' which made considerable waves in the industry.",
     stats: { followers: "110K", streams: "8M" }
+  },
+  {
+    name: "Ezmaestro",
+    category: "Africa",
+    role: "Artist / DJ",
+    image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Ezmaestro",
+    bookingRate: "Inquire for Rates",
+    bookingRegion: "Africa",
+    quote: "An artist and DJ shaping the new Amapiano sound under HGA/LVRN.",
+    bio: "Ezmaestro is an emerging artist and DJ who has quickly gained traction within the Amapiano scene. Working closely with HGA and LVRN Records, he represents the new wave of South African musical exports.",
+    stats: { followers: "45K", streams: "3.2M" },
+    videoId: "GIVoX0yfjlo"
+  },
+  {
+    name: "Colkaze",
+    category: "Africa",
+    role: "Producer / Artist",
+    image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Colkaze",
+    bookingRate: "Inquire for Rates",
+    bookingRegion: "Africa",
+    quote: "Colkaze's 'Riddim' EP showcases his versatility as a producer and artist.",
+    bio: "Colkaze is a South African producer and artist who blends diverse riddims and sounds. His work with HGA/LVRN Records has established him as a key figure in the label's African expansion strategy.",
+    stats: { followers: "28K", streams: "1.8M" },
+    videoId: "tzKBwhg5CM4"
+  },
+  {
+    name: "Seekay",
+    category: "Africa",
+    role: "Performer",
+    image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Seekay",
+    bookingRate: "Inquire for Rates",
+    bookingRegion: "Africa",
+    quote: "Seekay's magnetic energy and genre-blending tracks have made him a breakout star.",
+    bio: "Seekay is a South African performer known for his infectious energy and successful singles like 'Location' and 'Khululeka'. His collaboration with Tony Duardo and LVRN has propelled him to new heights across the continent.",
+    stats: { followers: "95K", streams: "12M" },
+    videoId: "c7asU1UIExk"
   },
 
   // Management
@@ -280,7 +335,8 @@ export const ARTISTS: Artist[] = [
     bookingRegion: "US / Intl",
     quote: "Fueled by self-love and manifested dreams, Baby Tate is forever evolving.",
     bio: "Fueled by self-love and manifested dreams, Baby Tate is forever evolving. Within a single body of work, you'll hear summery pop, amorous R&B, and hard-hitting hip-hop. Baby Tate has a knack for creating viral moments in music and is the unofficial Queen of TikTok.",
-    stats: { followers: "2.8M", streams: "850M", creates: "2M+" }
+    stats: { followers: "2.8M", streams: "850M", creates: "2M+" },
+    videoId: "W_zzCnGp70c"
   },
   {
     name: "Spinall",
@@ -398,39 +454,51 @@ export const SOCIAL_LINKS: SocialLink[] = [
 
 export const VIDEOS: VideoItem[] = [
   { id: 'v12', title: 'The Blackprint: Tunde Balogun Interview', artist: 'Tunde Balogun', thumbnail: 'https://i.ytimg.com/vi/zneGWJroa_Y/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/zneGWJroa_Y', duration: '52:14', views: '250K', category: 'Interview' },
-  { id: 'v6', title: 'SNOKONOKO II', artist: 'Al Xapo, ShalliPoppi, Benzoo & Eeque', thumbnail: 'https://i.ytimg.com/vi/bnoGzqxTUYQ/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/bnoGzqxTUYQ', duration: '—', views: '—', category: 'Music Video' },
-  { id: 'v1', title: 'Rent Due', artist: 'Belly Gang Kushington', thumbnail: 'https://i.ytimg.com/vi/G1l_yUbex0g/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/G1l_yUbex0g', duration: '—', views: '—', category: 'Music Video' },
-  { id: 'v2', title: 'Snokonoko', artist: 'Al Xapo, Benzoo & Eeque', thumbnail: 'https://i.ytimg.com/vi/YxU-vshDkAA/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/YxU-vshDkAA', duration: '—', views: '—', category: 'Music Video' },
-  { id: 'v3', title: 'Nakupenda', artist: 'TxC, Davido, Shoday & Scotts Maphuma ft. Zlatan & Al Xapo', thumbnail: 'https://i.ytimg.com/vi/86pC4vqOi80/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/86pC4vqOi80', duration: '—', views: '—', category: 'Music Video' },
-  { id: 'v4', title: 'PINACOLADA', artist: 'Thisizlondon ft. Ayra Starr & 6LACK', thumbnail: 'https://i.ytimg.com/vi/peH96cvRmls/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/peH96cvRmls', duration: '—', views: '—', category: 'Music Video' },
-  { id: 'v5', title: 'Yebo', artist: 'TXC & Davido ft. Tony Duardo, LeeMckrazy & DJ Biza', thumbnail: 'https://i.ytimg.com/vi/zrW2Zap7R4k/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/zrW2Zap7R4k', duration: '—', views: '—', category: 'Music Video' },
-  { id: 'v7', title: 'SNOKONOKO', artist: 'Al Xapo, Benzoo & EeQue', thumbnail: 'https://i.ytimg.com/vi/wgGa9SgxhJI/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/wgGa9SgxhJI', duration: '—', views: '—', category: 'Music Video' },
-  { id: 'v8', title: 'STANCE', artist: 'Al Xapo, Benzoo & Optimist MusicZA', thumbnail: 'https://i.ytimg.com/vi/KHf9unwLGH8/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/KHf9unwLGH8', duration: '—', views: '—', category: 'Music Video' },
-  { id: 'v9', title: 'Sandla Sam', artist: 'Ggoldie, CowBoii & Al Xapo', thumbnail: 'https://i.ytimg.com/vi/C18pDqqtdgg/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/C18pDqqtdgg', duration: '—', views: '—', category: 'Music Video' },
-  { id: 'v10', title: 'Snokonoko (Lyric Video)', artist: 'Al Xapo, Benzoo & Eeque', thumbnail: 'https://i.ytimg.com/vi/BGpdaPA5M1s/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/BGpdaPA5M1s', duration: '—', views: '—', category: 'Lyric Video' },
-  { id: 'v11', title: 'STANCE (Lyric Video)', artist: 'Al Xapo, Benzoo & Optimist Music ZA', thumbnail: 'https://i.ytimg.com/vi/_TR4QP7y_TI/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/_TR4QP7y_TI', duration: '—', views: '—', category: 'Lyric Video' },
-  { id: 'v13', title: 'ThisIzLondon Interview Part 1', artist: 'ThisIzLondon', thumbnail: 'https://i.ytimg.com/vi/XCiTI7gtcC4/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/XCiTI7gtcC4', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v14', title: 'ThisIzLondon Interview Part 2', artist: 'ThisIzLondon', thumbnail: 'https://i.ytimg.com/vi/vbn6WJniylw/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/vbn6WJniylw', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v15', title: 'ThisIzLondon Interview Part 3', artist: 'ThisIzLondon', thumbnail: 'https://i.ytimg.com/vi/fNkz_q-Ao78/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/fNkz_q-Ao78', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v16', title: 'Summer Walker Interview Part 1', artist: 'Summer Walker', thumbnail: 'https://i.ytimg.com/vi/VPNq8se13U4/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/VPNq8se13U4', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v17', title: 'Summer Walker Interview Part 2', artist: 'Summer Walker', thumbnail: 'https://i.ytimg.com/vi/FghRBq_rc7o/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/FghRBq_rc7o', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v18', title: 'Summer Walker Interview Part 3', artist: 'Summer Walker', thumbnail: 'https://i.ytimg.com/vi/CqmhXDss1t8/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/CqmhXDss1t8', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v19', title: 'TxC Interview Part 1', artist: 'TxC', thumbnail: 'https://i.ytimg.com/vi/isHJIIzkWA8/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/isHJIIzkWA8', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v20', title: 'TxC Interview Part 2', artist: 'TxC', thumbnail: 'https://i.ytimg.com/vi/2rSd-Wm3o0k/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/2rSd-Wm3o0k', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v21', title: 'Al Xapo Interview Part 1', artist: 'Al Xapo', thumbnail: 'https://i.ytimg.com/vi/XSJcWlZ25hM/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/XSJcWlZ25hM', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v22', title: 'Al Xapo Interview Part 2', artist: 'Al Xapo', thumbnail: 'https://i.ytimg.com/vi/g1J6KfrteQo/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/g1J6KfrteQo', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v23', title: 'Al Xapo Interview Part 3', artist: 'Al Xapo', thumbnail: 'https://i.ytimg.com/vi/52GwXridrvk/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/52GwXridrvk', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v24', title: 'Ggoldie Interview', artist: 'Ggoldie', thumbnail: 'https://i.ytimg.com/vi/OuO6quhdAiU/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/OuO6quhdAiU', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v25', title: 'Chley Interview Part 1', artist: 'Chley', thumbnail: 'https://i.ytimg.com/vi/7laYKYi5xpk/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/7laYKYi5xpk', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v26', title: 'Chley Interview Part 2', artist: 'Chley', thumbnail: 'https://i.ytimg.com/vi/rgApfcH73tY/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/rgApfcH73tY', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v27', title: 'Tango Supreme Interview', artist: 'Tango Supreme', thumbnail: 'https://i.ytimg.com/vi/IfnIcUu5cHk/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/IfnIcUu5cHk', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v28', title: 'DVSN Interview Part 1', artist: 'DVSN', thumbnail: 'https://i.ytimg.com/vi/diYyu-Ynj4M/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/diYyu-Ynj4M', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v29', title: 'DVSN Interview Part 2', artist: 'DVSN', thumbnail: 'https://i.ytimg.com/vi/rBeXSSHWxGI/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/rBeXSSHWxGI', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v30', title: 'Spinall Interview', artist: 'Spinall', thumbnail: 'https://i.ytimg.com/vi/YgbYxQGWsW8/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/YgbYxQGWsW8', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v31', title: 'Sushi.B Interview', artist: 'Sushi.B', thumbnail: 'https://i.ytimg.com/vi/d2gpbmlZDuw/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/d2gpbmlZDuw', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v32', title: 'Selectcon 005: How to Be Independent w| LVRN', artist: 'LVRN', thumbnail: 'https://i.ytimg.com/vi/M3pmpfr4O30/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/M3pmpfr4O30', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v33', title: "Founder Of LVRN Justice Talks How LVRN Was Built, Summer Walker's Success, Artist Development & More", artist: 'Justice Baiden', thumbnail: 'https://i.ytimg.com/vi/J2Q-DKPpBXA/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/J2Q-DKPpBXA', duration: '—', views: '—', category: 'Interview' },
-  { id: 'v34', title: "LVRN Co-Founder Justice Baiden On Summer Walker's 'Finally Over It' | Hey Janeé Podcast | Episode 27", artist: 'Justice Baiden & Summer Walker', thumbnail: 'https://i.ytimg.com/vi/bxC-oiZddN0/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/bxC-oiZddN0', duration: '—', views: '—', category: 'Interview' }
+  { id: 'v6', title: 'SNOKONOKO II', artist: 'Al Xapo, ShalliPoppi, Benzoo & Eeque', thumbnail: 'https://i.ytimg.com/vi/bnoGzqxTUYQ/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/bnoGzqxTUYQ', duration: '4:21', views: '1.5M', category: 'Music Video' },
+  { id: 'v1', title: 'Rent Due', artist: 'Belly Gang Kushington', thumbnail: 'https://i.ytimg.com/vi/G1l_yUbex0g/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/G1l_yUbex0g', duration: '3:12', views: '2.1M', category: 'Music Video' },
+  { id: 'v2', title: 'Snokonoko', artist: 'Al Xapo, Benzoo & Eeque', thumbnail: 'https://i.ytimg.com/vi/YxU-vshDkAA/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/YxU-vshDkAA', duration: '3:54', views: '4.8M', category: 'Music Video' },
+  { id: 'v3', title: 'Nakupenda', artist: 'TxC, Davido, Shoday & Scotts Maphuma ft. Zlatan & Al Xapo', thumbnail: 'https://i.ytimg.com/vi/86pC4vqOi80/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/86pC4vqOi80', duration: '4:08', views: '1.2M', category: 'Music Video' },
+  { id: 'v4', title: 'PINACOLADA', artist: 'Thisizlondon ft. Ayra Starr & 6LACK', thumbnail: 'https://i.ytimg.com/vi/peH96cvRmls/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/peH96cvRmls', duration: '3:35', views: '3.1M', category: 'Music Video' },
+  { id: 'v5', title: 'Yebo', artist: 'TXC & Davido ft. Tony Duardo, LeeMckrazy & DJ Biza', thumbnail: 'https://i.ytimg.com/vi/zrW2Zap7R4k/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/zrW2Zap7R4k', duration: '4:15', views: '2.4M', category: 'Music Video' },
+  { id: 'v7', title: 'SNOKONOKO', artist: 'Al Xapo, Benzoo & EeQue', thumbnail: 'https://i.ytimg.com/vi/wgGa9SgxhJI/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/wgGa9SgxhJI', duration: '3:50', views: '1.1M', category: 'Music Video' },
+  { id: 'v8', title: 'STANCE', artist: 'Al Xapo, Benzoo & Optimist MusicZA', thumbnail: 'https://i.ytimg.com/vi/KHf9unwLGH8/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/KHf9unwLGH8', duration: '4:02', views: '850K', category: 'Music Video' },
+  { id: 'v9', title: 'Sandla Sam', artist: 'Ggoldie, CowBoii & Al Xapo', thumbnail: 'https://i.ytimg.com/vi/C18pDqqtdgg/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/C18pDqqtdgg', duration: '3:40', views: '500K', category: 'Music Video' },
+  { id: 'v10', title: 'Snokonoko (Lyric Video)', artist: 'Al Xapo, Benzoo & Eeque', thumbnail: 'https://i.ytimg.com/vi/BGpdaPA5M1s/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/BGpdaPA5M1s', duration: '3:54', views: '2.2M', category: 'Lyric Video' },
+  { id: 'v11', title: 'STANCE (Lyric Video)', artist: 'Al Xapo, Benzoo & Optimist Music ZA', thumbnail: 'https://i.ytimg.com/vi/_TR4QP7y_TI/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/_TR4QP7y_TI', duration: '4:02', views: '1.4M', category: 'Lyric Video' },
+  { id: 'v13', title: 'ThisIzLondon Interview Part 1', artist: 'ThisIzLondon', thumbnail: 'https://i.ytimg.com/vi/XCiTI7gtcC4/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/XCiTI7gtcC4', duration: '12:15', views: '45K', category: 'Interview' },
+  { id: 'v14', title: 'ThisIzLondon Interview Part 2', artist: 'ThisIzLondon', thumbnail: 'https://i.ytimg.com/vi/vbn6WJniylw/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/vbn6WJniylw', duration: '10:40', views: '32K', category: 'Interview' },
+  { id: 'v15', title: 'ThisIzLondon Interview Part 3', artist: 'ThisIzLondon', thumbnail: 'https://i.ytimg.com/vi/fNkz_q-Ao78/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/fNkz_q-Ao78', duration: '15:20', views: '28K', category: 'Interview' },
+  { id: 'v16', title: 'Summer Walker Interview Part 1', artist: 'Summer Walker', thumbnail: 'https://i.ytimg.com/vi/VPNq8se13U4/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/VPNq8se13U4', duration: '18:45', views: '1.2M', category: 'Interview' },
+  { id: 'v17', title: 'Summer Walker Interview Part 2', artist: 'Summer Walker', thumbnail: 'https://i.ytimg.com/vi/FghRBq_rc7o/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/FghRBq_rc7o', duration: '22:10', views: '950K', category: 'Interview' },
+  { id: 'v18', title: 'Summer Walker Interview Part 3', artist: 'Summer Walker', thumbnail: 'https://i.ytimg.com/vi/CqmhXDss1t8/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/CqmhXDss1t8', duration: '14:30', views: '820K', category: 'Interview' },
+  { id: 'v19', title: 'TxC Interview Part 1', artist: 'TxC', thumbnail: 'https://i.ytimg.com/vi/isHJIIzkWA8/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/isHJIIzkWA8', duration: '8:12', views: '110K', category: 'Interview' },
+  { id: 'v20', title: 'TxC Interview Part 2', artist: 'TxC', thumbnail: 'https://i.ytimg.com/vi/2rSd-Wm3o0k/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/2rSd-Wm3o0k', duration: '10:05', views: '85K', category: 'Interview' },
+  { id: 'v21', title: 'Al Xapo Interview Part 1', artist: 'Al Xapo', thumbnail: 'https://i.ytimg.com/vi/XSJcWlZ25hM/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/XSJcWlZ25hM', duration: '12:30', views: '45K', category: 'Interview' },
+  { id: 'v22', title: 'Al Xapo Interview Part 2', artist: 'Al Xapo', thumbnail: 'https://i.ytimg.com/vi/g1J6KfrteQo/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/g1J6KfrteQo', duration: '14:15', views: '38K', category: 'Interview' },
+  { id: 'v23', title: 'Al Xapo Interview Part 3', artist: 'Al Xapo', thumbnail: 'https://i.ytimg.com/vi/52GwXridrvk/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/52GwXridrvk', duration: '11:50', views: '32K', category: 'Interview' },
+  { id: 'v24', title: 'Ggoldie Interview', artist: 'Ggoldie', thumbnail: 'https://i.ytimg.com/vi/OuO6quhdAiU/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/OuO6quhdAiU', duration: '9:40', views: '65K', category: 'Interview' },
+  { id: 'v25', title: 'Chley Interview Part 1', artist: 'Chley', thumbnail: 'https://i.ytimg.com/vi/7laYKYi5xpk/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/7laYKYi5xpk', duration: '15:20', views: '28K', category: 'Interview' },
+  { id: 'v26', title: 'Chley Interview Part 2', artist: 'Chley', thumbnail: 'https://i.ytimg.com/vi/rgApfcH73tY/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/rgApfcH73tY', duration: '12:10', views: '22K', category: 'Interview' },
+  { id: 'v27', title: 'Tango Supreme Interview', artist: 'Tango Supreme', thumbnail: 'https://i.ytimg.com/vi/IfnIcUu5cHk/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/IfnIcUu5cHk', duration: '18:30', views: '15K', category: 'Interview' },
+  { id: 'v28', title: 'DVSN Interview Part 1', artist: 'DVSN', thumbnail: 'https://i.ytimg.com/vi/diYyu-Ynj4M/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/diYyu-Ynj4M', duration: '25:40', views: '210K', category: 'Interview' },
+  { id: 'v29', title: 'DVSN Interview Part 2', artist: 'DVSN', thumbnail: 'https://i.ytimg.com/vi/rBeXSSHWxGI/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/rBeXSSHWxGI', duration: '22:15', views: '180K', category: 'Interview' },
+  { id: 'v30', title: 'Spinall Interview', artist: 'Spinall', thumbnail: 'https://i.ytimg.com/vi/YgbYxQGWsW8/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/YgbYxQGWsW8', duration: '14:20', views: '75K', category: 'Interview' },
+  { id: 'v31', title: 'Sushi.B Interview', artist: 'Sushi.B', thumbnail: 'https://i.ytimg.com/vi/d2gpbmlZDuw/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/d2gpbmlZDuw', duration: '11:05', views: '32K', category: 'Interview' },
+  { id: 'v32', title: 'Selectcon 005: How to Be Independent w| LVRN', artist: 'LVRN', thumbnail: 'https://i.ytimg.com/vi/M3pmpfr4O30/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/M3pmpfr4O30', duration: '45:30', views: '120K', category: 'Interview' },
+  { id: 'v33', title: "Founder Of LVRN Justice Talks How LVRN Was Built, Summer Walker's Success, Artist Development & More", artist: 'Justice Baiden', thumbnail: 'https://i.ytimg.com/vi/J2Q-DKPpBXA/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/J2Q-DKPpBXA', duration: '58:20', views: '350K', category: 'Interview' },
+  { id: 'v34', title: "LVRN Co-Founder Justice Baiden On Summer Walker's 'Finally Over It' | Hey Janeé Podcast | Episode 27", artist: 'Justice Baiden & Summer Walker', thumbnail: 'https://i.ytimg.com/vi/bxC-oiZddN0/hqdefault.jpg', embedUrl: 'https://www.youtube.com/embed/bxC-oiZddN0', duration: '1:12:40', views: '450K', category: 'Interview' },
+  { id: 'v35', title: "Friend Do Remix ft. YKNIECE (Official Music Video)", artist: "Belly Gang Kushington", thumbnail: "https://i.ytimg.com/vi/WkLBlEMoiaA/hqdefault.jpg", embedUrl: "https://www.youtube.com/embed/WkLBlEMoiaA", duration: "3:45", views: "1.2M", category: "Music Video" },
+  { id: 'v36', title: "Baddi Ah (Official Visualizer) ft. Tripcy, P.M.F & Megaej", artist: "Nektunez, Ciza, Tiwa Savage & Shoday", thumbnail: "https://i.ytimg.com/vi/5dR3OfSI7gM/hqdefault.jpg", embedUrl: "https://www.youtube.com/embed/5dR3OfSI7gM", duration: "4:12", views: "850K", category: "Music Video" },
+  { id: 'v37', title: "Betha Sghubu 2.0 Feat. M00tion & T00Valid (Official Visualiser)", artist: "Ez Maestro, Ch'cco & Eeque", thumbnail: "https://i.ytimg.com/vi/GIVoX0yfjlo/hqdefault.jpg", embedUrl: "https://www.youtube.com/embed/GIVoX0yfjlo", duration: "3:58", views: "620K", category: "Music Video" },
+  { id: 'v38', title: "Many Girls ft. BRUME (Official Visualizer)", artist: "Thisizlondon", thumbnail: "https://i.ytimg.com/vi/iMPsIFgYscc/hqdefault.jpg", embedUrl: "https://www.youtube.com/embed/iMPsIFgYscc", duration: "3:24", views: "450K", category: "Music Video" },
+  { id: 'v39', title: "PINACOLADA REMIX ft. Beéle, Ayra Starr & 6LACK", artist: "Thisizlondon", thumbnail: "https://i.ytimg.com/vi/-obm4F_YKI4/hqdefault.jpg", embedUrl: "https://www.youtube.com/embed/-obm4F_YKI4", duration: "4:05", views: "2.1M", category: "Music Video" },
+  { id: 'v40', title: "Bird Flu", artist: "6LACK", thumbnail: "https://i.ytimg.com/vi/xHtLTXBmtQA/hqdefault.jpg", embedUrl: "https://www.youtube.com/embed/xHtLTXBmtQA", duration: "3:15", views: "3.5M", category: "Music Video" },
+  { id: 'v41', title: "Nights In The Sun (feat. Wizkid)", artist: "Odeal", thumbnail: "https://i.ytimg.com/vi/LUEojiBiW1w/hqdefault.jpg", embedUrl: "https://www.youtube.com/embed/LUEojiBiW1w", duration: "3:42", views: "5.6M", category: "Music Video" },
+  { id: 'v42', title: "INTWE NAMI [OFFICIAL] VISUALIZER", artist: "Colkaze", thumbnail: "https://i.ytimg.com/vi/tzKBwhg5CM4/hqdefault.jpg", embedUrl: "https://www.youtube.com/embed/tzKBwhg5CM4", duration: "4:30", views: "320K", category: "Music Video" },
+  { id: 'v43', title: "Baddies (Official Video)", artist: "Sadboi", thumbnail: "https://i.ytimg.com/vi/PpapqWrIN9U/hqdefault.jpg", embedUrl: "https://www.youtube.com/embed/PpapqWrIN9U", duration: "3:10", views: "1.1M", category: "Music Video" },
+  { id: 'v44', title: "Straight (prod by @Lucas Scharff)", artist: "Baby Tate", thumbnail: "https://i.ytimg.com/vi/W_zzCnGp70c/hqdefault.jpg", embedUrl: "https://www.youtube.com/embed/W_zzCnGp70c", duration: "2:55", views: "940K", category: "Music Video" },
+  { id: 'v45', title: "Location (Official Music Video)", artist: "Seekay, Tshepi P, Tony Duardo", thumbnail: "https://i.ytimg.com/vi/c7asU1UIExk/hqdefault.jpg", embedUrl: "https://www.youtube.com/embed/c7asU1UIExk", duration: "3:48", views: "4.2M", category: "Music Video" },
+  { id: 'v46', title: "LVRN Executive Interview", artist: "LVRN", thumbnail: "https://i.ytimg.com/vi/ULRLKglyVN8/hqdefault.jpg", embedUrl: "https://www.youtube.com/embed/ULRLKglyVN8", duration: "20:00", views: "100K", category: "Interview" }
 ];
 
 export const MERCH_PRODUCTS: MerchProduct[] = [

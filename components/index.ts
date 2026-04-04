@@ -34,6 +34,7 @@ export const BookingHub = lazy(() => import('./BookingHub').then(m => ({ default
 export const BookingForm = lazy(() => import('./BookingForm').then(m => ({ default: m.BookingForm })));
 export const Playroom = lazy(() => import('./Playroom').then(m => ({ default: m.Playroom })));
 export const ArtistProfile = lazy(() => import('./ArtistProfile').then(m => ({ default: m.ArtistProfile })));
+export const ArtistSection = lazy(() => import('./ArtistSection').then(m => ({ default: m.ArtistSection })));
 export const MusicVideos = lazy(() => import('./MusicVideos').then(m => ({ default: m.MusicVideos })));
 export const ReleasesPage = lazy(() => import('./ReleasesPage').then(m => ({ default: m.ReleasesPage })));
 export const TourPage = lazy(() => import('./TourPage').then(m => ({ default: m.TourPage })));

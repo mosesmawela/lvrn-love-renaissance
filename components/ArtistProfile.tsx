@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, Calendar, Globe, Star, Users, Music, ListMusic, Trophy, Zap, Video, Share2, Quote, ExternalLink, Check, Twitter, Instagram, Search, Play, Youtube, Music as MusicIcon, ExternalLink as LinkIcon, Loader2, X } from 'lucide-react';
 import { Artist } from '../types';
 import { GlassCard } from './GlassCard';
+import { ArtistSection } from './ArtistSection';
 import { useExperience } from './ExperienceProvider';
 import { musicDataService, UnifiedTrack, UnifiedVideo } from '../src/services/music-data-service';
 
@@ -292,6 +293,9 @@ export const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist, onBack, on
                                 <p>{artist.bio || "Biography coming soon..."}</p>
                             </div>
 
+                            {/* Artist Featured Section - Immersive Video Experience */}
+                            <ArtistSection artist={artist} />
+
                             {/* The video is now integrated into the hero background for a cinematic experience */}
                         </motion.div>
 
@@ -415,7 +419,7 @@ export const ArtistProfile: React.FC<ArtistProfileProps> = ({ artist, onBack, on
                                         <Youtube size={14} /> Official Visuals
                                     </h3>
                                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                                        {videos.slice(0, 3).map((video) => (
+                                        {videos.slice(0, 12).map((video) => (
                                             <div
                                                 key={video.id}
                                                 className="group aspect-video rounded-xl overflow-hidden relative cursor-pointer border border-white/5"
