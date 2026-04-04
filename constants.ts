@@ -231,6 +231,94 @@ export const ARTISTS: Artist[] = [
 
   // Africa (Formerly HGA)
   {
+    name: "Kwamzy",
+    category: "Africa",
+    role: "DJ / Producer",
+    image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Kwamzy",
+    bookingRate: "Inquire for Rates",
+    bookingRegion: "Africa / UK",
+    quote: "Kwamzy has captivated audiences with his infectious energy, distinct sound, and unparalleled talent.",
+    bio: "Kwamzy is a dynamic force in the Amapiano, Afro House, and 3-step music scenes. His deep understanding and mastery of these genres have earned him respect and recognition from numerous South African artists. His signature tagline, \"Let's go!\" is synonymous with his high-energy performances.",
+    stats: { followers: "11.5K", streams: "500K", listeners: "52K" }
+  },
+  {
+    name: "Sushi.B",
+    category: "Africa",
+    role: "Producer / Artist",
+    image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Sushi%20B",
+    bookingRate: "Inquire for Rates",
+    bookingRegion: "Africa",
+    quote: "A groundbreaking Johannesburg-born producer reshaping the global Amapiano scene with his 'Private School' sound.",
+    bio: "Kenny Katleho Magampa, known as Sushi.B, is a groundbreaking Johannesburg-born producer and artist reshaping the global Amapiano scene with his signature \"Private School\" sound—a sophisticated fusion of Amapiano, Latin, Spanish, Blues, RnB, and Jazz. His viral hits, including Shakespeare, Amigos, and Bruce Lee, have solidified his status as an international force.",
+    stats: { followers: "213K", streams: "14.6M", listeners: "217K" }
+  },
+  {
+    name: "Tango Supreme",
+    category: "Africa",
+    role: "DJ Duo",
+    image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Tango%20Supreme",
+    bookingRate: "Inquire for Rates",
+    bookingRegion: "Africa / Intl",
+    quote: "IT TAKES TWO TO TANGO.",
+    bio: "Tango Supreme is a dynamic international DJ duo made up of two ladies namely Tiisetso Moncho & Nomfundo Khumalo, born and raised in South Africa. Tango Supreme is a pivotal duo in ensuring that the Amapiano genre reaches a global status, creating trends and dance moves that breakout on the internet.",
+    stats: { followers: "30K", streams: "24M", listeners: "420K" }
+  },
+  {
+    name: "Buddy Kay",
+    category: "Africa",
+    role: "Producer / DJ",
+    image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Buddy%20Kay",
+    bookingRate: "Inquire for Rates",
+    bookingRegion: "Africa",
+    quote: "A multi-hyphenate talent establishing himself through high-profile collaborations.",
+    bio: "Buddy Kay (often credited as Kutlwano Mokgola) is an emerging South African Amapiano producer, DJ, and composer hailing from Soshanguve, Pretoria. Recognized as a multi-hyphenate talent, he has quickly established himself as a significant voice in the Amapiano scene. He views Amapiano as a movement to tell the stories of South African youth.",
+    stats: { followers: "71.9K", streams: "3.2M", listeners: "84K" }
+  },
+  {
+    name: "Sthibo de Beat",
+    category: "Africa",
+    role: "DJ / Producer",
+    image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Sthibo%20De%20Beat",
+    bookingRate: "Inquire for Rates",
+    bookingRegion: "Africa",
+    quote: "A sonic architect turning roots into rhythms—forever young, wild, and free.",
+    bio: "Sthibo de Beat (born Thabang Tlou Kgomo) is an award-winning South African DJ, producer, sound engineer, and entrepreneur. Originating from Ga-Matlala, Limpopo, and now based in Gauteng, his \"Young, Wild, and Free\" ethos resonates through his dynamic productions and electrifying performances.",
+    stats: { followers: "6K", streams: "245K", listeners: "2K" }
+  },
+  {
+    name: "Boibizza",
+    category: "Africa",
+    role: "Vocalist / Artist",
+    image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Boibizza",
+    bookingRate: "Inquire for Rates",
+    bookingRegion: "Africa",
+    quote: "Boibizza continues to make waves in the music scene with vocal artistry.",
+    bio: "Hailing from Daveyton but raised in Kwa-Thema, Boibizza's journey into music began at a young age. As his name spread, he consistently delivered high-energy performances. His big break came through a collaboration with Tony Duardo and Ciza on the track 'Tanzania', which was featured on Uncle Waffles' debut EP.",
+    stats: { followers: "131K", streams: "65M", listeners: "1.65M" }
+  },
+  {
+    name: "Leandra.Vert",
+    category: "Africa",
+    role: "Singer / Songwriter",
+    image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Leandra.Vert",
+    bookingRate: "Inquire for Rates",
+    bookingRegion: "Africa",
+    quote: "One of Amapiano's most distinctive new voices.",
+    bio: "Leandra.Vert (born Tshireletso Chantelle Mokau) is a South African singer-songwriter who has emerged as one of Amapiano's most distinctive new voices. She blends the soulful feel of R&B with the house-driven rhythms of Amapiano. Her influences include artists like Ari Lennox, Sade, Sabrina Claudio and SZA.",
+    stats: { followers: "27.7K", streams: "10M", listeners: "84K" }
+  },
+  {
+    name: "Optimist Music ZA",
+    category: "Africa",
+    role: "Artist",
+    image: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Optimist%20Music%20Za",
+    bookingRate: "Inquire for Rates",
+    bookingRegion: "Africa",
+    quote: "A vibrant blend of soulful vocals, melodic hooks, and contemporary Afro-house beats.",
+    bio: "Optimist Music ZA, whose real name is Thabo Musa, is an artist from Mamelodi, Pretoria, South Africa, specializing in Afro-Pop, Amapiano, and Soulful Pop. His signature sound is a vibrant blend of soulful vocals, melodic hooks, and contemporary Afro-house beats, earning him the name \"Optimist.\"",
+    stats: { followers: "24.7K", streams: "23.6M", listeners: "383K" }
+  },
+  {
     name: "Tony Duardo",
     category: "Africa",
     role: "Producer / Executive",
