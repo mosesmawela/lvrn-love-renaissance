@@ -67,7 +67,11 @@ export const MusicVideos: React.FC<MusicVideosProps> = ({ onNavigate }) => {
     const [filterCategory, setFilterCategory] = useState<string | null>(null);
 
     // Filtered Content
-    const featuredVideo = useMemo(() => VIDEOS[0], []);
+    const featuredVideo = useMemo(() => {
+        if (!filterCategory) return VIDEOS[0];
+        const categoryVideos = VIDEOS.filter(v => v.category === filterCategory);
+        return categoryVideos.length > 0 ? categoryVideos[0] : VIDEOS[0];
+    }, [filterCategory]);
     
     const interviewVideos = useMemo(() => 
         VIDEOS.filter(v => v.category === 'Interview'),
@@ -154,7 +158,7 @@ export const MusicVideos: React.FC<MusicVideosProps> = ({ onNavigate }) => {
                             className="bg-transparent border-none text-white text-sm focus:outline-none ml-2 w-24 md:w-48 transition-all"
                         />
                         {searchQuery && (
-                            <button onClick={() => setSearchQuery('')} className="ml-2 text-gray-400 hover:text-white">
+                            <button onClick={() => setSearchQuery('')} className="ml-2 text-gray-400 hover:text-white" aria-label="Clear search">
                                 <X size={16} />
                             </button>
                         )}
@@ -177,6 +181,7 @@ export const MusicVideos: React.FC<MusicVideosProps> = ({ onNavigate }) => {
                         <button 
                             onClick={() => setSearchQuery('')}
                             className="p-2 hover:bg-white/10 rounded-full transition-colors"
+                            aria-label="Close search results"
                         >
                             <X size={24} />
                         </button>
@@ -216,6 +221,7 @@ export const MusicVideos: React.FC<MusicVideosProps> = ({ onNavigate }) => {
                                 src={`${featuredVideo.embedUrl}?autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3&disablekb=1&enablejsapi=1&loop=1&playlist=${featuredVideo.embedUrl.split('/').pop()}`}
                                 className="w-[140%] h-[140%] -translate-x-[15%] -translate-y-[15%] pointer-events-none"
                                 allow="autoplay"
+                                title={`Featured: ${featuredVideo.title}`}
                             />
                             <div className="absolute inset-0 bg-gradient-to-r from-[#141414] via-[#141414]/20 to-transparent" />
                             <div className="absolute inset-0 bg-gradient-to-t from-[#141414] via-transparent to-black/20" />
