@@ -4,6 +4,7 @@ import { useExperience } from './ExperienceProvider';
 import { ParticleBackground } from './ParticleBackground';
 import { ArrowRight } from 'lucide-react';
 import { Logo } from './Logo';
+import InteractiveNeuralVortex from './ui/interactive-neural-vortex-background';
 
 export const EntryScreen: React.FC = () => {
   const { enterExperience, hasEntered } = useExperience();
@@ -45,26 +46,13 @@ export const EntryScreen: React.FC = () => {
     <AnimatePresence>
       {!isExiting && (
         <motion.div
-          className="fixed inset-0 z-[100] bg-[var(--bg-color)] flex flex-col items-center justify-center overflow-hidden"
+          className="fixed inset-0 z-[100] bg-[#000] flex flex-col items-center justify-center overflow-hidden"
           exit={{ opacity: 0, transition: { duration: 0.8, ease: "easeInOut" } }}
         >
-          {/* Background Elements (Matching Hero) */}
-          <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-            <motion.div
-              className="absolute top-[-20%] left-[-20%] w-[80vw] h-[80vw] rounded-full blur-[120px] mix-blend-screen opacity-20"
-              style={{ background: 'radial-gradient(circle, rgba(249,115,22,0.9) 0%, rgba(234,88,12,0) 70%)' }}
-              animate={{ rotate: 360 }}
-              transition={{ duration: 50, repeat: Infinity, ease: "linear" }}
-            />
-            <motion.div
-              className="absolute bottom-[-20%] right-[-20%] w-[90vw] h-[90vw] rounded-full blur-[120px] mix-blend-screen opacity-15"
-              style={{ background: 'radial-gradient(circle, rgba(251,146,60,0.9) 0%, rgba(249,115,22,0) 70%)' }}
-              animate={{ rotate: -360 }}
-              transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-            />
-          </div>
-
-          <ParticleBackground intensity={0.4} className="opacity-40" />
+          <InteractiveNeuralVortex>
+            <div className="absolute inset-0 pointer-events-none">
+              <ParticleBackground intensity={0.4} className="opacity-40" />
+            </div>
 
           <div className="relative z-10 flex flex-col items-center justify-center p-8 w-full max-w-4xl">
 
@@ -143,6 +131,7 @@ export const EntryScreen: React.FC = () => {
               )}
             </AnimatePresence>
           </div>
+          </InteractiveNeuralVortex>
         </motion.div>
       )}
     </AnimatePresence>
