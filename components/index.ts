@@ -39,6 +39,7 @@ export const MusicVideos = lazy(() => import('./MusicVideos').then(m => ({ defau
 export const ReleasesPage = lazy(() => import('./ReleasesPage').then(m => ({ default: m.ReleasesPage })));
 export const TourPage = lazy(() => import('./TourPage').then(m => ({ default: m.TourPage })));
 export const MerchStore = lazy(() => import('./MerchStore').then(m => ({ default: m.MerchStore })));
+export const FeaturedArtists = lazy(() => import('./FeaturedArtists').then(m => ({ default: m.FeaturedArtists })));
 export const Artist3DCarousel = lazy(() => import('./Artist3DCarousel').then(m => ({ default: m.Artist3DCarousel })));
 export const MeetTheTeam = lazy(() => import('./MeetTheTeam').then(m => ({ default: m.MeetTheTeam })));
 export const DJPacks = lazy(() => import('./DJPacks').then(m => ({ default: m.DJPacks })));

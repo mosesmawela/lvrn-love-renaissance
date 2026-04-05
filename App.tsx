@@ -16,7 +16,7 @@ import {
   Timeline, Stats, SpotifyFeature, Foundation, AiAssistant,
   SocialHub, BookingHub, BookingForm, Playroom, ArtistProfile,
   MusicVideos, ReleasesPage, TourPage, MerchStore, Artist3DCarousel,
-  MeetTheTeam, DJPacks
+  MeetTheTeam, DJPacks, FeaturedArtists
 } from './components';
 
 import type { CartItem } from './components';
@@ -234,7 +234,7 @@ const AppContent: React.FC = () => {
       />
       <Section title="Featured Artists" subtitle="Voices of the Future">
         <div className="mt-8">
-          <Artist3DCarousel
+          <FeaturedArtists
             artists={ARTISTS.filter(a => a.category === 'Signed' || a.category === 'Management')}
             onSelect={(artist) => {
               setViewingArtist(artist);
