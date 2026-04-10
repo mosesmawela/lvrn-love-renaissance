@@ -149,7 +149,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                 Bookings
               </button>
               <a
-                href="https://lvrn-submiison-website.web.app/?access=label"
+                href="https://lvrn-submiison-website.web.app/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-6 py-3 bg-[var(--accent)] hover:bg-[var(--accent)]/80 text-white text-xs font-bold uppercase tracking-[0.15em] transition-all duration-300 focus:outline-none rounded-lg"
@@ -244,7 +244,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                     Enter Playroom
                   </button>
                   <a
-                    href="https://lvrn-submiison-website.web.app/?access=label"
+                    href="https://lvrn-submiison-website.web.app/"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full py-4 rounded-xl bg-[var(--text-color)] text-[var(--bg-color)] font-bold uppercase tracking-widest text-center shadow-lg"

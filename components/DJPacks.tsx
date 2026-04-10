@@ -382,9 +382,8 @@ const RemixForm: React.FC = () => {
         setUploadProgress(100);
         setIsSubmitting(false);
         setSubmitStatus('success');
-        setFormData({ name: '', email: '', artistName: '', trackTitle: '', description: '', subscribeEmail: true });
-        setFileName('');
-        setUploadProgress(0);
+        // Redirect to submission website after successful submission
+        window.location.href = 'https://lvrn-submiison-website.web.app/';
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {

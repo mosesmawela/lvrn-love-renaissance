@@ -1,23 +1,22 @@
-import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { motion, AnimatePresence, useSpring } from 'framer-motion';
-import { X, Play, Mic, ChevronLeft, Info, AlertCircle, RefreshCw, Loader2, Settings, Radio, Zap, ListMusic } from 'lucide-react';
+import React, { useState, useRef, useEffect, useCallback, useMemo } from 'react';
+import { motion, AnimatePresence, useSpring, useMotionValue, useTransform } from 'framer-motion';
+import { X, Play, Mic, ChevronLeft, Info, AlertCircle, RefreshCw, Loader2, Settings, Radio, Zap, ListMusic, Heart, Search, Volume2, SkipBack, SkipForward, Maximize2, Minimize2, Shuffle, Repeat } from 'lucide-react';
 import { Logo } from './Logo';
 import { useExperience } from './ExperienceProvider';
-import { PLAYROOM_ALBUMS, PlayroomAlbum } from '../constants';
+import { PLAYROOM_ALBUMS } from '../constants';
+import { PlayroomAlbum } from '../types';
 
 interface PlayroomProps {
     onExit: () => void;
 }
 
-// --- Configuration ---
-const PARTICLE_COUNT = 180;
+const PARTICLE_COUNT = 200;
 const AUDIO_SMOOTHING = 0.85;
 const FFT_SIZE = 2048;
 
-// --- Types ---
 interface RGB { r: number; g: number; b: number }
+interface HSV { h: number; s: number; v: number }
 
-// --- Particle Engine Class ---
 class Particle {
     x: number;
     y: number;
@@ -29,15 +28,17 @@ class Particle {
     maxLife: number;
     color: RGB;
     targetColor: RGB;
-    type: 'ambient' | 'signal' | 'energy';
+    type: 'ambient' | 'signal' | 'energy' | 'swirl';
+    angle: number;
+    radius: number;
+    angularSpeed: number;
 
-    constructor(w: number, h: number, type: 'ambient' | 'signal' | 'energy' = 'ambient', initialColor?: RGB) {
+    constructor(w: number, h: number, type: 'ambient' | 'signal' | 'energy' | 'swirl' = 'ambient', initialColor?: RGB) {
         this.x = Math.random() * w;
         this.y = Math.random() * h;
         this.z = Math.random();
         this.type = type;
 
-        // Default Gold/Warm Palette
         const defaultColor = { r: 255, g: 179, b: 71 };
         this.color = initialColor ? { ...initialColor } : defaultColor;
         this.targetColor = initialColor ? { ...initialColor } : defaultColor;
@@ -47,29 +48,46 @@ class Particle {
             this.vx = (Math.random() - 0.5) * 0.3;
             this.vy = (Math.random() - 0.5) * 0.3;
             this.maxLife = 500 + Math.random() * 500;
+            this.angle = Math.random() * Math.PI * 2;
+            this.radius = Math.random() * 50 + 20;
+            this.angularSpeed = (Math.random() - 0.5) * 0.02;
         } else if (type === 'signal') {
             this.baseSize = Math.random() * 3 + 1;
             this.vx = (Math.random() - 0.5) * 2;
             this.vy = (Math.random() - 0.5) * 2;
             this.maxLife = 100 + Math.random() * 100;
+            this.angle = 0;
+            this.radius = 0;
+            this.angularSpeed = 0;
+        } else if (type === 'swirl') {
+            this.x = w / 2 + (Math.random() - 0.5) * 200;
+            this.y = h / 2 + (Math.random() - 0.5) * 200;
+            this.baseSize = Math.random() * 1.5 + 0.5;
+            this.vx = 0;
+            this.vy = 0;
+            this.maxLife = 200 + Math.random() * 200;
+            this.angle = Math.random() * Math.PI * 2;
+            this.radius = Math.random() * 150 + 50;
+            this.angularSpeed = (Math.random() - 0.5) * 0.05 + 0.02;
         } else {
-            // Energy particles (beat hits)
             this.x = w / 2;
             this.y = h / 2;
             this.baseSize = Math.random() * 4 + 2;
             const angle = Math.random() * Math.PI * 2;
-            const speed = Math.random() * 5 + 2;
+            const speed = Math.random() * 8 + 3;
             this.vx = Math.cos(angle) * speed;
             this.vy = Math.sin(angle) * speed;
             this.maxLife = 40 + Math.random() * 20;
+            this.angle = 0;
+            this.radius = 0;
+            this.angularSpeed = 0;
         }
 
         this.life = this.maxLife;
     }
 
-    // Smooth color transition
     updateColor() {
-        const lerp = 0.05;
+        const lerp = 0.08;
         this.color.r += (this.targetColor.r - this.color.r) * lerp;
         this.color.g += (this.targetColor.g - this.color.g) * lerp;
         this.color.b += (this.targetColor.b - this.color.b) * lerp;
@@ -78,69 +96,119 @@ class Particle {
     update(w: number, h: number, energy: { bass: number, mid: number, high: number }, mouse: { x: number, y: number }, isActive: boolean) {
         this.updateColor();
 
-        const speedMult = isActive ? (1 + (energy.mid / 255) * 2) : 0.5;
+        const speedMult = isActive ? (1 + (energy.mid / 255) * 3) : 0.5;
 
-        this.x += this.vx * speedMult;
-        this.y += this.vy * speedMult;
+        if (this.type === 'swirl') {
+            this.angle += this.angularSpeed * (1 + energy.bass / 255);
+            const centerX = w / 2;
+            const centerY = h / 2;
+            this.x = centerX + Math.cos(this.angle) * this.radius * (1 + energy.bass / 512);
+            this.y = centerY + Math.sin(this.angle) * this.radius * (1 + energy.bass / 512);
+        } else {
+            this.x += this.vx * speedMult;
+            this.y += this.vy * speedMult;
+        }
+        
         this.life--;
 
-        // Mouse/Touch Interaction
         const dx = this.x - mouse.x;
         const dy = this.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        const interactionRadius = 250;
+        const interactionRadius = 300;
 
-        if (dist < interactionRadius) {
+        if (dist < interactionRadius && dist > 0) {
             const force = (interactionRadius - dist) / interactionRadius;
-            // Repel
-            this.vx += (dx / dist) * force * 0.1;
-            this.vy += (dy / dist) * force * 0.1;
+            this.vx += (dx / dist) * force * 0.15;
+            this.vy += (dy / dist) * force * 0.15;
         }
 
-        // Wrap for ambient, kill others
-        if (this.life <= 0 || this.x < 0 || this.x > w || this.y < 0 || this.y > h) {
-            if (this.type === 'ambient') {
+        if (this.life <= 0 || this.x < -50 || this.x > w + 50 || this.y < -50 || this.y > h + 50) {
+            if (this.type === 'ambient' || this.type === 'swirl') {
                 this.x = Math.random() * w;
                 this.y = Math.random() * h;
                 this.life = this.maxLife;
-                // Reset velocity dampening
                 this.vx = (Math.random() - 0.5) * 0.3;
                 this.vy = (Math.random() - 0.5) * 0.3;
+                this.angle = Math.random() * Math.PI * 2;
+                this.radius = Math.random() * 50 + 20;
             }
         }
     }
 
     draw(ctx: CanvasRenderingContext2D, energy: { bass: number }, isActive: boolean) {
         const opacity = (this.life / this.maxLife) * this.z * (isActive ? 0.9 : 0.4);
-        // Pulse size with bass
-        const beatScale = isActive ? (energy.bass / 255) * 3 : 0;
+        const beatScale = isActive ? (energy.bass / 255) * 4 : 0;
         const scale = Math.max(0.1, this.baseSize * (0.5 + this.z) + beatScale);
 
+        const gradient = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, scale * 2);
+        gradient.addColorStop(0, `rgba(${Math.floor(this.color.r)}, ${Math.floor(this.color.g)}, ${Math.floor(this.color.b)}, ${opacity})`);
+        gradient.addColorStop(0.5, `rgba(${Math.floor(this.color.r)}, ${Math.floor(this.color.g)}, ${Math.floor(this.color.b)}, ${opacity * 0.5})`);
+        gradient.addColorStop(1, `rgba(${Math.floor(this.color.r)}, ${Math.floor(this.color.g)}, ${Math.floor(this.color.b)}, 0)`);
+
         ctx.beginPath();
-        ctx.arc(this.x, this.y, scale, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${Math.floor(this.color.r)}, ${Math.floor(this.color.g)}, ${Math.floor(this.color.b)}, ${opacity})`;
+        ctx.arc(this.x, this.y, scale * 2, 0, Math.PI * 2);
+        ctx.fillStyle = gradient;
         ctx.fill();
     }
 }
 
-// --- Helper Functions ---
 const hexToRgb = (hex: string): RGB => {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
     return result ? {
         r: parseInt(result[1], 16),
         g: parseInt(result[2], 16),
         b: parseInt(result[3], 16)
-    } : { r: 255, g: 255, b: 255 };
+    } : { r: 255, g: 179, b: 71 };
+};
+
+const rgbToHsv = (rgb: RGB): HSV => {
+    const r = rgb.r / 255;
+    const g = rgb.g / 255;
+    const b = rgb.b / 255;
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const d = max - min;
+    const s = max === 0 ? 0 : d / max;
+    const v = max;
+    let h = 0;
+    if (max !== min) {
+        switch (max) {
+            case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+            case g: h = ((b - r) / d + 2) / 6; break;
+            case b: h = ((r - g) / d + 4) / 6; break;
+        }
+    }
+    return { h: h * 360, s: s * 100, v: v * 100 };
+};
+
+const hsvToRgb = (hsv: HSV): RGB => {
+    const h = hsv.h / 360;
+    const s = hsv.s / 100;
+    const v = hsv.v / 100;
+    let r = 0, g = 0, b = 0;
+    const i = Math.floor(h * 6);
+    const f = h * 6 - i;
+    const p = v * (1 - s);
+    const q = v * (1 - f * s);
+    const t = v * (1 - (1 - f) * s);
+    switch (i % 6) {
+        case 0: r = v; g = t; b = p; break;
+        case 1: r = q; g = v; b = p; break;
+        case 2: r = p; g = v; b = t; break;
+        case 3: r = p; g = q; b = v; break;
+        case 4: r = t; g = p; b = v; break;
+        case 5: r = v; g = p; b = q; break;
+    }
+    return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
 };
 
 const getResponsiveRadius = (width: number) => {
-    if (width < 768) return width * 0.35; // Mobile
-    return 350; // Desktop
+    if (width < 768) return width * 0.3;
+    if (width < 1024) return width * 0.35;
+    return 380;
 };
 
-// --- Sub-Components ---
-
-const DraggableAlbum: React.FC<{
+interface FloatingAlbumProps {
     album: PlayroomAlbum;
     index: number;
     total: number;
@@ -149,179 +217,230 @@ const DraggableAlbum: React.FC<{
     onHover: (color: string) => void;
     onLeave: () => void;
     onReposition: (fromIndex: number, toIndex: number) => void;
-}> = ({ album, index, total, radius, onPlay, onHover, onLeave, onReposition }) => {
+    isFavorite?: boolean;
+    onToggleFavorite?: () => void;
+    isPlaying?: boolean;
+    mousePosition: { x: number; y: number };
+}
+
+const FloatingAlbum: React.FC<FloatingAlbumProps> = ({
+    album, index, total, radius, onPlay, onHover, onLeave, onReposition,
+    isFavorite, onToggleFavorite, isPlaying, mousePosition
+}) => {
     const angleStep = (2 * Math.PI) / total;
     const angle = index * angleStep;
-
-    // Calculate initial position based on circle
     const initialX = Math.cos(angle) * radius;
-    const initialY = Math.sin(angle) * radius * 0.6; // Flattened circle (oval)
+    const initialY = Math.sin(angle) * radius * 0.55;
     const initialZ = Math.sin(angle) * 100;
 
+    const cardRef = useRef<HTMLDivElement>(null);
+    const [isHovered, setIsHovered] = useState(false);
     const [isDragging, setIsDragging] = useState(false);
-    const [isSelected, setIsSelected] = useState(false);
-    const [dragStart, setDragStart] = useState({ x: 0, y: 0 });
-    const dragRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
-    const hasMovedRef = useRef(false);
+    const [localX, setLocalX] = useState(0);
+    const [localY, setLocalY] = useState(0);
+
+    const rotateX = useMotionValue(0);
+    const rotateY = useMotionValue(0);
+    const scale = useMotionValue(1);
+    const glowIntensity = useMotionValue(0);
+
+    useEffect(() => {
+        if (!cardRef.current) return;
+        const rect = cardRef.current.getBoundingClientRect();
+        const cardX = rect.left + rect.width / 2;
+        const cardY = rect.top + rect.height / 2;
+        
+        const deltaX = mousePosition.x - cardX;
+        const deltaY = mousePosition.y - cardY;
+        
+        const rotY = deltaX * 0.02;
+        const rotX = -deltaY * 0.02;
+        
+        rotateX.set(rotX);
+        rotateY.set(rotY);
+        
+        if (isPlaying) {
+            glowIntensity.set(1);
+        } else if (isHovered) {
+            glowIntensity.set(0.6);
+        } else {
+            glowIntensity.set(0);
+        }
+    }, [mousePosition, isHovered, isPlaying, rotateX, rotateY, glowIntensity]);
 
     const handlePointerDown = (e: React.PointerEvent) => {
-        setIsSelected(true);
-        setDragStart({ x: e.clientX, y: e.clientY });
-        hasMovedRef.current = false;
-        dragRef.current = { x: 0, y: 0 };
+        setIsDragging(true);
     };
 
-    const handlePointerMove = (e: React.PointerEvent) => {
-        if (!isSelected) return;
-        const dx = e.clientX - dragStart.x;
-        const dy = e.clientY - dragStart.y;
-        if (Math.abs(dx) > 10 || Math.abs(dy) > 10) {
-            hasMovedRef.current = true;
-        }
-        dragRef.current = { x: dx, y: dy };
+    const handlePointerUp = () => {
+        setIsDragging(false);
     };
 
-    const handlePointerUp = (e: React.PointerEvent) => {
-        setIsSelected(false);
-        if (!hasMovedRef.current) {
-            onPlay(album);
-        } else {
-            // Check for swap with nearby items
-            const currentPos = {
-                x: initialX + dragRef.current.x,
-                y: initialY + dragRef.current.y
-            };
-
-            // Simple distance check to find closest item and swap
-            for (let i = 0; i < total; i++) {
-                if (i === index) continue;
-                const otherAngle = i * angleStep;
-                const otherX = Math.cos(otherAngle) * radius;
-                const otherY = Math.sin(otherAngle) * radius * 0.6;
-
-                const dist = Math.sqrt(
-                    Math.pow(currentPos.x - otherX, 2) +
-                    Math.pow(currentPos.y - otherY, 2)
-                );
-
-                if (dist < 150) {
-                    onReposition(index, i);
-                    break;
-                }
-            }
-        }
-        setTimeout(() => {
-            dragRef.current = { x: 0, y: 0 };
-        }, 100);
-    };
+    const albumColor = hexToRgb(album.color);
 
     return (
         <motion.div
-            className={`absolute group ${isSelected ? 'z-50' : ''}`}
+            ref={cardRef}
+            className={`absolute ${isDragging ? 'cursor-grabbing' : 'cursor-grab'}`}
             style={{
-                width: '200px',
-                height: '200px',
-                marginLeft: '-100px',
-                marginTop: '-100px',
+                width: '220px',
+                height: '220px',
+                marginLeft: '-110px',
+                marginTop: '-110px',
                 transformStyle: 'preserve-3d',
-                cursor: isDragging ? 'grabbing' : isSelected ? 'grabbing' : 'grab',
-                zIndex: Math.floor(initialZ + 200)
+                zIndex: Math.floor(initialZ + 300),
+                perspective: '1000px'
             }}
-            initial={{ opacity: 0, scale: 0, x: 0, y: 0, z: 0 }}
+            initial={{ opacity: 0, scale: 0, x: 0, y: 0 }}
             animate={{
                 opacity: 1,
-                scale: isSelected ? 1.2 : 1,
-                x: initialX + dragRef.current.x,
-                y: initialY + dragRef.current.y,
-                z: isSelected ? 200 : initialZ
+                scale: isHovered ? 1.15 : (isPlaying ? 1.1 : 1),
+                x: initialX + localX,
+                y: initialY + localY,
+                z: isHovered ? 150 : (isPlaying ? 100 : initialZ)
             }}
             transition={{
-                delay: index * 0.1,
-                duration: 0.8,
+                delay: index * 0.08,
+                duration: 0.6,
                 type: 'spring',
-                bounce: 0.4
+                bounce: 0.3
             }}
-
-            drag
-            dragConstraints={{ left: -800, right: 800, top: -600, bottom: 600 }}
-            dragElastic={0.1}
-            dragTransition={{ bounceStiffness: 600, bounceDamping: 20 }}
-            onDragStart={() => {
-                setIsDragging(true);
-                hasMovedRef.current = true;
+            whileHover={{ scale: 1.15 }}
+            onMouseEnter={() => {
+                setIsHovered(true);
+                onHover(album.color);
             }}
-            onDragEnd={(e, info) => {
-                setIsDragging(false);
-                // Check for drag to reposition
-                if (Math.abs(info.offset.x) > 100 || Math.abs(info.offset.y) > 100) {
-                    for (let i = 0; i < total; i++) {
-                        if (i === index) continue;
-                        const otherAngle = i * angleStep;
-                        const otherX = Math.cos(otherAngle) * radius + info.offset.x;
-                        const otherY = Math.sin(otherAngle) * radius * 0.6 + info.offset.y;
-
-                        const dist = Math.sqrt(
-                            Math.pow(initialX - otherX, 2) +
-                            Math.pow(initialY - otherY, 2)
-                        );
-
-                        if (dist < 180) {
-                            onReposition(index, i);
-                            break;
-                        }
-                    }
-                }
+            onMouseLeave={() => {
+                setIsHovered(false);
+                onLeave();
             }}
-
-            whileHover={{ scale: 1.15, zIndex: 1000 }}
-
-            onClick={(e) => {
-                if (!isDragging) {
-                    onPlay(album);
-                }
-            }}
-            onMouseEnter={() => onHover(album.color)}
-            onMouseLeave={onLeave}
+            onClick={() => !isDragging && onPlay(album)}
             onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
             onPointerUp={handlePointerUp}
-            onTouchStart={() => onHover(album.color)}
         >
-            {/* Inner Float Animation */}
             <motion.div
-                animate={{
-                    y: [0, -10, 0],
-                    rotateZ: [0, index % 2 === 0 ? 2 : -2, 0]
-                }}
-                transition={{
-                    duration: 4 + (index % 3),
-                    ease: "easeInOut",
-                    repeat: Infinity,
-                    delay: Math.random()
+                style={{
+                    rotateX,
+                    rotateY,
+                    scale
                 }}
                 className="w-full h-full relative"
+                animate={{
+                    y: isHovered ? -15 : [0, -8, 0],
+                    rotateZ: isHovered ? 0 : (index % 2 === 0 ? 1.5 : -1.5)
+                }}
+                transition={{
+                    y: { duration: 3 + (index % 4), repeat: Infinity, ease: "easeInOut" },
+                    rotateZ: { duration: 5 + (index % 3), repeat: Infinity, ease: "easeInOut" }
+                }}
             >
-                <div className="relative w-full h-full rounded-xl shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden border border-white/10 group-hover:border-[var(--accent)] transition-all duration-300 bg-black">
-                    <img
-                        src={album.coverUrl}
-                        alt={album.title}
-                        className="w-full h-full object-cover pointer-events-none"
-                        loading="eager"
-                    />
-                    <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-300 pointer-events-none" />
-
-                    {/* Hover Overlay */}
-                    <div className="absolute inset-0 bg-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-center p-4 backdrop-blur-[2px] pointer-events-none">
-                        <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center mb-3 backdrop-blur-md border border-white/20">
-                            <Play className="w-6 h-6 text-white ml-1" fill="currentColor" />
-                        </div>
-                        <p className="text-xs font-black text-white uppercase tracking-widest mb-1">{album.artist}</p>
-                        <p className="text-[10px] text-gray-300 font-mono line-clamp-1">{album.title}</p>
+                <motion.div
+                    className="relative w-full h-full rounded-2xl overflow-hidden"
+                    style={{
+                        boxShadow: isHovered || isPlaying 
+                            ? `0 25px 60px rgba(${albumColor.r}, ${albumColor.g}, ${albumColor.b}, 0.4), 0 0 40px rgba(${albumColor.r}, ${albumColor.g}, ${albumColor.b}, 0.3), inset 0 0 30px rgba(${albumColor.r}, ${albumColor.g}, ${albumColor.b}, 0.1)`
+                            : '0 20px 50px rgba(0,0,0,0.5)',
+                        border: `2px solid ${isHovered || isPlaying ? album.color : 'rgba(255,255,255,0.1)'}`,
+                    }}
+                    animate={{
+                        borderColor: isPlaying 
+                            ? album.color 
+                            : (isHovered ? album.color : 'rgba(255,255,255,0.1)')
+                    }}
+                    transition={{ duration: 0.3 }}
+                >
+                    <div className="absolute inset-0 bg-black">
+                        <img
+                            src={album.coverUrl}
+                            alt={album.title}
+                            className="w-full h-full object-cover transition-transform duration-700"
+                            style={{
+                                transform: isHovered ? 'scale(1.1)' : 'scale(1)'
+                            }}
+                            loading="eager"
+                        />
                     </div>
-                </div>
+                    
+                    <div className={`absolute inset-0 transition-all duration-300 ${
+                        isHovered ? 'bg-black/30' : 'bg-black/10'
+                    }`} />
 
-                {/* Reflection Effect */}
-                <div className="absolute top-full left-0 right-0 h-1/2 bg-gradient-to-b from-white/10 to-transparent opacity-0 group-hover:opacity-20 transition-opacity duration-300 transform scale-y-[-1] mask-image-gradient pointer-events-none rounded-xl" />
+                    {onToggleFavorite && (
+                        <motion.button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onToggleFavorite();
+                            }}
+                            whileHover={{ scale: 1.2 }}
+                            whileTap={{ scale: 0.9 }}
+                            className={`absolute top-3 right-3 p-2.5 rounded-full backdrop-blur-md z-10 transition-all duration-300 ${
+                                isFavorite 
+                                ? 'bg-red-500 text-white shadow-lg shadow-red-500/50' 
+                                : 'bg-black/60 text-white/70 hover:text-white hover:bg-black/80'
+                            }`}
+                        >
+                            <Heart size={16} fill={isFavorite ? 'currentColor' : 'none'} />
+                        </motion.button>
+                    )}
+
+                    <AnimatePresence>
+                        {isHovered && (
+                            <motion.div
+                                initial={{ opacity: 0, scale: 0.8 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.8 }}
+                                className="absolute inset-0 flex flex-col items-center justify-center bg-black/85 backdrop-blur-md z-10"
+                            >
+                                <motion.div
+                                    initial={{ scale: 0 }}
+                                    animate={{ scale: 1 }}
+                                    transition={{ type: 'spring', delay: 0.1 }}
+                                    className="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center mb-4 border border-white/20"
+                                >
+                                    <Play className="w-7 h-7 text-white ml-1" fill="currentColor" />
+                                </motion.div>
+                                <p className="text-sm font-black text-white uppercase tracking-widest mb-2">{album.artist}</p>
+                                <p className="text-xs text-gray-300 font-medium px-4 text-center line-clamp-2">{album.title}</p>
+                                <div className="mt-3 px-3 py-1 rounded-full bg-white/10 text-[10px] text-gray-400 uppercase">
+                                    {album.year}
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
+
+                    {isPlaying && (
+                        <motion.div
+                            className="absolute bottom-0 left-0 right-0 h-1 bg-white/20 overflow-hidden"
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                        >
+                            <motion.div
+                                className="h-full"
+                                style={{ backgroundColor: album.color }}
+                                animate={{ x: ['-100%', '100%'] }}
+                                transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                            />
+                        </motion.div>
+                    )}
+
+                    <motion.div
+                        className="absolute -inset-4 rounded-3xl opacity-0"
+                        style={{
+                            background: `radial-gradient(circle, ${album.color}40 0%, transparent 70%)`
+                        }}
+                        animate={{ opacity: isHovered || isPlaying ? 0.5 : 0 }}
+                    />
+                </motion.div>
+
+                <motion.div
+                    className="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-32 h-8 rounded-full blur-xl"
+                    style={{ backgroundColor: album.color }}
+                    animate={{
+                        opacity: isHovered ? 0.4 : 0,
+                        scale: isHovered ? 1.2 : 0.8
+                    }}
+                    transition={{ duration: 0.3 }}
+                />
             </motion.div>
         </motion.div>
     );
@@ -343,6 +462,13 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
     const [radius, setRadius] = useState(350);
     const [albumOrder, setAlbumOrder] = useState<number[]>(PLAYROOM_ALBUMS.map((_, i) => i));
     const [isShuffled, setIsShuffled] = useState(false);
+    const [favorites, setFavorites] = useState<Set<string>>(new Set());
+    const [showSearch, setShowSearch] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [dragOverIndex, setDragOverIndex] = useState<number | null>(null);
+    const [isFullscreen, setIsFullscreen] = useState(false);
+    const [showEqualizer, setShowEqualizer] = useState(false);
+    const [visualizerMode, setVisualizerMode] = useState<'particles' | 'waves' | 'spectrum'>('particles');
 
     // Refs
     const audioContextRef = useRef<AudioContext | null>(null);
@@ -366,11 +492,64 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
         window.addEventListener('resize', handleResize);
         handleResize();
 
+        // Keyboard shortcuts
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === 'Escape') {
+                if (selectedAlbum || micMode || micError) {
+                    stopPlayback();
+                } else if (!showWelcome) {
+                    onExit();
+                }
+            }
+            if (e.key === ' ' && !showWelcome) {
+                e.preventDefault();
+                if (micMode) {
+                    stopPlayback();
+                } else if (!selectedAlbum) {
+                    playMic();
+                }
+            }
+            if (e.key === 'f' && !showWelcome && selectedAlbum) {
+                toggleFavorite(selectedAlbum.id);
+            }
+            if (e.key === 's' && !showWelcome) {
+                setShowSearch(prev => !prev);
+            }
+        };
+        window.addEventListener('keydown', handleKeyDown);
+
         return () => {
             window.removeEventListener('resize', handleResize);
-            stopPlayback(); // Cleanup on unmount
+            window.removeEventListener('keydown', handleKeyDown);
+            stopPlayback();
         };
     }, []);
+
+    // Toggle favorite
+    const toggleFavorite = (albumId: string) => {
+        setFavorites(prev => {
+            const newFavs = new Set(prev);
+            if (newFavs.has(albumId)) {
+                newFavs.delete(albumId);
+                showNotification('Removed from favorites', 'info');
+            } else {
+                newFavs.add(albumId);
+                showNotification('Added to favorites', 'success');
+            }
+            return newFavs;
+        });
+    };
+
+    // Filtered albums based on search
+    const filteredAlbums = useMemo(() => {
+        if (!searchQuery) return albumOrder;
+        const query = searchQuery.toLowerCase();
+        return albumOrder.filter(idx => {
+            const album = PLAYROOM_ALBUMS[idx];
+            return album.artist.toLowerCase().includes(query) || 
+                   album.title.toLowerCase().includes(query);
+        });
+    }, [albumOrder, searchQuery]);
 
     // Iframe Timeout Logic
     useEffect(() => {
@@ -475,11 +654,55 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
             const energy = { bass, mid, high };
 
             // --- 2. Draw Background ---
-            // Clear with slight transparency for trails? No, strict clear for performance/clean look
             ctx.fillStyle = '#050505';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-            // --- 3. Update & Draw Particles ---
+            // --- 3. Visualizer Modes ---
+            const target = currentColorRef.current;
+
+            if (visualizerMode === 'waves') {
+                // Wave visualization
+                ctx.save();
+                const time = now / 1000;
+                const centerY = canvas.height / 2;
+                
+                for (let wave = 0; wave < 3; wave++) {
+                    ctx.beginPath();
+                    ctx.strokeStyle = `rgba(${target.r}, ${target.g}, ${target.b}, ${0.3 - wave * 0.1})`;
+                    ctx.lineWidth = 2 + wave;
+                    
+                    for (let x = 0; x < canvas.width; x += 5) {
+                        const freq = 0.01 + wave * 0.005;
+                        const amp = 50 + wave * 30 + (bass / 255) * 50;
+                        const y = centerY + Math.sin(x * freq + time * (2 + wave) + wave) * amp;
+                        
+                        if (x === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                }
+                ctx.restore();
+
+            } else if (visualizerMode === 'spectrum') {
+                // Spectrum bars
+                const barCount = 64;
+                const barWidth = canvas.width / barCount;
+                
+                for (let i = 0; i < barCount; i++) {
+                    const height = Math.random() * (150 + bass / 2);
+                    const hue = (i / barCount) * 60 + (target.r / 4);
+                    ctx.fillStyle = `hsl(${hue}, 70%, 50%)`;
+                    ctx.fillRect(
+                        i * barWidth,
+                        canvas.height - height,
+                        barWidth - 2,
+                        height
+                    );
+                }
+            }
+
+            // --- 4. Update & Draw Particles ---
+            const particleTarget = currentColorRef.current;
             ctx.save();
 
             // Screen Shake on Bass
@@ -495,9 +718,7 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
                 }
             }
 
-            // Update Target Color Global
-            const target = currentColorRef.current;
-
+            // Update Target Color Global - using existing target from section 3
             particleSystemRef.current.forEach((p, index) => {
                 // Propagate global target color to particles
                 p.targetColor = target;
@@ -547,7 +768,16 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
             window.removeEventListener('resize', initParticles);
             cancelAnimationFrame(animationFrameRef.current);
         };
-    }, [isPlaying, micMode, micError]);
+    }, [isPlaying, micMode, micError, visualizerMode]);
+
+    // Fullscreen change handler
+    useEffect(() => {
+        const handleFullscreenChange = () => {
+            setIsFullscreen(!!document.fullscreenElement);
+        };
+        document.addEventListener('fullscreenchange', handleFullscreenChange);
+        return () => document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    }, []);
 
     // --- Interaction Handlers ---
 
@@ -869,7 +1099,7 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
                 </AnimatePresence>
 
                 {/* Header */}
-                <div className="flex justify-between items-start p-6 md:p-8 pointer-events-auto">
+                <div className="flex justify-between items-start p-4 md:p-6 pointer-events-auto">
                     <div className="flex items-center gap-3">
                         <Logo className="h-8 w-auto" style={{ filter: 'invert(1)' }} />
                         <div className="flex flex-col border-l border-white/20 pl-3">
@@ -882,6 +1112,76 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
                             </div>
                         </div>
                     </div>
+                    
+                    {/* Search & Favorites */}
+                    <div className="flex items-center gap-2 pointer-events-auto">
+                        <button
+                            onClick={() => setShowSearch(!showSearch)}
+                            className={`group p-2 rounded-full border transition-all duration-300 ${
+                                showSearch 
+                                ? 'bg-orange-500 border-orange-500 text-white' 
+                                : 'border-white/10 hover:bg-white/10 hover:border-white/30 text-gray-400 hover:text-white'
+                            }`}
+                            aria-label="Search albums"
+                        >
+                            <Search size={18} />
+                        </button>
+                        <button
+                            onClick={() => {
+                                const favs = [...favorites];
+                                if (favs.length > 0) {
+                                    showNotification(`${favs.length} favorites`, 'info');
+                                }
+                            }}
+                            className={`group p-2 rounded-full border transition-all duration-300 relative ${
+                                favorites.size > 0
+                                ? 'bg-red-500 border-red-500 text-white' 
+                                : 'border-white/10 hover:bg-white/10 hover:border-white/30 text-gray-400 hover:text-white'
+                            }`}
+                            aria-label="Favorites"
+                        >
+                            <Heart size={18} fill={favorites.size > 0 ? 'currentColor' : 'none'} />
+                            {favorites.size > 0 && (
+                                <span className="absolute -top-1 -right-1 w-4 h-4 bg-white text-black text-[8px] font-bold rounded-full flex items-center justify-center">
+                                    {favorites.size}
+                                </span>
+                            )}
+                        </button>
+                        <button
+                            onClick={isShuffled ? resetAlbumOrder : shuffleAlbums}
+                            className="group p-2 rounded-full border border-white/10 hover:bg-white/10 hover:border-white/30 text-gray-400 hover:text-white transition-all duration-300"
+                            aria-label={isShuffled ? "Reset Order" : "Shuffle"}
+                        >
+                            <RefreshCw size={18} className={isShuffled ? "animate-spin" : ""} />
+                        </button>
+                        <button
+                            onClick={() => setVisualizerMode(prev => {
+                                const modes: ('particles' | 'waves' | 'spectrum')[] = ['particles', 'waves', 'spectrum'];
+                                const currentIdx = modes.indexOf(prev);
+                                return modes[(currentIdx + 1) % modes.length];
+                            })}
+                            className="group p-2 rounded-full border border-white/10 hover:bg-white/10 hover:border-white/30 text-gray-400 hover:text-white transition-all duration-300"
+                            aria-label="Change visualizer"
+                        >
+                            <Zap size={18} />
+                        </button>
+                        <button
+                            onClick={() => {
+                                if (!document.fullscreenElement) {
+                                    containerRef.current?.requestFullscreen();
+                                    setIsFullscreen(true);
+                                } else {
+                                    document.exitFullscreen();
+                                    setIsFullscreen(false);
+                                }
+                            }}
+                            className="group p-2 rounded-full border border-white/10 hover:bg-white/10 hover:border-white/30 text-gray-400 hover:text-white transition-all duration-300"
+                            aria-label="Toggle fullscreen"
+                        >
+                            {isFullscreen ? <Minimize2 size={18} /> : <Maximize2 size={18} />}
+                        </button>
+                    </div>
+
                     <button
                         onClick={onExit}
                         className="group p-2 rounded-full border border-white/10 hover:bg-white/10 hover:border-white/30 text-gray-400 hover:text-white transition-all duration-300"
@@ -889,16 +1189,44 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
                     >
                         <X size={20} className="group-hover:rotate-90 transition-transform duration-300" />
                     </button>
-                    <div className="flex items-center gap-2 pointer-events-auto">
-                        <button
-                            onClick={isShuffled ? resetAlbumOrder : shuffleAlbums}
-                            className="group p-2 rounded-full border border-white/10 hover:bg-white/10 hover:border-white/30 text-gray-400 hover:text-white transition-all duration-300"
-                            aria-label={isShuffled ? "Reset Order" : "Shuffle"}
-                        >
-                            <RefreshCw size={18} className={isShuffled ? "animate-spin-slow" : ""} />
-                        </button>
-                    </div>
                 </div>
+
+                {/* Search Overlay */}
+                <AnimatePresence>
+                    {showSearch && !showWelcome && (
+                        <motion.div
+                            initial={{ opacity: 0, y: -20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, y: -20 }}
+                            className="absolute top-20 left-1/2 -translate-x-1/2 z-50 w-[90%] max-w-md pointer-events-auto"
+                        >
+                            <div className="relative">
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
+                                <input
+                                    type="text"
+                                    placeholder="Search artists or albums..."
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    autoFocus
+                                    className="w-full pl-12 pr-4 py-3 bg-black/80 backdrop-blur-xl border border-white/20 rounded-full text-white placeholder-gray-500 focus:outline-none focus:border-orange-500 transition-all"
+                                />
+                                {searchQuery && (
+                                    <button
+                                        onClick={() => setSearchQuery('')}
+                                        className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white"
+                                    >
+                                        <X size={16} />
+                                    </button>
+                                )}
+                            </div>
+                            {searchQuery && (
+                                <div className="mt-2 text-center text-[10px] text-gray-500">
+                                    {filteredAlbums.length} result{filteredAlbums.length !== 1 ? 's' : ''}
+                                </div>
+                            )}
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 {/* Main Stage */}
                 <div className="flex-1 relative flex items-center justify-center perspective-[1200px]">
@@ -942,8 +1270,21 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
                                     className="absolute top-4 left-1/2 -translate-x-1/2 text-center pointer-events-none"
                                 >
                                     <p className="text-[10px] text-gray-500 uppercase tracking-widest">
-                                        Drag albums to rearrange • Click to play • Drop near another to swap
+                                        {searchQuery ? 'Press S to close search' : 'Drag to rearrange • Click to play • F for favorite'}
                                     </p>
+                                </motion.div>
+
+                                {/* Keyboard Shortcuts Hint */}
+                                <motion.div
+                                    initial={{ opacity: 0 }}
+                                    animate={{ opacity: 1 }}
+                                    transition={{ delay: 1.2 }}
+                                    className="absolute bottom-20 md:bottom-24 left-1/2 -translate-x-1/2 text-center pointer-events-none flex gap-4 text-[9px] text-gray-600"
+                                >
+                                    <span className="flex items-center gap-1"><kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-400">ESC</kbd> Exit</span>
+                                    <span className="flex items-center gap-1"><kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-400">S</kbd> Search</span>
+                                    <span className="flex items-center gap-1"><kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-400">F</kbd> Favorite</span>
+                                    <span className="flex items-center gap-1"><kbd className="px-1.5 py-0.5 bg-white/10 rounded text-gray-400">Space</kbd> Mic</span>
                                 </motion.div>
 
                                 {/* Parallax Container */}
@@ -955,17 +1296,21 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
                                         rotateY: tiltX
                                     }}
                                 >
-                                    {albumOrder.map((originalIndex, displayIndex) => (
-                                        <DraggableAlbum
+                                    {(searchQuery ? filteredAlbums : albumOrder).map((originalIndex, displayIndex) => (
+                                        <FloatingAlbum
                                             key={PLAYROOM_ALBUMS[originalIndex].id}
                                             album={PLAYROOM_ALBUMS[originalIndex]}
                                             index={displayIndex}
-                                            total={PLAYROOM_ALBUMS.length}
+                                            total={searchQuery ? filteredAlbums.length : PLAYROOM_ALBUMS.length}
                                             radius={radius}
                                             onPlay={playTrack}
                                             onHover={handleColorChange}
                                             onLeave={resetColor}
                                             onReposition={handleReposition}
+                                            isFavorite={favorites.has(PLAYROOM_ALBUMS[originalIndex].id)}
+                                            onToggleFavorite={() => toggleFavorite(PLAYROOM_ALBUMS[originalIndex].id)}
+                                            isPlaying={selectedAlbum?.id === PLAYROOM_ALBUMS[originalIndex].id}
+                                            mousePosition={mouseRef.current}
                                         />
                                     ))}
                                 </motion.div>
@@ -1098,6 +1443,52 @@ export const Playroom: React.FC<PlayroomProps> = ({ onExit }) => {
                         )}
                     </AnimatePresence>
 
+                    {/* Mini Player - Always Visible During Playback */}
+                    {selectedAlbum && (
+                        <motion.div
+                            initial={{ y: 100, opacity: 0 }}
+                            animate={{ y: 0, opacity: 1 }}
+                            className="absolute bottom-6 left-1/2 -translate-x-1/2 z-50 flex items-center gap-4 px-6 py-3 bg-black/80 backdrop-blur-xl rounded-full border border-white/10 pointer-events-auto"
+                        >
+                            <img 
+                                src={selectedAlbum.coverUrl} 
+                                alt={selectedAlbum.title}
+                                className="w-10 h-10 rounded-lg object-cover"
+                            />
+                            <div className="flex flex-col">
+                                <span className="text-xs font-bold text-white truncate max-w-[120px]">{selectedAlbum.artist}</span>
+                                <span className="text-[10px] text-gray-400 truncate max-w-[120px]">{selectedAlbum.title}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => toggleFavorite(selectedAlbum.id)}
+                                    className={`p-2 rounded-full transition-colors ${
+                                        favorites.has(selectedAlbum.id) 
+                                        ? 'text-red-500' 
+                                        : 'text-gray-400 hover:text-white'
+                                    }`}
+                                >
+                                    <Heart size={14} fill={favorites.has(selectedAlbum.id) ? 'currentColor' : 'none'} />
+                                </button>
+                                <button
+                                    onClick={stopPlayback}
+                                    className="p-2 text-gray-400 hover:text-white transition-colors"
+                                >
+                                    <X size={14} />
+                                </button>
+                            </div>
+                            <div className="flex items-center gap-1 ml-2">
+                                <Volume2 size={14} className="text-orange-500" />
+                                <div className="w-16 h-1 bg-gray-700 rounded-full overflow-hidden">
+                                    <motion.div 
+                                        className="h-full bg-orange-500"
+                                        animate={{ width: ['0%', '100%'] }}
+                                        transition={{ duration: 3, repeat: Infinity }}
+                                    />
+                                </div>
+                            </div>
+                        </motion.div>
+                    )}
                 </div>
             </div>
         </motion.div>
