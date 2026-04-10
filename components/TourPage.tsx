@@ -190,6 +190,7 @@ export const TourPage: React.FC = () => {
                                   aria-label="Search tour dates by city, venue, or artist"
                               />
                           </div>
+                    </div>
                     
                     {/* Share Button (Desktop) */}
                     <div className="absolute top-6 right-6 md:flex items-center gap-2 z-20">

@@ -217,6 +217,12 @@ const AppContent: React.FC = () => {
     setCart(prev => prev.filter(item => item.cartId !== cartId));
   }, []);
 
+  const handleUpdateCartQuantity = useCallback((cartId: string, quantity: number) => {
+    setCart(prev => prev.map(item => 
+      item.cartId === cartId ? { ...item, quantity } : item
+    ));
+  }, []);
+
   const handleClearCart = useCallback(() => {
     setCart([]);
   }, []);
@@ -380,6 +386,7 @@ const AppContent: React.FC = () => {
         onToggleCart={() => setIsCartOpen(!isCartOpen)}
         onAddToCart={handleAddToCart}
         onRemoveFromCart={handleRemoveFromCart}
+        onUpdateQuantity={handleUpdateCartQuantity}
         onClearCart={handleClearCart}
       />
     </PageTransition>
