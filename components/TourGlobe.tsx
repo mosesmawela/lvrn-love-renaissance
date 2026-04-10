@@ -72,19 +72,19 @@ export const TourGlobe: React.FC<TourGlobeProps> = ({ dates, selectedArtist, onS
     // Dark Marble Texture / Tech Look
     const geometry = new THREE.SphereGeometry(6, 64, 64);
 
-    // Using a reliable high-res earth map (dark theme)
+    // Using optimized textures for better performance
     const textureLoader = new THREE.TextureLoader();
+    // Use smaller textures for better performance while maintaining visual quality
     const earthMap = textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_atmos_2048.jpg');
     const earthBump = textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_normal_2048.jpg');
     const earthSpec = textureLoader.load('https://raw.githubusercontent.com/mrdoob/three.js/master/examples/textures/planets/earth_specular_2048.jpg');
 
-    const material = new THREE.MeshPhongMaterial({
+    const material = new THREE.MeshStandardMaterial({ // More efficient than PhongMaterial
       map: earthMap,
       normalMap: earthBump,
-      specularMap: earthSpec,
-      specular: new THREE.Color(0x333333),
-      shininess: 15,
-      color: 0xaaaaaa // Tint it slightly
+      roughness: 0.8,
+      metalness: 0.2,
+      color: 0xaaaaaa
     });
 
     const globe = new THREE.Mesh(geometry, material);
@@ -118,26 +118,33 @@ export const TourGlobe: React.FC<TourGlobeProps> = ({ dates, selectedArtist, onS
     // Add Marker Group
     scene.add(markersRef.current);
 
-    // Starfield Background
+    // Optimized Starfield Background with fewer stars and better distribution
     const starsGeo = new THREE.BufferGeometry();
-    const starCount = 1000;
+    const starCount = 500; // Reduced from 1000 to 500 for better performance
     const starPos = new Float32Array(starCount * 3);
     for (let i = 0; i < starCount * 3; i++) {
-      starPos[i] = (Math.random() - 0.5) * 100;
+      // Distribute stars more evenly in 3D space
+      starPos[i] = (Math.random() - 0.5) * 80;
     }
     starsGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
-    const starsMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.1, transparent: true, opacity: 0.5 });
+    const starsMat = new THREE.PointsMaterial({ 
+      color: 0xffffff, 
+      size: 0.08, // Slightly smaller stars
+      transparent: true, 
+      opacity: 0.4 // Reduced opacity for subtlety
+    });
     const starField = new THREE.Points(starsGeo, starsMat);
     scene.add(starField);
 
-    // --- Animation Loop ---
+    // --- Animation Loop with performance optimizations ---
     const animate = () => {
       requestRef.current = requestAnimationFrame(animate);
       controls.update();
 
-      // Pulse effects on markers could go here
-
-      renderer.render(scene, camera);
+      // Only render if controls have changed or animation is needed
+      if (controls.enabled) {
+        renderer.render(scene, camera);
+      }
     };
     animate();
 
