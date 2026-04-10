@@ -594,10 +594,13 @@ export const MERCH_PRODUCTS: MerchProduct[] = [
     id: 'm1',
     name: 'LVRN Anniversary Hoodie',
     price: 85,
+    salePrice: 65,
     category: 'Apparel',
     images: ['https://images.unsplash.com/photo-1556905055-8f358a7a47b2?q=80&w=1000&auto=format&fit=crop'],
     sizes: ['S', 'M', 'L', 'XL', 'XXL'],
-    description: "Heavyweight french terry cotton hoodie featuring puff print logo on chest and anniversary graphic on back."
+    description: "Heavyweight french terry cotton hoodie featuring puff print logo on chest and anniversary graphic on back.",
+    badge: 'sale',
+    isOnSale: true
   },
   {
     id: 'm2',
@@ -606,7 +609,9 @@ export const MERCH_PRODUCTS: MerchProduct[] = [
     category: 'Apparel',
     images: ['https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?q=80&w=1000&auto=format&fit=crop'],
     sizes: ['S', 'M', 'L', 'XL'],
-    description: "Vintage wash oversized tee with tour graphic. 100% Cotton."
+    description: "Vintage wash oversized tee with tour graphic. 100% Cotton.",
+    badge: 'new',
+    isNew: true
   },
   {
     id: 'm3',
@@ -615,7 +620,9 @@ export const MERCH_PRODUCTS: MerchProduct[] = [
     category: 'Music',
     images: ['https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?q=80&w=1000&auto=format&fit=crop'],
     sizes: ['One Size'],
-    description: "Limited edition transparent pink vinyl. Includes exclusive poster."
+    description: "Limited edition transparent pink vinyl. Includes exclusive poster.",
+    badge: 'limited',
+    isLimited: true
   },
   {
     id: 'm4',
@@ -625,6 +632,86 @@ export const MERCH_PRODUCTS: MerchProduct[] = [
     images: ['https://images.unsplash.com/photo-1588850561407-ed78c282e89b?q=80&w=1000&auto=format&fit=crop'],
     sizes: ['Adjustable'],
     description: "Classic unstructured 6-panel cap with embroidered logo."
+  },
+  {
+    id: 'm5',
+    name: '6LACK "East Atlanta" Crewneck',
+    price: 65,
+    category: 'Apparel',
+    images: ['https://images.unsplash.com/photo-1556821840-3a63f95609a7?q=80&w=1000&auto=format&fit=crop'],
+    sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+    description: "Premium cotton crewneck with East Atlanta Love graphic. Unisex fit.",
+    badge: 'limited',
+    isLimited: true
+  },
+  {
+    id: 'm6',
+    name: 'Odeal "Be Easy" Tank',
+    price: 38,
+    category: 'Apparel',
+    images: ['https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?q=80&w=1000&auto=format&fit=crop'],
+    sizes: ['S', 'M', 'L', 'XL'],
+    description: "Sleeveless tank top with minimalist Be Easy typography. Perfect for layering."
+  },
+  {
+    id: 'm7',
+    name: 'LVRN Logo Sweatpants',
+    price: 75,
+    category: 'Apparel',
+    images: ['https://images.unsplash.com/photo-1506629905607-8b93e9bb94b9?q=80&w=1000&auto=format&fit=crop'],
+    sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+    description: "Comfortable french terry sweatpants with embroidered logo. Elastic waistband and cuffs.",
+    badge: 'new',
+    isNew: true
+  },
+  {
+    id: 'm8',
+    name: 'CIZA "Golden Boy" T-Shirt',
+    price: 42,
+    category: 'Apparel',
+    images: ['https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=1000&auto=format&fit=crop'],
+    sizes: ['S', 'M', 'L', 'XL'],
+    description: "Classic fit tee featuring the Golden Boy graphic. 100% organic cotton."
+  },
+  {
+    id: 'm9',
+    name: 'LVRN Sticker Pack',
+    price: 15,
+    category: 'Accessories',
+    images: ['https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1000&auto=format&fit=crop'],
+    sizes: ['One Size'],
+    description: "Set of 5 die-cut vinyl stickers featuring LVRN logos and graphics."
+  },
+  {
+    id: 'm10',
+    name: 'Summer Walker "Still Over It" CD',
+    price: 25,
+    category: 'Music',
+    images: ['https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1000&auto=format&fit=crop'],
+    sizes: ['One Size'],
+    description: "Deluxe edition CD with bonus tracks and liner notes. Includes digital download."
+  },
+  {
+    id: 'm11',
+    name: '6LACK "Free 6LACK" Vinyl',
+    price: 40,
+    category: 'Music',
+    images: ['https://images.unsplash.com/photo-1603048588665-791ca8aea617?q=80&w=1000&auto=format&fit=crop'],
+    sizes: ['One Size'],
+    description: "Double vinyl LP pressed on 180g black vinyl. Gatefold sleeve with lyrics.",
+    badge: 'sold-out',
+    isSoldOut: true
+  },
+  {
+    id: 'm12',
+    name: 'LVRN Beanie',
+    price: 35,
+    category: 'Accessories',
+    images: ['https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1000&auto=format&fit=crop'],
+    sizes: ['One Size'],
+    description: "Cozy acrylic beanie with embroidered LVRN logo. Fold-up cuff design.",
+    badge: 'new',
+    isNew: true
   }
 ];
 
