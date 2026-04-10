@@ -107,10 +107,16 @@ export interface MerchProduct {
   id: string;
   name: string;
   price: number;
+  salePrice?: number;
   category: string;
   images: string[];
   sizes: string[];
   description: string;
+  badge?: 'new' | 'limited' | 'sale' | 'sold-out';
+  isNew?: boolean;
+  isLimited?: boolean;
+  isOnSale?: boolean;
+  isSoldOut?: boolean;
 }
 
 export interface TourDate {
