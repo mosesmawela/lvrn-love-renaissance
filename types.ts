@@ -133,3 +133,51 @@ export interface TourDate {
   };
   ticketUrl: string;
 }
+
+export interface Release {
+  id: number;
+  artist: string;
+  title: string;
+  type: 'Album' | 'EP' | 'Single' | 'Mixtape' | 'Compilation';
+  date: string;
+  cover: string;
+  link: string;
+  spotifyId?: string;
+  appleId?: string;
+  youtubeId?: string;
+  tracks: Track[];
+  totalTracks: number;
+  duration?: string;
+  genre?: string[];
+  label?: string;
+  credits?: string[];
+  streamingStats?: StreamingStats;
+  popularity?: number;
+  featuredArtists?: string[];
+  isExplicit?: boolean;
+  parentalAdvisory?: boolean;
+  description?: string;
+}
+
+export interface Track {
+  title: string;
+  duration: string;
+  featured?: string[];
+  writers?: string[];
+  producers?: string[];
+  isExplicit?: boolean;
+}
+
+export interface StreamingStats {
+  spotify?: {
+    streams: number;
+    monthlyListeners: number;
+    popularity: number;
+  };
+  appleMusic?: {
+    plays: number;
+  };
+  youtube?: {
+    views: number;
+  };
+}

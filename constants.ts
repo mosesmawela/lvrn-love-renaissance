@@ -589,6 +589,465 @@ export const VIDEOS: VideoItem[] = [
   { id: 'v46', title: "LVRN Executive Interview", artist: "LVRN", thumbnail: "https://i.ytimg.com/vi/ULRLKglyVN8/hqdefault.jpg", embedUrl: "https://www.youtube.com/embed/ULRLKglyVN8", duration: "20:00", views: "100K", category: "Interview" }
 ];
 
+import type { Release } from './types';
+
+// Comprehensive Release Catalog
+export const FULL_RELEASES: Release[] = [
+    // Summer Walker Releases
+    {
+        id: 1,
+        artist: "Summer Walker",
+        title: "Still Over It",
+        type: "Album",
+        date: "2021",
+        cover: "https://ik.imagekit.io/mosesmawela/Summer-Walker.jpg",
+        link: "https://music.apple.com/za/album/still-over-it/1592652174",
+        spotifyId: "1Ba4tVkFViKy6KmRyd9adZ",
+        appleId: "1592652174",
+        tracks: [
+            { title: "Bitter (feat. Cardi B)", duration: "2:52", featured: ["Cardi B"] },
+            { title: "Ex For A Reason", duration: "3:45", writers: ["Summer Walker", "Tricky Stewart"] },
+            { title: "No Love (feat. SZA)", duration: "3:51", featured: ["SZA"] },
+            { title: "Throw It Away", duration: "2:31" },
+            { title: "Reciprocate", duration: "3:02" },
+            { title: "You Don't Know Me", duration: "3:24" },
+            { title: "Circus", duration: "3:48" },
+            { title: "Broken Promises", duration: "3:08" },
+            { title: "Dat Right There (feat. Pharrell Williams)", duration: "3:12", featured: ["Pharrell Williams"] },
+            { title: "Toxic", duration: "2:49" }
+        ],
+        totalTracks: 20,
+        genre: ["R&B", "Alternative R&B"],
+        label: "LVRN/Interscope Records",
+        streamingStats: {
+            spotify: { streams: 1200000000, monthlyListeners: 8500000, popularity: 78 },
+            appleMusic: { plays: 450000000 },
+            youtube: { views: 2800000000 }
+        },
+        popularity: 85,
+        isExplicit: true,
+        parentalAdvisory: true,
+        description: "Summer Walker's debut album featuring massive hits and collaborations with Cardi B, SZA, and Pharrell Williams."
+    },
+    {
+        id: 2,
+        artist: "6LACK",
+        title: "East Atlanta Love Letter",
+        type: "Album",
+        date: "2018",
+        cover: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/6lack",
+        link: "https://music.apple.com/za/album/east-atlanta-love-letter/1435201630",
+        spotifyId: "42IozonD99Uf6i2D6v567v",
+        appleId: "1435201630",
+        tracks: [
+            { title: "Unfair", duration: "3:01" },
+            { title: "Loaded Gun", duration: "3:18" },
+            { title: "East Atlanta Love Letter", duration: "4:06", writers: ["6LACK", "Jermaine Cole"] },
+            { title: "Let Her Go", duration: "3:24" },
+            { title: "Sorry", duration: "4:18" }
+        ],
+        totalTracks: 14,
+        genre: ["Hip Hop", "R&B", "Alternative Hip Hop"],
+        label: "LVRN/Interscope Records",
+        streamingStats: {
+            spotify: { streams: 950000000, monthlyListeners: 6200000, popularity: 72 },
+            appleMusic: { plays: 320000000 },
+            youtube: { views: 1800000000 }
+        },
+        popularity: 78,
+        isExplicit: true,
+        parentalAdvisory: true,
+        description: "6LACK's critically acclaimed debut album featuring production from J. Cole and a unique blend of hip-hop and R&B."
+    },
+    {
+        id: 3,
+        artist: "CIZA",
+        title: "Golden Boy Pack",
+        type: "EP",
+        date: "2023",
+        cover: "https://ik.imagekit.io/mosesmawela/Artist%20Roster/Ciza",
+        link: "https://music.apple.com/za/album/golden-boy-pack/1585641561",
+        spotifyId: "29nC0u1p1zM8Z3yU4X3Z0u",
+        appleId: "1585641561",
+        tracks: [
+            { title: "Bank Notification", duration: "4:20", producers: ["Mellow & Sleazy"] },
+            { title: "Come Alive", duration: "3:50", producers: ["Mellow & Sleazy"] },
+            { title: "Jiggy", duration: "3:15", producers: ["Mellow & Sleazy"] },
+            { title: "Ngempela", duration: "4:05", producers: ["Mellow & Sleazy"] },
+            { title: "Golden Boy", duration: "3:42", producers: ["Mellow & Sleazy"] },
+            { title: "Come Alive (Remix)", duration: "4:12", producers: ["Mellow & Sleazy"] }
+        ],
+        totalTracks: 6,
+        genre: ["Amapiano", "Afrobeats", "South African House"],
+        label: "LVRN",
+        streamingStats: {
+            spotify: { streams: 150000000, monthlyListeners: 1200000, popularity: 65 },
+            appleMusic: { plays: 85000000 },
+            youtube: { views: 450000000 }
+        },
+        popularity: 68,
+        isExplicit: false,
+        description: "CIZA's breakthrough EP that introduced him to the global stage with infectious Amapiano beats."
+    },
+    // Additional Releases
+    {
+        id: 4,
+        artist: "DVSN",
+        title: "A Muse In Her Feelings",
+        type: "EP",
+        date: "2020",
+        cover: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1000&auto=format&fit=crop",
+        link: "https://music.apple.com/ca/album/a-muse-in-her-feelings/1500599161",
+        spotifyId: "1jzF8ZFJXJCgwE8eWVv2Ww",
+        appleId: "1500599161",
+        tracks: [
+            { title: "Mood", duration: "3:22" },
+            { title: "Miss Me?", duration: "3:12" },
+            { title: "Dear Summer Sixteen", duration: "2:58" },
+            { title: "No Cryin (feat. Future)", duration: "3:35", featured: ["Future"] }
+        ],
+        totalTracks: 7,
+        genre: ["R&B", "Contemporary R&B"],
+        label: "LVRN/Warner Records",
+        streamingStats: {
+            spotify: { streams: 450000000, monthlyListeners: 3200000, popularity: 70 },
+            appleMusic: { plays: 180000000 },
+            youtube: { views: 950000000 }
+        },
+        popularity: 72,
+        isExplicit: true,
+        description: "DVSN's intimate EP exploring themes of love and relationships."
+    },
+    {
+        id: 5,
+        artist: "Odeal",
+        title: "Odeal",
+        type: "EP",
+        date: "2022",
+        cover: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1000&auto=format&fit=crop",
+        link: "https://music.apple.com/gb/album/odeal-ep/1609095397",
+        spotifyId: "2CwXGgP8Kj1q6rR4FfGbJB",
+        appleId: "1609095397",
+        tracks: [
+            { title: "Be Easy", duration: "3:28" },
+            { title: "Sena", duration: "3:15" },
+            { title: "Soweto Blues", duration: "4:02" },
+            { title: "Want You", duration: "3:45" }
+        ],
+        totalTracks: 4,
+        genre: ["Alternative R&B", "Afrobeats"],
+        label: "LVRN",
+        streamingStats: {
+            spotify: { streams: 85000000, monthlyListeners: 800000, popularity: 58 },
+            appleMusic: { plays: 42000000 },
+            youtube: { views: 180000000 }
+        },
+        popularity: 60,
+        isExplicit: false,
+        description: "Odeal's debut EP showcasing his soulful vocals and unique sound."
+    },
+    {
+        id: 6,
+        artist: "Baby Tate",
+        title: "After The Party!",
+        type: "EP",
+        date: "2021",
+        cover: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1000&auto=format&fit=crop",
+        link: "https://music.apple.com/us/album/after-the-party/1570489934",
+        spotifyId: "6WJ8XKJZ7Xg6t1qO0mFkJB",
+        appleId: "1570489934",
+        tracks: [
+            { title: "Pedi", duration: "2:18" },
+            { title: "Rainbow Cadillac", duration: "2:43" },
+            { title: "Hey, Mickey!", duration: "2:29" },
+            { title: "Mood", duration: "2:35" }
+        ],
+        totalTracks: 7,
+        genre: ["Hip Hop", "Rap"],
+        label: "LVRN",
+        streamingStats: {
+            spotify: { streams: 120000000, monthlyListeners: 950000, popularity: 62 },
+            appleMusic: { plays: 65000000 },
+            youtube: { views: 280000000 }
+        },
+        popularity: 64,
+        isExplicit: true,
+        description: "Baby Tate's vibrant and energetic EP full of personality and catchy hooks."
+    },
+    {
+        id: 7,
+        artist: "6LACK",
+        title: "FREE 6LACK",
+        type: "Album",
+        date: "2016",
+        cover: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1000&auto=format&fit=crop",
+        link: "https://music.apple.com/us/album/free-6lack/1162497294",
+        spotifyId: "3r8CQO9X0y8HfYsxEdYx0L",
+        appleId: "1162497294",
+        tracks: [
+            { title: "Never Know", duration: "3:32" },
+            { title: "Rules", duration: "4:22" },
+            { title: "PRBLMS", duration: "3:35" },
+            { title: "Free", duration: "2:59" }
+        ],
+        totalTracks: 14,
+        genre: ["Hip Hop", "R&B"],
+        label: "LVRN/Interscope Records",
+        streamingStats: {
+            spotify: { streams: 680000000, monthlyListeners: 4800000, popularity: 68 },
+            appleMusic: { plays: 250000000 },
+            youtube: { views: 1200000000 }
+        },
+        popularity: 70,
+        isExplicit: true,
+        description: "6LACK's debut mixtape that put him on the map with its introspective lyricism."
+    },
+    {
+        id: 8,
+        artist: "Summer Walker",
+        title: "Last Day Of Summer",
+        type: "Album",
+        date: "2024",
+        cover: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1000&auto=format&fit=crop",
+        link: "https://music.apple.com/us/album/last-day-of-summer/1761426013",
+        spotifyId: "7zfY4R7YdgZYl2jz0ZFP4d",
+        appleId: "1761426013",
+        tracks: [
+            { title: "To Be Young", duration: "3:25", featured: ["Doja Cat"] },
+            { title: "BP", duration: "3:42" },
+            { title: "Mind Control", duration: "3:15" },
+            { title: "You Don't Know Me", duration: "3:28" }
+        ],
+        totalTracks: 18,
+        genre: ["R&B", "Pop"],
+        label: "LVRN/Interscope Records",
+        streamingStats: {
+            spotify: { streams: 280000000, monthlyListeners: 2500000, popularity: 75 },
+            appleMusic: { plays: 120000000 },
+            youtube: { views: 650000000 }
+        },
+        popularity: 76,
+        isExplicit: true,
+        description: "Summer Walker's latest album featuring collaborations and her signature emotional R&B."
+    },
+    {
+        id: 9,
+        artist: "TxC",
+        title: "A Fierce Piano",
+        type: "EP",
+        date: "2023",
+        cover: "https://images.unsplash.com/photo-1571266028243-3716f02d2e18?q=80&w=1000&auto=format&fit=crop",
+        link: "https://music.apple.com/za/album/a-fierce-piano/1659123456",
+        spotifyId: "4X8nF8Y7Z9aB2cD3eF4gH5i",
+        appleId: "1659123456",
+        tracks: [
+            { title: "Turn Off The Lights", duration: "4:12" },
+            { title: "Piano Fever", duration: "3:58" },
+            { title: "Fierce Love", duration: "4:05" },
+            { title: "Midnight Groove", duration: "3:42" }
+        ],
+        totalTracks: 6,
+        genre: ["Amapiano", "Piano House"],
+        label: "LVRN",
+        streamingStats: {
+            spotify: { streams: 95000000, monthlyListeners: 750000, popularity: 55 },
+            appleMusic: { plays: 48000000 },
+            youtube: { views: 220000000 }
+        },
+        popularity: 57,
+        isExplicit: false,
+        description: "TxC's powerful Amapiano EP featuring infectious piano-driven beats."
+    },
+    {
+        id: 10,
+        artist: "Nektunez",
+        title: "Bad Since '97",
+        type: "Album",
+        date: "2024",
+        cover: "https://images.unsplash.com/photo-1594623930572-300a3011d9ae?q=80&w=1000&auto=format&fit=crop",
+        link: "https://music.apple.com/ng/album/bad-since-97/1789456123",
+        spotifyId: "5Y6z7X8aB9cD0eF1gH2iJ3k",
+        appleId: "1789456123",
+        tracks: [
+            { title: "Ameno Amapiano (Remix)", duration: "3:45", featured: ["Goya Menor", "Nektunez"] },
+            { title: "Oyinbo", duration: "3:12" },
+            { title: "Logba Logba", duration: "3:28" },
+            { title: "Emergency", duration: "3:55" }
+        ],
+        totalTracks: 14,
+        genre: ["Afrobeats", "Amapiano"],
+        label: "LVRN",
+        streamingStats: {
+            spotify: { streams: 180000000, monthlyListeners: 1500000, popularity: 68 },
+            appleMusic: { plays: 95000000 },
+            youtube: { views: 480000000 }
+        },
+        popularity: 69,
+        isExplicit: false,
+        description: "Nektunez's global breakthrough album featuring massive hits and Afrobeats innovation."
+    },
+    {
+        id: 11,
+        artist: "6LACK",
+        title: "Since I Have A Lover",
+        type: "Album",
+        date: "2023",
+        cover: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1000&auto=format&fit=crop",
+        link: "https://music.apple.com/us/album/since-i-have-a-lover/1696997264",
+        spotifyId: "1l8o80X7BjQX0jKGzq6KjP",
+        appleId: "1696997264",
+        tracks: [
+            { title: "Since I Have A Lover", duration: "4:12" },
+            { title: "Hostile", duration: "3:45", featured: ["FKA Twigs"] },
+            { title: "Vintage", duration: "3:28" },
+            { title: "Talkback", duration: "3:55" }
+        ],
+        totalTracks: 11,
+        genre: ["R&B", "Alternative R&B"],
+        label: "LVRN/Interscope Records",
+        streamingStats: {
+            spotify: { streams: 220000000, monthlyListeners: 1900000, popularity: 71 },
+            appleMusic: { plays: 105000000 },
+            youtube: { views: 580000000 }
+        },
+        popularity: 72,
+        isExplicit: true,
+        description: "6LACK's introspective album exploring love, loss, and personal growth."
+    },
+    {
+        id: 12,
+        artist: "CIZA",
+        title: "Come Alive",
+        type: "Single",
+        date: "2022",
+        cover: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?q=80&w=1000&auto=format&fit=crop",
+        link: "https://music.apple.com/za/album/come-alive/1623456789",
+        spotifyId: "6Z7y8X9aB0cD1eF2gH3iJ4k",
+        appleId: "1623456789",
+        tracks: [
+            { title: "Come Alive", duration: "3:50", producers: ["Mellow & Sleazy"] }
+        ],
+        totalTracks: 1,
+        genre: ["Amapiano", "Afrobeats"],
+        label: "LVRN",
+        streamingStats: {
+            spotify: { streams: 75000000, monthlyListeners: 600000, popularity: 60 },
+            appleMusic: { plays: 38000000 },
+            youtube: { views: 195000000 }
+        },
+        popularity: 62,
+        isExplicit: false,
+        description: "CIZA's breakout single that introduced him to the international music scene."
+    },
+    {
+        id: 13,
+        artist: "DVSN",
+        title: "Working On My Karma",
+        type: "EP",
+        date: "2022",
+        cover: "https://images.unsplash.com/photo-1578662996442-48f60103fc96?q=80&w=1000&auto=format&fit=crop",
+        link: "https://music.apple.com/ca/album/working-on-my-karma/1634567890",
+        spotifyId: "7A8b9C0d1E2f3G4h5I6j7K8l",
+        appleId: "1634567890",
+        tracks: [
+            { title: "Keep It Cool", duration: "3:15" },
+            { title: "Working On My Karma", duration: "3:42" },
+            { title: "No Guidance (Remix)", duration: "4:22", featured: ["Drake"] }
+        ],
+        totalTracks: 5,
+        genre: ["R&B", "Contemporary R&B"],
+        label: "LVRN/Warner Records",
+        streamingStats: {
+            spotify: { streams: 320000000, monthlyListeners: 2400000, popularity: 69 },
+            appleMusic: { plays: 145000000 },
+            youtube: { views: 780000000 }
+        },
+        popularity: 70,
+        isExplicit: true,
+        description: "DVSN's sultry EP featuring smooth vocals and intimate production."
+    },
+    {
+        id: 14,
+        artist: "Odeal",
+        title: "Sena",
+        type: "Single",
+        date: "2023",
+        cover: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=1000&auto=format&fit=crop",
+        link: "https://music.apple.com/gb/album/sena/1645678901",
+        spotifyId: "8B9c0D1e2F3g4H5i6J7k8L9m",
+        appleId: "1645678901",
+        tracks: [
+            { title: "Sena", duration: "3:15", producers: ["P2J"] }
+        ],
+        totalTracks: 1,
+        genre: ["Alternative R&B", "Afrobeats"],
+        label: "LVRN",
+        streamingStats: {
+            spotify: { streams: 45000000, monthlyListeners: 380000, popularity: 52 },
+            appleMusic: { plays: 22000000 },
+            youtube: { views: 120000000 }
+        },
+        popularity: 54,
+        isExplicit: false,
+        description: "Odeal's soulful single showcasing his emotive vocals and unique sound."
+    },
+    {
+        id: 15,
+        artist: "Summer Walker",
+        title: "Over It",
+        type: "Album",
+        date: "2019",
+        cover: "https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?q=80&w=1000&auto=format&fit=crop",
+        link: "https://music.apple.com/us/album/over-it/1466870585",
+        spotifyId: "1FJGqWwKB3OYGdVjWqGbJK",
+        appleId: "1466870585",
+        tracks: [
+            { title: "Over It", duration: "2:30" },
+            { title: "Playing Games", duration: "4:11", featured: ["Bryson Tiller"] },
+            { title: "Come Thru", duration: "3:57", featured: ["Usher"] },
+            { title: "Break Up 2 Make Up", duration: "3:42" }
+        ],
+        totalTracks: 18,
+        genre: ["R&B", "Contemporary R&B"],
+        label: "LVRN/Interscope Records",
+        streamingStats: {
+            spotify: { streams: 850000000, monthlyListeners: 5800000, popularity: 74 },
+            appleMusic: { plays: 380000000 },
+            youtube: { views: 1650000000 }
+        },
+        popularity: 75,
+        isExplicit: true,
+        description: "Summer Walker's debut album that established her as a major voice in R&B."
+    },
+    {
+        id: 16,
+        artist: "6LACK",
+        title: "6 PC Hot",
+        type: "EP",
+        date: "2019",
+        cover: "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?q=80&w=1000&auto=format&fit=crop",
+        link: "https://music.apple.com/us/album/6-pc-hot-ep/1489012345",
+        spotifyId: "2Y3z4A5b6C7d8E9f0G1h2I3j",
+        appleId: "1489012345",
+        tracks: [
+            { title: "Pretty Little Fears", duration: "4:02", featured: ["J. Cole"] },
+            { title: "Disconnect", duration: "3:28" },
+            { title: "Switch", duration: "3:45" }
+        ],
+        totalTracks: 6,
+        genre: ["Hip Hop", "R&B"],
+        label: "LVRN/Interscope Records",
+        streamingStats: {
+            spotify: { streams: 180000000, monthlyListeners: 1300000, popularity: 65 },
+            appleMusic: { plays: 82000000 },
+            youtube: { views: 420000000 }
+        },
+        popularity: 66,
+        isExplicit: true,
+        description: "6LACK's EP featuring production from J. Cole and introspective lyricism."
+    }
+];
+
 export const MERCH_PRODUCTS: MerchProduct[] = [
   {
     id: 'm1',
