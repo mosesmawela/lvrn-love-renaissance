@@ -33,6 +33,7 @@ export interface Artist {
     saves?: string;
     shazams?: string;
     creates?: string;
+    listeners?: string;
   };
   spotifyId?: string;
   appleMusicId?: string;
