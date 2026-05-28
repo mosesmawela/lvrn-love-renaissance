@@ -531,7 +531,7 @@ export const PHILOSOPHY: PhilosophyItem[] = [
 ];
 
 export const SOCIAL_LINKS: SocialLink[] = [
-  { name: 'Website', url: 'https://lvrn.com' },
+  { name: 'Website', url: 'https://love-renaissance.lvrn.dev' },
   { name: 'Instagram', url: 'https://www.instagram.com/lvrngram' },
   { name: 'X', url: 'https://twitter.com/LVRN' },
   { name: 'Spotify', url: 'https://open.spotify.com/user/vx7zuhzujq48tyyjsrzw2u1h5' },
